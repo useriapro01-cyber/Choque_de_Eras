@@ -1,0 +1,1310 @@
+{
+  "clube": "Flamengo",
+  "pais": "BR",
+  "cor": "#C52B2B",
+  "ordem": 1,
+  "eras": [
+    {
+      "ano": 1980,
+      "tier": "D",
+      "n": "Campeão Brasileiro",
+      "jog": [
+        [
+          "Raul",
+          "GOL",
+          85
+        ],
+        [
+          "Toninho",
+          "LAT",
+          78
+        ],
+        [
+          "Leandro",
+          "LAT",
+          88
+        ],
+        [
+          "Júnior",
+          "LAT",
+          90
+        ],
+        [
+          "Rondinelli",
+          "ZAG",
+          82
+        ],
+        [
+          "Marinho",
+          "ZAG",
+          80
+        ],
+        [
+          "Andrade",
+          "VOL",
+          84
+        ],
+        [
+          "Adílio",
+          "MEI",
+          85
+        ],
+        [
+          "Zico",
+          "MEI",
+          95
+        ],
+        [
+          "Tita",
+          "ATA",
+          84
+        ],
+        [
+          "Nunes",
+          "ATA",
+          86
+        ]
+      ]
+    },
+    {
+      "ano": 1981,
+      "tier": "D",
+      "n": "Campeão da Libertadores e do Mundo",
+      "jog": [
+        [
+          "Raul",
+          "GOL",
+          85
+        ],
+        [
+          "Leandro",
+          "LAT",
+          88
+        ],
+        [
+          "Júnior",
+          "LAT",
+          90
+        ],
+        [
+          "Marinho",
+          "ZAG",
+          80
+        ],
+        [
+          "Mozer",
+          "ZAG",
+          83
+        ],
+        [
+          "Andrade",
+          "VOL",
+          84
+        ],
+        [
+          "Adílio",
+          "MEI",
+          85
+        ],
+        [
+          "Zico",
+          "MEI",
+          96
+        ],
+        [
+          "Tita",
+          "ATA",
+          84
+        ],
+        [
+          "Nunes",
+          "ATA",
+          86
+        ],
+        [
+          "Lico",
+          "ATA",
+          82
+        ]
+      ]
+    },
+    {
+      "ano": 1982,
+      "tier": "D",
+      "n": "Campeão Brasileiro",
+      "jog": [
+        [
+          "Raul",
+          "GOL",
+          85
+        ],
+        [
+          "Leandro",
+          "LAT",
+          88
+        ],
+        [
+          "Júnior",
+          "LAT",
+          90
+        ],
+        [
+          "Marinho",
+          "ZAG",
+          80
+        ],
+        [
+          "Mozer",
+          "ZAG",
+          83
+        ],
+        [
+          "Andrade",
+          "VOL",
+          84
+        ],
+        [
+          "Adílio",
+          "MEI",
+          85
+        ],
+        [
+          "Zico",
+          "MEI",
+          96
+        ],
+        [
+          "Tita",
+          "ATA",
+          84
+        ],
+        [
+          "Nunes",
+          "ATA",
+          86
+        ],
+        [
+          "Lico",
+          "ATA",
+          82
+        ]
+      ]
+    },
+    {
+      "ano": 1983,
+      "tier": "D",
+      "n": "Campeão Brasileiro",
+      "jog": [
+        [
+          "Raul",
+          "GOL",
+          85
+        ],
+        [
+          "Leandro",
+          "LAT",
+          88
+        ],
+        [
+          "Júnior",
+          "LAT",
+          90
+        ],
+        [
+          "Marinho",
+          "ZAG",
+          80
+        ],
+        [
+          "Mozer",
+          "ZAG",
+          83
+        ],
+        [
+          "Andrade",
+          "VOL",
+          84
+        ],
+        [
+          "Adílio",
+          "MEI",
+          85
+        ],
+        [
+          "Zico",
+          "MEI",
+          96
+        ],
+        [
+          "Tita",
+          "ATA",
+          84
+        ],
+        [
+          "Nunes",
+          "ATA",
+          86
+        ],
+        [
+          "Bebeto",
+          "ATA",
+          80
+        ]
+      ]
+    },
+    {
+      "ano": 1987,
+      "tier": "D",
+      "n": "Campeão da Copa União",
+      "jog": [
+        [
+          "Zé Carlos",
+          "GOL",
+          79
+        ],
+        [
+          "Jorginho",
+          "LAT",
+          85
+        ],
+        [
+          "Leonardo",
+          "LAT",
+          84
+        ],
+        [
+          "Edinho",
+          "ZAG",
+          84
+        ],
+        [
+          "Andrade",
+          "VOL",
+          84
+        ],
+        [
+          "Ailton",
+          "VOL",
+          78
+        ],
+        [
+          "Uidemar",
+          "VOL",
+          78
+        ],
+        [
+          "Zico",
+          "MEI",
+          94
+        ],
+        [
+          "Zinho",
+          "MEI",
+          82
+        ],
+        [
+          "Bebeto",
+          "ATA",
+          86
+        ],
+        [
+          "Gaúcho",
+          "ATA",
+          80
+        ]
+      ]
+    },
+    {
+      "ano": 1992,
+      "tier": "D",
+      "n": "Hexacampeão Brasileiro",
+      "jog": [
+        [
+          "Zé Carlos",
+          "GOL",
+          79
+        ],
+        [
+          "Charles",
+          "LAT",
+          79
+        ],
+        [
+          "Júnior Baiano",
+          "ZAG",
+          81
+        ],
+        [
+          "Rogério Lourenço",
+          "ZAG",
+          78
+        ],
+        [
+          "Fabinho",
+          "VOL",
+          79
+        ],
+        [
+          "Júnior",
+          "MEI",
+          87
+        ],
+        [
+          "Djalminha",
+          "MEI",
+          84
+        ],
+        [
+          "Marcelinho Carioca",
+          "MEI",
+          83
+        ],
+        [
+          "Gaúcho",
+          "ATA",
+          83
+        ],
+        [
+          "Nélio",
+          "ATA",
+          80
+        ],
+        [
+          "Paulo Nunes",
+          "ATA",
+          81
+        ]
+      ]
+    },
+    {
+      "ano": 2019,
+      "tier": "D",
+      "n": "Campeão da Libertadores e do Brasileirão",
+      "jog": [
+        [
+          "Diego Alves",
+          "GOL",
+          85
+        ],
+        [
+          "Rafinha",
+          "LAT",
+          84
+        ],
+        [
+          "Filipe Luís",
+          "LAT",
+          85
+        ],
+        [
+          "Rodrigo Caio",
+          "ZAG",
+          84
+        ],
+        [
+          "Pablo Marí",
+          "ZAG",
+          83
+        ],
+        [
+          "Willian Arão",
+          "VOL",
+          84
+        ],
+        [
+          "Gerson",
+          "VOL",
+          87
+        ],
+        [
+          "Everton Ribeiro",
+          "MEI",
+          86
+        ],
+        [
+          "Arrascaeta",
+          "MEI",
+          90
+        ],
+        [
+          "Bruno Henrique",
+          "ATA",
+          88
+        ],
+        [
+          "Gabigol",
+          "ATA",
+          90
+        ]
+      ]
+    },
+    {
+      "ano": 2020,
+      "tier": "D",
+      "n": "Bicampeão Brasileiro",
+      "jog": [
+        [
+          "Diego Alves",
+          "GOL",
+          85
+        ],
+        [
+          "Isla",
+          "LAT",
+          82
+        ],
+        [
+          "Filipe Luís",
+          "LAT",
+          85
+        ],
+        [
+          "Rodrigo Caio",
+          "ZAG",
+          84
+        ],
+        [
+          "Gustavo Henrique",
+          "ZAG",
+          80
+        ],
+        [
+          "Willian Arão",
+          "VOL",
+          84
+        ],
+        [
+          "Gerson",
+          "VOL",
+          87
+        ],
+        [
+          "Everton Ribeiro",
+          "MEI",
+          86
+        ],
+        [
+          "Arrascaeta",
+          "MEI",
+          90
+        ],
+        [
+          "Bruno Henrique",
+          "ATA",
+          88
+        ],
+        [
+          "Gabigol",
+          "ATA",
+          90
+        ]
+      ]
+    },
+    {
+      "ano": 2022,
+      "tier": "D",
+      "n": "Campeão da Libertadores e da Copa do Brasil",
+      "jog": [
+        [
+          "Santos",
+          "GOL",
+          83
+        ],
+        [
+          "Varela",
+          "LAT",
+          81
+        ],
+        [
+          "Ayrton Lucas",
+          "LAT",
+          82
+        ],
+        [
+          "David Luiz",
+          "ZAG",
+          84
+        ],
+        [
+          "Léo Pereira",
+          "ZAG",
+          83
+        ],
+        [
+          "João Gomes",
+          "VOL",
+          83
+        ],
+        [
+          "Thiago Maia",
+          "VOL",
+          81
+        ],
+        [
+          "Everton Ribeiro",
+          "MEI",
+          85
+        ],
+        [
+          "Arrascaeta",
+          "MEI",
+          90
+        ],
+        [
+          "Pedro",
+          "ATA",
+          88
+        ],
+        [
+          "Gabigol",
+          "ATA",
+          87
+        ]
+      ]
+    },
+    {
+      "ano": 2024,
+      "tier": "D",
+      "n": "Campeão da Copa do Brasil",
+      "jog": [
+        [
+          "Rossi",
+          "GOL",
+          86
+        ],
+        [
+          "Varela",
+          "LAT",
+          82
+        ],
+        [
+          "Ayrton Lucas",
+          "LAT",
+          81
+        ],
+        [
+          "Léo Ortiz",
+          "ZAG",
+          84
+        ],
+        [
+          "Léo Pereira",
+          "ZAG",
+          84
+        ],
+        [
+          "Pulgar",
+          "VOL",
+          84
+        ],
+        [
+          "Gerson",
+          "VOL",
+          88
+        ],
+        [
+          "De la Cruz",
+          "MEI",
+          86
+        ],
+        [
+          "Arrascaeta",
+          "MEI",
+          87
+        ],
+        [
+          "Pedro",
+          "ATA",
+          87
+        ],
+        [
+          "Bruno Henrique",
+          "ATA",
+          83
+        ]
+      ]
+    },
+    {
+      "ano": 2025,
+      "tier": "D",
+      "n": "Campeão da Libertadores",
+      "jog": [
+        [
+          "Rossi",
+          "GOL",
+          86
+        ],
+        [
+          "Varela",
+          "LAT",
+          82
+        ],
+        [
+          "Alex Sandro",
+          "LAT",
+          83
+        ],
+        [
+          "Léo Ortiz",
+          "ZAG",
+          84
+        ],
+        [
+          "Léo Pereira",
+          "ZAG",
+          84
+        ],
+        [
+          "Danilo",
+          "ZAG",
+          85
+        ],
+        [
+          "Pulgar",
+          "VOL",
+          84
+        ],
+        [
+          "De la Cruz",
+          "MEI",
+          86
+        ],
+        [
+          "Arrascaeta",
+          "MEI",
+          88
+        ],
+        [
+          "Pedro",
+          "ATA",
+          87
+        ],
+        [
+          "Bruno Henrique",
+          "ATA",
+          83
+        ]
+      ]
+    },
+    {
+      "ano": 1978,
+      "tier": "S",
+      "n": "A base da dinastia dos anos 80",
+      "jog": [
+        [
+          "Cantarele",
+          "GOL",
+          80
+        ],
+        [
+          "Toninho",
+          "LAT",
+          78
+        ],
+        [
+          "Júnior",
+          "LAT",
+          85
+        ],
+        [
+          "Rondinelli",
+          "ZAG",
+          83
+        ],
+        [
+          "Carpegiani",
+          "VOL",
+          84
+        ],
+        [
+          "Adílio",
+          "MEI",
+          82
+        ],
+        [
+          "Zico",
+          "MEI",
+          92
+        ],
+        [
+          "Cláudio Adão",
+          "ATA",
+          82
+        ],
+        [
+          "Geraldo",
+          "ATA",
+          79
+        ],
+        [
+          "Tita",
+          "ATA",
+          79
+        ],
+        [
+          "Luisinho",
+          "ATA",
+          78
+        ]
+      ]
+    },
+    {
+      "ano": 1995,
+      "tier": "S",
+      "n": "O ataque Romário, Edmundo e Sávio",
+      "jog": [
+        [
+          "Gilmar",
+          "GOL",
+          81
+        ],
+        [
+          "Charles",
+          "LAT",
+          80
+        ],
+        [
+          "Mozer",
+          "ZAG",
+          84
+        ],
+        [
+          "Júnior Baiano",
+          "ZAG",
+          82
+        ],
+        [
+          "Rogério Lourenço",
+          "ZAG",
+          79
+        ],
+        [
+          "Fabinho",
+          "VOL",
+          80
+        ],
+        [
+          "Nélio",
+          "MEI",
+          81
+        ],
+        [
+          "Piá",
+          "MEI",
+          80
+        ],
+        [
+          "Romário",
+          "ATA",
+          92
+        ],
+        [
+          "Edmundo",
+          "ATA",
+          87
+        ],
+        [
+          "Sávio",
+          "ATA",
+          86
+        ]
+      ]
+    },
+    {
+      "ano": 1996,
+      "tier": "S",
+      "n": "Campeão Carioca",
+      "jog": [
+        [
+          "Gilmar",
+          "GOL",
+          81
+        ],
+        [
+          "Charles",
+          "LAT",
+          80
+        ],
+        [
+          "Mozer",
+          "ZAG",
+          84
+        ],
+        [
+          "Júnior Baiano",
+          "ZAG",
+          82
+        ],
+        [
+          "Rogério Lourenço",
+          "ZAG",
+          79
+        ],
+        [
+          "Fabinho",
+          "VOL",
+          80
+        ],
+        [
+          "Nélio",
+          "MEI",
+          81
+        ],
+        [
+          "Piá",
+          "MEI",
+          80
+        ],
+        [
+          "Romário",
+          "ATA",
+          92
+        ],
+        [
+          "Edmundo",
+          "ATA",
+          87
+        ],
+        [
+          "Sávio",
+          "ATA",
+          86
+        ]
+      ]
+    },
+    {
+      "ano": 2001,
+      "tier": "S",
+      "n": "O gol de falta do título Carioca",
+      "jog": [
+        [
+          "Júlio César",
+          "GOL",
+          85
+        ],
+        [
+          "Gilberto",
+          "LAT",
+          81
+        ],
+        [
+          "Athirson",
+          "LAT",
+          83
+        ],
+        [
+          "Jorginho",
+          "LAT",
+          83
+        ],
+        [
+          "Juan",
+          "ZAG",
+          82
+        ],
+        [
+          "Gamarra",
+          "ZAG",
+          85
+        ],
+        [
+          "Leandro Ávila",
+          "VOL",
+          79
+        ],
+        [
+          "Fábio Baiano",
+          "MEI",
+          80
+        ],
+        [
+          "Petkovic",
+          "MEI",
+          87
+        ],
+        [
+          "Edílson",
+          "ATA",
+          85
+        ],
+        [
+          "Reinaldo",
+          "ATA",
+          78
+        ]
+      ]
+    },
+    {
+      "ano": 2011,
+      "tier": "S",
+      "n": "O Carioca de Ronaldinho",
+      "jog": [
+        [
+          "Felipe",
+          "GOL",
+          82
+        ],
+        [
+          "Léo Moura",
+          "LAT",
+          83
+        ],
+        [
+          "Junior César",
+          "LAT",
+          77
+        ],
+        [
+          "Alex Silva",
+          "ZAG",
+          78
+        ],
+        [
+          "Welinton",
+          "ZAG",
+          77
+        ],
+        [
+          "Willians",
+          "VOL",
+          79
+        ],
+        [
+          "Renato Abreu",
+          "MEI",
+          82
+        ],
+        [
+          "Thiago Neves",
+          "MEI",
+          84
+        ],
+        [
+          "Ronaldinho",
+          "MEI",
+          88
+        ],
+        [
+          "Vágner Love",
+          "ATA",
+          84
+        ],
+        [
+          "Deivid",
+          "ATA",
+          80
+        ]
+      ]
+    },
+    {
+      "ano": 2013,
+      "tier": "S",
+      "n": "Campeão da Copa do Brasil",
+      "jog": [
+        [
+          "Felipe",
+          "GOL",
+          81
+        ],
+        [
+          "Léo Moura",
+          "LAT",
+          82
+        ],
+        [
+          "André Santos",
+          "LAT",
+          79
+        ],
+        [
+          "Chiquinho",
+          "LAT",
+          77
+        ],
+        [
+          "Wallace",
+          "ZAG",
+          78
+        ],
+        [
+          "Samir",
+          "ZAG",
+          77
+        ],
+        [
+          "Elias",
+          "VOL",
+          84
+        ],
+        [
+          "Luiz Antônio",
+          "VOL",
+          78
+        ],
+        [
+          "Carlos Eduardo",
+          "MEI",
+          78
+        ],
+        [
+          "Hernane",
+          "ATA",
+          82
+        ],
+        [
+          "Marcelo Moreno",
+          "ATA",
+          79
+        ]
+      ]
+    },
+    {
+      "ano": 2016,
+      "tier": "S",
+      "n": "A reconstrução",
+      "jog": [
+        [
+          "Alex Muralha",
+          "GOL",
+          78
+        ],
+        [
+          "Pará",
+          "LAT",
+          79
+        ],
+        [
+          "Jorge",
+          "LAT",
+          80
+        ],
+        [
+          "Réver",
+          "ZAG",
+          81
+        ],
+        [
+          "Juan",
+          "ZAG",
+          81
+        ],
+        [
+          "Márcio Araújo",
+          "VOL",
+          77
+        ],
+        [
+          "Willian Arão",
+          "VOL",
+          84
+        ],
+        [
+          "Diego",
+          "MEI",
+          85
+        ],
+        [
+          "Mancuello",
+          "MEI",
+          80
+        ],
+        [
+          "Guerrero",
+          "ATA",
+          86
+        ],
+        [
+          "Marcelo Cirino",
+          "ATA",
+          78
+        ]
+      ]
+    },
+    {
+      "ano": 2017,
+      "tier": "S",
+      "n": "Finalista da Sul-Americana",
+      "jog": [
+        [
+          "Diego Alves",
+          "GOL",
+          84
+        ],
+        [
+          "Pará",
+          "LAT",
+          79
+        ],
+        [
+          "Renê",
+          "LAT",
+          79
+        ],
+        [
+          "Réver",
+          "ZAG",
+          81
+        ],
+        [
+          "Juan",
+          "ZAG",
+          80
+        ],
+        [
+          "Cuéllar",
+          "VOL",
+          83
+        ],
+        [
+          "Diego",
+          "MEI",
+          85
+        ],
+        [
+          "Everton Ribeiro",
+          "MEI",
+          85
+        ],
+        [
+          "Lucas Paquetá",
+          "MEI",
+          82
+        ],
+        [
+          "Guerrero",
+          "ATA",
+          86
+        ],
+        [
+          "Vinicius Jr",
+          "ATA",
+          79
+        ]
+      ]
+    },
+    {
+      "ano": 1997,
+      "tier": "R",
+      "n": "O ano sem taças",
+      "jog": [
+        [
+          "Zé Carlos",
+          "GOL",
+          79
+        ],
+        [
+          "Athirson",
+          "LAT",
+          78
+        ],
+        [
+          "Gonçalves",
+          "ZAG",
+          83
+        ],
+        [
+          "Juan",
+          "ZAG",
+          77
+        ],
+        [
+          "Fabinho",
+          "VOL",
+          79
+        ],
+        [
+          "Iranildo",
+          "MEI",
+          80
+        ],
+        [
+          "Zé Roberto",
+          "MEI",
+          83
+        ],
+        [
+          "Piá",
+          "MEI",
+          80
+        ],
+        [
+          "Sávio",
+          "ATA",
+          86
+        ],
+        [
+          "Palhinha",
+          "ATA",
+          82
+        ],
+        [
+          "Rodrigo Mendes",
+          "ATA",
+          77
+        ]
+      ]
+    },
+    {
+      "ano": 2005,
+      "tier": "R",
+      "n": "A luta contra o rebaixamento",
+      "jog": [
+        [
+          "Diego",
+          "GOL",
+          77
+        ],
+        [
+          "Léo Moura",
+          "LAT",
+          81
+        ],
+        [
+          "Fábio Luciano",
+          "ZAG",
+          79
+        ],
+        [
+          "Ronaldo Angelim",
+          "ZAG",
+          80
+        ],
+        [
+          "Fabiano Eller",
+          "ZAG",
+          78
+        ],
+        [
+          "Ibson",
+          "VOL",
+          80
+        ],
+        [
+          "Renato Abreu",
+          "MEI",
+          82
+        ],
+        [
+          "Juninho Paulista",
+          "MEI",
+          83
+        ],
+        [
+          "Renato Augusto",
+          "MEI",
+          78
+        ],
+        [
+          "Obina",
+          "ATA",
+          78
+        ],
+        [
+          "Dimba",
+          "ATA",
+          76
+        ]
+      ]
+    }
+  ]
+}

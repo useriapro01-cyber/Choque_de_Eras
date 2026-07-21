@@ -1,0 +1,1248 @@
+{
+  "clube": "River Plate",
+  "pais": "AR",
+  "cor": "#E63946",
+  "ordem": 4,
+  "eras": [
+    {
+      "ano": 1945,
+      "tier": "D",
+      "n": "Campeón Argentino — La Máquina",
+      "jog": [
+        [
+          "Amadeo Carrizo",
+          "GOL",
+          88
+        ],
+        [
+          "Yácono",
+          "LAT",
+          84
+        ],
+        [
+          "Vaghi",
+          "ZAG",
+          82
+        ],
+        [
+          "Néstor Rossi",
+          "VOL",
+          88
+        ],
+        [
+          "Pedernera",
+          "MEI",
+          93
+        ],
+        [
+          "J. M. Moreno",
+          "MEI",
+          92
+        ],
+        [
+          "Labruna",
+          "ATA",
+          92
+        ],
+        [
+          "Di Stéfano",
+          "ATA",
+          94
+        ],
+        [
+          "Loustau",
+          "ATA",
+          87
+        ],
+        [
+          "Muñoz",
+          "ATA",
+          86
+        ],
+        [
+          "Deambrossi",
+          "ATA",
+          80
+        ]
+      ]
+    },
+    {
+      "ano": 1947,
+      "tier": "D",
+      "n": "Campeón — Di Stéfano goleador",
+      "jog": [
+        [
+          "Amadeo Carrizo",
+          "GOL",
+          88
+        ],
+        [
+          "Yácono",
+          "LAT",
+          84
+        ],
+        [
+          "Vaghi",
+          "ZAG",
+          82
+        ],
+        [
+          "Néstor Rossi",
+          "VOL",
+          88
+        ],
+        [
+          "Ángel Allegri",
+          "VOL",
+          79
+        ],
+        [
+          "J. M. Moreno",
+          "MEI",
+          92
+        ],
+        [
+          "Labruna",
+          "ATA",
+          92
+        ],
+        [
+          "Di Stéfano",
+          "ATA",
+          96
+        ],
+        [
+          "Loustau",
+          "ATA",
+          87
+        ],
+        [
+          "Muñoz",
+          "ATA",
+          86
+        ],
+        [
+          "Deambrossi",
+          "ATA",
+          80
+        ]
+      ]
+    },
+    {
+      "ano": 1956,
+      "tier": "D",
+      "n": "Tricampeón Argentino (1955-57)",
+      "jog": [
+        [
+          "Amadeo Carrizo",
+          "GOL",
+          88
+        ],
+        [
+          "Federico Vairo",
+          "LAT",
+          82
+        ],
+        [
+          "José Ramos Delgado",
+          "ZAG",
+          84
+        ],
+        [
+          "Néstor Rossi",
+          "VOL",
+          87
+        ],
+        [
+          "Sívori",
+          "MEI",
+          91
+        ],
+        [
+          "Walter Gómez",
+          "MEI",
+          85
+        ],
+        [
+          "Labruna",
+          "ATA",
+          88
+        ],
+        [
+          "Santiago Vernazza",
+          "ATA",
+          82
+        ],
+        [
+          "Roberto Zárate",
+          "ATA",
+          81
+        ],
+        [
+          "Eliseo Prado",
+          "ATA",
+          80
+        ],
+        [
+          "Norberto Menéndez",
+          "ATA",
+          81
+        ]
+      ]
+    },
+    {
+      "ano": 1975,
+      "tier": "D",
+      "n": "Campeón — el fin de la sequía",
+      "jog": [
+        [
+          "Fillol",
+          "GOL",
+          88
+        ],
+        [
+          "Comelles",
+          "LAT",
+          77
+        ],
+        [
+          "Wolff",
+          "LAT",
+          80
+        ],
+        [
+          "Passarella",
+          "ZAG",
+          89
+        ],
+        [
+          "Perfumo",
+          "ZAG",
+          85
+        ],
+        [
+          "Merlo",
+          "VOL",
+          84
+        ],
+        [
+          "J. J. López",
+          "MEI",
+          84
+        ],
+        [
+          "Beto Alonso",
+          "MEI",
+          87
+        ],
+        [
+          "Luque",
+          "ATA",
+          86
+        ],
+        [
+          "Morete",
+          "ATA",
+          84
+        ],
+        [
+          "Pinino Más",
+          "ATA",
+          83
+        ]
+      ]
+    },
+    {
+      "ano": 1979,
+      "tier": "D",
+      "n": "Campeón del Metropolitano y Nacional",
+      "jog": [
+        [
+          "Fillol",
+          "GOL",
+          88
+        ],
+        [
+          "Saporiti",
+          "LAT",
+          78
+        ],
+        [
+          "Comelles",
+          "LAT",
+          77
+        ],
+        [
+          "Passarella",
+          "ZAG",
+          89
+        ],
+        [
+          "Héctor López",
+          "ZAG",
+          76
+        ],
+        [
+          "Merlo",
+          "VOL",
+          83
+        ],
+        [
+          "J. J. López",
+          "MEI",
+          84
+        ],
+        [
+          "Beto Alonso",
+          "MEI",
+          87
+        ],
+        [
+          "Luque",
+          "ATA",
+          85
+        ],
+        [
+          "Ramón Díaz",
+          "ATA",
+          83
+        ],
+        [
+          "Pedro González",
+          "ATA",
+          77
+        ]
+      ]
+    },
+    {
+      "ano": 1981,
+      "tier": "D",
+      "n": "Campeón del Nacional",
+      "jog": [
+        [
+          "Fillol",
+          "GOL",
+          87
+        ],
+        [
+          "Saporiti",
+          "LAT",
+          78
+        ],
+        [
+          "Comelles",
+          "LAT",
+          76
+        ],
+        [
+          "Passarella",
+          "ZAG",
+          89
+        ],
+        [
+          "Héctor López",
+          "ZAG",
+          76
+        ],
+        [
+          "Gallego",
+          "VOL",
+          84
+        ],
+        [
+          "Merlo",
+          "VOL",
+          82
+        ],
+        [
+          "J. J. López",
+          "MEI",
+          83
+        ],
+        [
+          "Beto Alonso",
+          "MEI",
+          86
+        ],
+        [
+          "Kempes",
+          "ATA",
+          88
+        ],
+        [
+          "Ramón Díaz",
+          "ATA",
+          84
+        ]
+      ]
+    },
+    {
+      "ano": 1986,
+      "tier": "D",
+      "n": "Campeón de América y del Mundo",
+      "jog": [
+        [
+          "Pumpido",
+          "GOL",
+          84
+        ],
+        [
+          "Julián Camino",
+          "LAT",
+          77
+        ],
+        [
+          "Montenegro",
+          "ZAG",
+          79
+        ],
+        [
+          "Ruggeri",
+          "ZAG",
+          87
+        ],
+        [
+          "Gallego",
+          "VOL",
+          84
+        ],
+        [
+          "Héctor Enrique",
+          "VOL",
+          83
+        ],
+        [
+          "Beto Alonso",
+          "MEI",
+          88
+        ],
+        [
+          "Francescoli",
+          "MEI",
+          93
+        ],
+        [
+          "Alzamendi",
+          "ATA",
+          84
+        ],
+        [
+          "Funes",
+          "ATA",
+          83
+        ],
+        [
+          "Roque Alfaro",
+          "ATA",
+          82
+        ]
+      ]
+    },
+    {
+      "ano": 1994,
+      "tier": "S",
+      "n": "El regreso de Francescoli",
+      "jog": [
+        [
+          "Burgos",
+          "GOL",
+          83
+        ],
+        [
+          "Hernán Díaz",
+          "LAT",
+          82
+        ],
+        [
+          "Fabián Basualdo",
+          "ZAG",
+          78
+        ],
+        [
+          "Ayala",
+          "ZAG",
+          84
+        ],
+        [
+          "Zapata",
+          "VOL",
+          80
+        ],
+        [
+          "Astrada",
+          "VOL",
+          83
+        ],
+        [
+          "Berti",
+          "MEI",
+          82
+        ],
+        [
+          "Francescoli",
+          "MEI",
+          91
+        ],
+        [
+          "Ortega",
+          "MEI",
+          87
+        ],
+        [
+          "Crespo",
+          "ATA",
+          84
+        ],
+        [
+          "Medina Bello",
+          "ATA",
+          83
+        ]
+      ]
+    },
+    {
+      "ano": 1996,
+      "tier": "D",
+      "n": "Campeón de la Libertadores",
+      "jog": [
+        [
+          "Burgos",
+          "GOL",
+          84
+        ],
+        [
+          "Hernán Díaz",
+          "LAT",
+          82
+        ],
+        [
+          "Sorín",
+          "LAT",
+          82
+        ],
+        [
+          "Altamirano",
+          "ZAG",
+          80
+        ],
+        [
+          "Astrada",
+          "VOL",
+          83
+        ],
+        [
+          "Almeyda",
+          "VOL",
+          83
+        ],
+        [
+          "Berti",
+          "MEI",
+          82
+        ],
+        [
+          "Francescoli",
+          "MEI",
+          90
+        ],
+        [
+          "Ortega",
+          "MEI",
+          89
+        ],
+        [
+          "Crespo",
+          "ATA",
+          87
+        ],
+        [
+          "Marcelo Escudero",
+          "ATA",
+          80
+        ]
+      ]
+    },
+    {
+      "ano": 1997,
+      "tier": "D",
+      "n": "Campeón del Torneo y la Supercopa",
+      "jog": [
+        [
+          "Burgos",
+          "GOL",
+          84
+        ],
+        [
+          "Hernán Díaz",
+          "LAT",
+          82
+        ],
+        [
+          "Gustavo Lombardi",
+          "LAT",
+          79
+        ],
+        [
+          "Celso Ayala",
+          "ZAG",
+          83
+        ],
+        [
+          "Astrada",
+          "VOL",
+          83
+        ],
+        [
+          "Gallardo",
+          "MEI",
+          85
+        ],
+        [
+          "Ortega",
+          "MEI",
+          88
+        ],
+        [
+          "Francescoli",
+          "MEI",
+          89
+        ],
+        [
+          "Salas",
+          "ATA",
+          88
+        ],
+        [
+          "Julio Cruz",
+          "ATA",
+          82
+        ],
+        [
+          "Marcelo Escudero",
+          "ATA",
+          79
+        ]
+      ]
+    },
+    {
+      "ano": 2000,
+      "tier": "S",
+      "n": "Campeón del Clausura",
+      "jog": [
+        [
+          "Bonano",
+          "GOL",
+          83
+        ],
+        [
+          "Placente",
+          "LAT",
+          80
+        ],
+        [
+          "Gustavo Lombardi",
+          "LAT",
+          79
+        ],
+        [
+          "Yepes",
+          "ZAG",
+          82
+        ],
+        [
+          "Ameli",
+          "ZAG",
+          79
+        ],
+        [
+          "Husaín",
+          "VOL",
+          81
+        ],
+        [
+          "Aimar",
+          "MEI",
+          88
+        ],
+        [
+          "Ortega",
+          "MEI",
+          88
+        ],
+        [
+          "D'Alessandro",
+          "MEI",
+          82
+        ],
+        [
+          "Saviola",
+          "ATA",
+          87
+        ],
+        [
+          "Juan Pablo Ángel",
+          "ATA",
+          85
+        ]
+      ]
+    },
+    {
+      "ano": 2008,
+      "tier": "R",
+      "n": "El Apertura del último puesto",
+      "jog": [
+        [
+          "Juan Pablo Carrizo",
+          "GOL",
+          82
+        ],
+        [
+          "Paulo Ferrari",
+          "LAT",
+          76
+        ],
+        [
+          "Ariel Garcé",
+          "ZAG",
+          77
+        ],
+        [
+          "Danilo Gerlo",
+          "ZAG",
+          77
+        ],
+        [
+          "Nicolás Domingo",
+          "VOL",
+          76
+        ],
+        [
+          "Augusto Fernández",
+          "VOL",
+          79
+        ],
+        [
+          "Ortega",
+          "MEI",
+          84
+        ],
+        [
+          "Buonanotte",
+          "MEI",
+          80
+        ],
+        [
+          "Robert Flores",
+          "MEI",
+          78
+        ],
+        [
+          "Falcao",
+          "ATA",
+          85
+        ],
+        [
+          "Sebastián Abreu",
+          "ATA",
+          82
+        ]
+      ]
+    },
+    {
+      "ano": 2011,
+      "tier": "R",
+      "n": "El año del descenso",
+      "jog": [
+        [
+          "Juan Pablo Carrizo",
+          "GOL",
+          80
+        ],
+        [
+          "Paulo Ferrari",
+          "LAT",
+          76
+        ],
+        [
+          "Arano",
+          "LAT",
+          76
+        ],
+        [
+          "Maidana",
+          "ZAG",
+          79
+        ],
+        [
+          "Ferrero",
+          "ZAG",
+          76
+        ],
+        [
+          "Adalberto Román",
+          "ZAG",
+          76
+        ],
+        [
+          "Almeyda",
+          "VOL",
+          82
+        ],
+        [
+          "Lamela",
+          "MEI",
+          80
+        ],
+        [
+          "Lanzini",
+          "MEI",
+          79
+        ],
+        [
+          "Rogelio Funes Mori",
+          "ATA",
+          78
+        ],
+        [
+          "Pavone",
+          "ATA",
+          78
+        ]
+      ]
+    },
+    {
+      "ano": 2014,
+      "tier": "D",
+      "n": "Campeón de la Sudamericana",
+      "jog": [
+        [
+          "Barovero",
+          "GOL",
+          85
+        ],
+        [
+          "Mercado",
+          "LAT",
+          82
+        ],
+        [
+          "Vangioni",
+          "LAT",
+          79
+        ],
+        [
+          "Maidana",
+          "ZAG",
+          82
+        ],
+        [
+          "Germán Pezzella",
+          "ZAG",
+          78
+        ],
+        [
+          "Kranevitter",
+          "VOL",
+          80
+        ],
+        [
+          "Ponzio",
+          "VOL",
+          82
+        ],
+        [
+          "Pisculichi",
+          "MEI",
+          81
+        ],
+        [
+          "Teo Gutiérrez",
+          "ATA",
+          84
+        ],
+        [
+          "Mora",
+          "ATA",
+          80
+        ],
+        [
+          "Rogelio Funes Mori",
+          "ATA",
+          80
+        ]
+      ]
+    },
+    {
+      "ano": 2015,
+      "tier": "D",
+      "n": "Campeón de la Libertadores",
+      "jog": [
+        [
+          "Barovero",
+          "GOL",
+          85
+        ],
+        [
+          "Mercado",
+          "LAT",
+          82
+        ],
+        [
+          "Vangioni",
+          "LAT",
+          79
+        ],
+        [
+          "Maidana",
+          "ZAG",
+          82
+        ],
+        [
+          "Rogelio Funes Mori",
+          "ZAG",
+          80
+        ],
+        [
+          "Kranevitter",
+          "VOL",
+          80
+        ],
+        [
+          "Ponzio",
+          "VOL",
+          82
+        ],
+        [
+          "Pisculichi",
+          "MEI",
+          81
+        ],
+        [
+          "Carlos Sánchez",
+          "MEI",
+          82
+        ],
+        [
+          "Lucas Alario",
+          "ATA",
+          81
+        ],
+        [
+          "Cavenaghi",
+          "ATA",
+          80
+        ]
+      ]
+    },
+    {
+      "ano": 2017,
+      "tier": "D",
+      "n": "Campeón de la Copa Argentina",
+      "jog": [
+        [
+          "Germán Lux",
+          "GOL",
+          80
+        ],
+        [
+          "Montiel",
+          "LAT",
+          78
+        ],
+        [
+          "Casco",
+          "LAT",
+          80
+        ],
+        [
+          "Maidana",
+          "ZAG",
+          81
+        ],
+        [
+          "Pinola",
+          "ZAG",
+          81
+        ],
+        [
+          "Ponzio",
+          "VOL",
+          82
+        ],
+        [
+          "Enzo Pérez",
+          "VOL",
+          84
+        ],
+        [
+          "Nacho Fernández",
+          "MEI",
+          85
+        ],
+        [
+          "Palacios",
+          "MEI",
+          79
+        ],
+        [
+          "Scocco",
+          "ATA",
+          83
+        ],
+        [
+          "Mora",
+          "ATA",
+          80
+        ]
+      ]
+    },
+    {
+      "ano": 2018,
+      "tier": "D",
+      "n": "Campeón de la Libertadores (Madrid)",
+      "jog": [
+        [
+          "Armani",
+          "GOL",
+          90
+        ],
+        [
+          "Montiel",
+          "LAT",
+          82
+        ],
+        [
+          "Casco",
+          "LAT",
+          81
+        ],
+        [
+          "Pinola",
+          "ZAG",
+          82
+        ],
+        [
+          "Maidana",
+          "ZAG",
+          82
+        ],
+        [
+          "Enzo Pérez",
+          "VOL",
+          84
+        ],
+        [
+          "Palacios",
+          "MEI",
+          84
+        ],
+        [
+          "Quintero",
+          "MEI",
+          88
+        ],
+        [
+          "Pity Martínez",
+          "MEI",
+          89
+        ],
+        [
+          "Pratto",
+          "ATA",
+          84
+        ],
+        [
+          "Borré",
+          "ATA",
+          83
+        ]
+      ]
+    },
+    {
+      "ano": 2019,
+      "tier": "R",
+      "n": "Subcampeón de la Libertadores (Lima)",
+      "jog": [
+        [
+          "Armani",
+          "GOL",
+          89
+        ],
+        [
+          "Montiel",
+          "LAT",
+          82
+        ],
+        [
+          "Casco",
+          "LAT",
+          81
+        ],
+        [
+          "Pinola",
+          "ZAG",
+          81
+        ],
+        [
+          "Martínez Quarta",
+          "ZAG",
+          81
+        ],
+        [
+          "Enzo Pérez",
+          "VOL",
+          84
+        ],
+        [
+          "Palacios",
+          "MEI",
+          84
+        ],
+        [
+          "Nacho Fernández",
+          "MEI",
+          85
+        ],
+        [
+          "De la Cruz",
+          "MEI",
+          84
+        ],
+        [
+          "Matías Suárez",
+          "ATA",
+          82
+        ],
+        [
+          "Borré",
+          "ATA",
+          84
+        ]
+      ]
+    },
+    {
+      "ano": 2021,
+      "tier": "D",
+      "n": "Campeón de la Liga Profesional",
+      "jog": [
+        [
+          "Armani",
+          "GOL",
+          89
+        ],
+        [
+          "Montiel",
+          "LAT",
+          81
+        ],
+        [
+          "Casco",
+          "LAT",
+          80
+        ],
+        [
+          "Paulo Díaz",
+          "ZAG",
+          82
+        ],
+        [
+          "Maidana",
+          "ZAG",
+          79
+        ],
+        [
+          "Enzo Pérez",
+          "VOL",
+          83
+        ],
+        [
+          "Palavecino",
+          "MEI",
+          78
+        ],
+        [
+          "De la Cruz",
+          "MEI",
+          85
+        ],
+        [
+          "Julián Álvarez",
+          "ATA",
+          86
+        ],
+        [
+          "Braian Romero",
+          "ATA",
+          79
+        ],
+        [
+          "Matías Suárez",
+          "ATA",
+          81
+        ]
+      ]
+    },
+    {
+      "ano": 2023,
+      "tier": "D",
+      "n": "Campeón de la Liga",
+      "jog": [
+        [
+          "Armani",
+          "GOL",
+          88
+        ],
+        [
+          "Milton Casco",
+          "LAT",
+          79
+        ],
+        [
+          "Paulo Díaz",
+          "ZAG",
+          82
+        ],
+        [
+          "González Pírez",
+          "ZAG",
+          80
+        ],
+        [
+          "Enzo Pérez",
+          "VOL",
+          82
+        ],
+        [
+          "Nacho Fernández",
+          "MEI",
+          84
+        ],
+        [
+          "De la Cruz",
+          "MEI",
+          85
+        ],
+        [
+          "Barco",
+          "MEI",
+          81
+        ],
+        [
+          "Borja",
+          "ATA",
+          83
+        ],
+        [
+          "Beltrán",
+          "ATA",
+          81
+        ],
+        [
+          "Solari",
+          "ATA",
+          79
+        ]
+      ]
+    }
+  ]
+}

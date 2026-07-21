@@ -1,0 +1,14 @@
+{
+  "name": "choque-de-eras",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Manager de futebol bilíngue — protótipo migrado para projeto estruturado (dados/código/build).",
+  "scripts": {
+    "validate": "node scripts/validar-eras.mjs",
+    "build": "node scripts/build.mjs",
+    "pretest": "node scripts/build.mjs",
+    "test": "node --test tests/",
+    "dev": "node scripts/build.mjs && echo 'Pronto: abra dist/choque-de-eras.html no navegador'"
+  }
+}
