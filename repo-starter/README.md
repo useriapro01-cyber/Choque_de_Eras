@@ -29,6 +29,7 @@ scripts/
 tests/
   dados.test.mjs          afirma os invariantes de dados via porteiro
   bot-regressao.test.mjs  ≥150 campanhas Continental + ≥30/clube contra o dist
+  sweep-i18n.test.mjs     varredura das 11 telas em PT+ES sem undefined/NaN
   harness/carregar-motor.mjs  carrega o motor do dist num sandbox headless
 dist/
   choque-de-eras.html     ARTEFATO gerado — abre instantâneo em link de WhatsApp
@@ -45,8 +46,13 @@ npm run dev        # build e aponta o arquivo para abrir
 
 **Regra de ouro:** para adicionar/corrigir uma era, edite apenas `data/eras/<clube>.json` e rode `npm run build`. Nada entra no jogo sem passar pelo porteiro.
 
-### Suíte de regressão por bot
-`tests/harness/carregar-motor.mjs` carrega o motor **do artefato `dist/` gerado** num sandbox `vm` com stubs de DOM (só a camada de render é neutralizada), expondo as funções internas. `tests/bot-regressao.test.mjs` dirige ≥150 campanhas Continental + ≥30 por clube e afere, contra o dist: 0 erros de runtime, 0 violações de suspensão/lesão (jogador com `fora>0` nunca vai a campo), adversário nunca é o clube do coração, mercado do Meu Clube só traz o próprio clube, e distribuição de tiers 55/35/10 (±4 p.p.). Rode com `npm test`.
+### Suíte de testes
+`tests/harness/carregar-motor.mjs` carrega o motor **do artefato `dist/` gerado** num sandbox `vm` com stubs de DOM, expondo as funções internas. Sobre ele:
+- **`bot-regressao.test.mjs`** — dirige ≥150 campanhas Continental + ≥30 por clube e afere, contra o dist: 0 erros de runtime, 0 violações de suspensão/lesão (jogador com `fora>0` nunca vai a campo), adversário nunca é o clube do coração, mercado do Meu Clube só traz o próprio clube, distribuição de tiers 55/35/10 (±4 p.p.).
+- **`sweep-i18n.test.mjs`** — ativa o render real e varre as 11 telas (com variantes: home com/sem apelido, setup cont/cora/duelo, janela com pendência/seleção, jogo início/meio/fim, pós-jogo com/sem evento de escolha, fim eliminado/campeão/imortal) em PT e ES, checando ausência de `undefined`/`NaN`/`[object Object]`/placeholder `{x}` não resolvido.
+- **`dados.test.mjs`** — afirma os invariantes de dados via porteiro.
+
+Rode tudo com `npm test` (reconstrói o dist antes via `pretest`).
 
 ## Status
 Fase 1/2 — Fundação. Marca definida (Choque de Eras). TDMV-3 concluído (dados/código/build/testes). Backlog em `CLAUDE.md`.

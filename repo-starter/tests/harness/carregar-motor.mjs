@@ -30,28 +30,40 @@ export function carregarMotor({ dist } = {}) {
   let js = m[1].split('/* ---------- INIT ---------- */')[0];
 
   // 2. shim no MESMO escopo léxico: captura const/let (S, DB, ERAS...) e
-  //    neutraliza as funções de render/toast (só apresentação).
+  //    controla a camada de render. Por padrão render fica neutralizado
+  //    (rápido, headless); o sweep de telas o reativa via ativarRender().
   js = '"use strict";\n' + js + `
 ;(function(){
+  const __render_real = render;
   render = function(){}; renderPlacarVivo = function(){}; renderLoading = function(){};
   toast = function(){}; if (typeof carregarRankDia === 'function') carregarRankDia = function(){};
+  if (typeof carregarSala === 'function') carregarSala = function(){};
   globalThis.__api = {
     get S(){ return S; },
     CORA_CLUBES, ERAS, OPPS, DB, SQUAD_KEYS,
     startCampaign, refreshMercado, autoEscalar, startMatch, tickMin, encerrarPartida,
-    iniciarContratacao, colocarEm, baseDisponivel, calcScore,
+    iniciarContratacao, colocarEm, baseDisponivel, calcScore, sortearEvento,
+    render(){ return render(); },
+    ativarRender(){ render = __render_real; },
+    desativarRender(){ render = function(){}; },
   };
 })();`;
 
-  // 3. sandbox com stubs de DOM/janela/timers
+  // 3. sandbox com stubs de DOM/janela/timers.
+  //    #app é um elemento que CAPTURA o innerHTML escrito pelo render (sweep).
   const store = new Map();
+  let appHTML = '';
+  const appEl = Object.assign(stubEl(), {
+    set innerHTML(v) { appHTML = String(v); },
+    get innerHTML() { return appHTML; },
+  });
   const sandbox = {
     console,
     setTimeout: () => 0, clearTimeout: () => {},
     setInterval: () => 0, clearInterval: () => {},
     requestAnimationFrame: () => 0, cancelAnimationFrame: () => {},
     document: {
-      getElementById: () => stubEl(), querySelector: () => stubEl(),
+      getElementById: id => (id === 'app' ? appEl : stubEl()), querySelector: () => stubEl(),
       querySelectorAll: () => [], createElement: () => stubEl(),
       addEventListener: () => {}, body: stubEl(), documentElement: stubEl(),
     },
@@ -78,6 +90,7 @@ export function carregarMotor({ dist } = {}) {
 
   const api = sandbox.__api;
   if (!api) throw new Error('shim __api não inicializou');
+  api.htmlApp = () => appEl.innerHTML; // lê o que o último render escreveu em #app
 
   // perfil mínimo para finalizarCampanha/checarConquistas não quebrarem
   api.S.lang = 'pt';

@@ -34,7 +34,7 @@ Manager de futebol casual e bilíngue (PT-BR / ES rioplatense): o jogador escolh
 ## Backlog imediato
 - ~~TDMV-1: corrigir contraste dos botões claros + instituir checagem AA.~~ ✅ Concluído (jul/2026): CTA/velocidade em fundo ouro com texto escuro `#241a05`; checagem AA agora é parte do "done" de qualquer tela (ver Regras de design).
 - TDMV-2: revisão editorial das eras pré-1990 (laterais/goleiros de confiança média) com fontes.
-- ~~TDMV-3: migração arquivo único → projeto estruturado (dados/código/testes).~~ ✅ Concluído (jul/2026): dados em `data/` (eras por clube, continental, adversários, clubes); `npm run build` gera `dist/choque-de-eras.html` single-file com validação pelo porteiro (`scripts/validar-eras.mjs`), reconstrução verificada byte-a-byte vs. protótipo; suíte de bot (`tests/bot-regressao.test.mjs`, harness em `tests/harness/`) roda ≥150 campanhas Continental + ≥30/clube contra o dist — 0 erros/violações, tiers 55/35/10 (±4pp). `npm test` roda porteiro + bot.
+- ~~TDMV-3: migração arquivo único → projeto estruturado (dados/código/testes).~~ ✅ Concluído (jul/2026): dados em `data/` (eras por clube, continental, adversários, clubes); `npm run build` gera `dist/choque-de-eras.html` single-file com validação pelo porteiro (`scripts/validar-eras.mjs`), reconstrução verificada byte-a-byte vs. protótipo; suíte contra o dist (harness em `tests/harness/`): bot (`bot-regressao.test.mjs`, ≥150 Continental + ≥40/clube — 0 erros/violações, tiers 55/35/10 ±4pp) e sweep bilíngue (`sweep-i18n.test.mjs`, 11 telas em PT+ES sem undefined/NaN/template quebrado). `npm test` roda porteiro + bot + sweep.
 - TDMV-4: PWA + deploy automático.
 - TDMV-5: backend de ranking com replay validado.
 
