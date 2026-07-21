@@ -68,13 +68,11 @@ Rode tudo com `npm test` (reconstrói o dist antes via `pretest`).
 ## PWA e deploy (Vercel)
 O build emite uma PWA instalável: `manifest.webmanifest`, `sw.js` (cache-first — como o `index.html` é self-contained, cacheá-lo = jogo inteiro offline; a versão do cache é o hash do conteúdo, então cada deploy invalida o cache antigo) e ícones. O `vercel.json` fixa `buildCommand`/`outputDirectory` e os headers do SW.
 
-**Ligar o auto-deploy (uma vez, no painel Vercel):**
-1. New Project → Import Git Repository → `useriapro01-cyber/Choque_de_Eras`.
-2. **Root Directory = `repo-starter`** (o projeto vive nessa subpasta).
-3. Framework Preset = **Other**; Build Command `npm run build`; Output Directory `dist` (o `vercel.json` já define isso).
-4. Production Branch = **`main`**. Deploy.
+**Ligar o auto-deploy (uma vez):** New Project → Import `useriapro01-cyber/Choque_de_Eras` → Deploy. **Não precisa mexer no Root Directory** nem em Build/Output no painel: o `vercel.json` na raiz do repositório é a fonte de verdade (`installCommand`/`buildCommand` fazem `cd repo-starter && npm run build`, `outputDirectory` = `repo-starter/dist`, `framework: null`). Production Branch já é `main`.
 
-Feito isso, todo push em `main` publica sozinho. Regenerar ícones (se o logo mudar): `npm i -D @resvg/resvg-js && node scripts/gerar-icones.mjs && npm remove @resvg/resvg-js`.
+> Há dois `vercel.json`: o da **raiz** (usado no setup padrão, Root Directory = raiz do repo) e o de **`repo-starter/`** (usado caso alguém defina Root Directory = `repo-starter`). Ambos declaram os mesmos comandos, então o deploy roda o build real de qualquer jeito.
+
+Feito o import, todo push em `main` publica sozinho. Regenerar ícones (se o logo mudar): `npm i -D @resvg/resvg-js && node scripts/gerar-icones.mjs && npm remove @resvg/resvg-js`.
 
 ## Status
 Fase 2 — Produto core. Marca definida (Choque de Eras). TDMV-3 (estrutura) e TDMV-4 (PWA + deploy) concluídos; falta o import único do repo na Vercel. Backlog em `CLAUDE.md`.
