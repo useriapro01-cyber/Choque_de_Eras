@@ -1,0 +1,1248 @@
+{
+  "clube": "Santos",
+  "pais": "BR",
+  "cor": "#E8E8E8",
+  "ordem": 2,
+  "eras": [
+    {
+      "ano": 1961,
+      "tier": "D",
+      "n": "Campeão Brasileiro e Paulista",
+      "jog": [
+        [
+          "Gilmar",
+          "GOL",
+          87
+        ],
+        [
+          "Dalmo",
+          "LAT",
+          82
+        ],
+        [
+          "Mauro",
+          "ZAG",
+          85
+        ],
+        [
+          "Calvet",
+          "ZAG",
+          80
+        ],
+        [
+          "Zito",
+          "VOL",
+          87
+        ],
+        [
+          "Lima",
+          "VOL",
+          82
+        ],
+        [
+          "Mengálvio",
+          "MEI",
+          85
+        ],
+        [
+          "Pelé",
+          "ATA",
+          97
+        ],
+        [
+          "Coutinho",
+          "ATA",
+          89
+        ],
+        [
+          "Pepe",
+          "ATA",
+          88
+        ],
+        [
+          "Dorval",
+          "ATA",
+          84
+        ]
+      ]
+    },
+    {
+      "ano": 1962,
+      "tier": "D",
+      "n": "Campeão Mundial e da Libertadores",
+      "jog": [
+        [
+          "Gilmar",
+          "GOL",
+          87
+        ],
+        [
+          "Dalmo",
+          "LAT",
+          82
+        ],
+        [
+          "Mauro",
+          "ZAG",
+          85
+        ],
+        [
+          "Calvet",
+          "ZAG",
+          80
+        ],
+        [
+          "Zito",
+          "VOL",
+          87
+        ],
+        [
+          "Lima",
+          "VOL",
+          82
+        ],
+        [
+          "Mengálvio",
+          "MEI",
+          85
+        ],
+        [
+          "Pelé",
+          "ATA",
+          98
+        ],
+        [
+          "Coutinho",
+          "ATA",
+          90
+        ],
+        [
+          "Pepe",
+          "ATA",
+          88
+        ],
+        [
+          "Dorval",
+          "ATA",
+          84
+        ]
+      ]
+    },
+    {
+      "ano": 1963,
+      "tier": "D",
+      "n": "Bicampeão Mundial e da Libertadores",
+      "jog": [
+        [
+          "Gilmar",
+          "GOL",
+          87
+        ],
+        [
+          "Dalmo",
+          "LAT",
+          82
+        ],
+        [
+          "Mauro",
+          "ZAG",
+          85
+        ],
+        [
+          "Calvet",
+          "ZAG",
+          80
+        ],
+        [
+          "Zito",
+          "VOL",
+          87
+        ],
+        [
+          "Lima",
+          "VOL",
+          82
+        ],
+        [
+          "Mengálvio",
+          "MEI",
+          85
+        ],
+        [
+          "Pelé",
+          "ATA",
+          98
+        ],
+        [
+          "Coutinho",
+          "ATA",
+          90
+        ],
+        [
+          "Pepe",
+          "ATA",
+          88
+        ],
+        [
+          "Dorval",
+          "ATA",
+          84
+        ]
+      ]
+    },
+    {
+      "ano": 1964,
+      "tier": "D",
+      "n": "Campeão Brasileiro",
+      "jog": [
+        [
+          "Gilmar",
+          "GOL",
+          87
+        ],
+        [
+          "Dalmo",
+          "LAT",
+          82
+        ],
+        [
+          "Mauro",
+          "ZAG",
+          85
+        ],
+        [
+          "Calvet",
+          "ZAG",
+          80
+        ],
+        [
+          "Zito",
+          "VOL",
+          87
+        ],
+        [
+          "Lima",
+          "VOL",
+          82
+        ],
+        [
+          "Mengálvio",
+          "MEI",
+          85
+        ],
+        [
+          "Pelé",
+          "ATA",
+          97
+        ],
+        [
+          "Coutinho",
+          "ATA",
+          89
+        ],
+        [
+          "Pepe",
+          "ATA",
+          88
+        ],
+        [
+          "Dorval",
+          "ATA",
+          84
+        ]
+      ]
+    },
+    {
+      "ano": 1965,
+      "tier": "D",
+      "n": "Pentacampeão Brasileiro",
+      "jog": [
+        [
+          "Gilmar",
+          "GOL",
+          87
+        ],
+        [
+          "Dalmo",
+          "LAT",
+          82
+        ],
+        [
+          "Mauro",
+          "ZAG",
+          85
+        ],
+        [
+          "Calvet",
+          "ZAG",
+          80
+        ],
+        [
+          "Zito",
+          "VOL",
+          87
+        ],
+        [
+          "Lima",
+          "VOL",
+          82
+        ],
+        [
+          "Mengálvio",
+          "MEI",
+          85
+        ],
+        [
+          "Pelé",
+          "ATA",
+          97
+        ],
+        [
+          "Coutinho",
+          "ATA",
+          89
+        ],
+        [
+          "Pepe",
+          "ATA",
+          88
+        ],
+        [
+          "Dorval",
+          "ATA",
+          84
+        ]
+      ]
+    },
+    {
+      "ano": 1966,
+      "tier": "D",
+      "n": "Campeão do Rio–São Paulo",
+      "jog": [
+        [
+          "Gilmar",
+          "GOL",
+          86
+        ],
+        [
+          "Carlos Alberto",
+          "LAT",
+          91
+        ],
+        [
+          "Dalmo",
+          "LAT",
+          81
+        ],
+        [
+          "Mauro",
+          "ZAG",
+          84
+        ],
+        [
+          "Ramos Delgado",
+          "ZAG",
+          84
+        ],
+        [
+          "Zito",
+          "VOL",
+          86
+        ],
+        [
+          "Lima",
+          "VOL",
+          81
+        ],
+        [
+          "Mengálvio",
+          "MEI",
+          84
+        ],
+        [
+          "Pelé",
+          "ATA",
+          97
+        ],
+        [
+          "Coutinho",
+          "ATA",
+          88
+        ],
+        [
+          "Toninho Guerreiro",
+          "ATA",
+          85
+        ]
+      ]
+    },
+    {
+      "ano": 1967,
+      "tier": "D",
+      "n": "Campeão Paulista",
+      "jog": [
+        [
+          "Gilmar",
+          "GOL",
+          85
+        ],
+        [
+          "Carlos Alberto",
+          "LAT",
+          92
+        ],
+        [
+          "Rildo",
+          "LAT",
+          83
+        ],
+        [
+          "Ramos Delgado",
+          "ZAG",
+          84
+        ],
+        [
+          "Joel Camargo",
+          "ZAG",
+          82
+        ],
+        [
+          "Zito",
+          "VOL",
+          85
+        ],
+        [
+          "Clodoaldo",
+          "VOL",
+          83
+        ],
+        [
+          "Mengálvio",
+          "MEI",
+          84
+        ],
+        [
+          "Pelé",
+          "ATA",
+          98
+        ],
+        [
+          "Coutinho",
+          "ATA",
+          87
+        ],
+        [
+          "Toninho Guerreiro",
+          "ATA",
+          86
+        ]
+      ]
+    },
+    {
+      "ano": 1968,
+      "tier": "D",
+      "n": "Campeão do Robertão",
+      "jog": [
+        [
+          "Gilmar",
+          "GOL",
+          84
+        ],
+        [
+          "Carlos Alberto",
+          "LAT",
+          92
+        ],
+        [
+          "Rildo",
+          "LAT",
+          83
+        ],
+        [
+          "Ramos Delgado",
+          "ZAG",
+          83
+        ],
+        [
+          "Joel Camargo",
+          "ZAG",
+          82
+        ],
+        [
+          "Clodoaldo",
+          "VOL",
+          84
+        ],
+        [
+          "Lima",
+          "MEI",
+          80
+        ],
+        [
+          "Pelé",
+          "ATA",
+          97
+        ],
+        [
+          "Pepe",
+          "ATA",
+          86
+        ],
+        [
+          "Toninho Guerreiro",
+          "ATA",
+          85
+        ],
+        [
+          "Edu",
+          "ATA",
+          86
+        ]
+      ]
+    },
+    {
+      "ano": 1969,
+      "tier": "D",
+      "n": "Campeão Paulista",
+      "jog": [
+        [
+          "Gilmar",
+          "GOL",
+          84
+        ],
+        [
+          "Carlos Alberto",
+          "LAT",
+          92
+        ],
+        [
+          "Rildo",
+          "LAT",
+          83
+        ],
+        [
+          "Ramos Delgado",
+          "ZAG",
+          83
+        ],
+        [
+          "Joel Camargo",
+          "ZAG",
+          82
+        ],
+        [
+          "Clodoaldo",
+          "VOL",
+          84
+        ],
+        [
+          "Lima",
+          "MEI",
+          80
+        ],
+        [
+          "Pelé",
+          "ATA",
+          97
+        ],
+        [
+          "Pepe",
+          "ATA",
+          86
+        ],
+        [
+          "Toninho Guerreiro",
+          "ATA",
+          85
+        ],
+        [
+          "Edu",
+          "ATA",
+          86
+        ]
+      ]
+    },
+    {
+      "ano": 2002,
+      "tier": "D",
+      "n": "Campeão Brasileiro",
+      "jog": [
+        [
+          "Fábio Costa",
+          "GOL",
+          84
+        ],
+        [
+          "Léo",
+          "LAT",
+          83
+        ],
+        [
+          "Alex",
+          "ZAG",
+          84
+        ],
+        [
+          "André Luís",
+          "ZAG",
+          80
+        ],
+        [
+          "Renato",
+          "VOL",
+          83
+        ],
+        [
+          "Paulo Almeida",
+          "VOL",
+          79
+        ],
+        [
+          "Elano",
+          "MEI",
+          84
+        ],
+        [
+          "Diego",
+          "MEI",
+          88
+        ],
+        [
+          "Robert",
+          "MEI",
+          81
+        ],
+        [
+          "Robinho",
+          "ATA",
+          88
+        ],
+        [
+          "William",
+          "ATA",
+          78
+        ]
+      ]
+    },
+    {
+      "ano": 2003,
+      "tier": "R",
+      "n": "Vice da Libertadores",
+      "jog": [
+        [
+          "Fábio Costa",
+          "GOL",
+          84
+        ],
+        [
+          "Léo",
+          "LAT",
+          83
+        ],
+        [
+          "Alex",
+          "ZAG",
+          84
+        ],
+        [
+          "André Luís",
+          "ZAG",
+          80
+        ],
+        [
+          "Renato",
+          "VOL",
+          83
+        ],
+        [
+          "Paulo Almeida",
+          "VOL",
+          79
+        ],
+        [
+          "Elano",
+          "MEI",
+          84
+        ],
+        [
+          "Diego",
+          "MEI",
+          88
+        ],
+        [
+          "Robert",
+          "MEI",
+          81
+        ],
+        [
+          "Robinho",
+          "ATA",
+          89
+        ],
+        [
+          "William",
+          "ATA",
+          78
+        ]
+      ]
+    },
+    {
+      "ano": 2004,
+      "tier": "D",
+      "n": "Bicampeão Brasileiro",
+      "jog": [
+        [
+          "Fábio Costa",
+          "GOL",
+          84
+        ],
+        [
+          "Léo",
+          "LAT",
+          84
+        ],
+        [
+          "Ávalos",
+          "ZAG",
+          78
+        ],
+        [
+          "Pereira",
+          "ZAG",
+          77
+        ],
+        [
+          "Preto Casagrande",
+          "VOL",
+          80
+        ],
+        [
+          "Fabinho",
+          "VOL",
+          79
+        ],
+        [
+          "Ricardinho",
+          "MEI",
+          84
+        ],
+        [
+          "Elano",
+          "MEI",
+          85
+        ],
+        [
+          "Robinho",
+          "ATA",
+          89
+        ],
+        [
+          "Deivid",
+          "ATA",
+          82
+        ],
+        [
+          "Basílio",
+          "ATA",
+          81
+        ]
+      ]
+    },
+    {
+      "ano": 2010,
+      "tier": "S",
+      "n": "Campeão da Copa do Brasil e Paulista",
+      "jog": [
+        [
+          "Rafael",
+          "GOL",
+          82
+        ],
+        [
+          "Léo",
+          "LAT",
+          82
+        ],
+        [
+          "Pará",
+          "LAT",
+          78
+        ],
+        [
+          "Edu Dracena",
+          "ZAG",
+          83
+        ],
+        [
+          "Durval",
+          "ZAG",
+          81
+        ],
+        [
+          "Arouca",
+          "VOL",
+          83
+        ],
+        [
+          "Wesley",
+          "MEI",
+          81
+        ],
+        [
+          "Ganso",
+          "MEI",
+          88
+        ],
+        [
+          "Neymar",
+          "ATA",
+          88
+        ],
+        [
+          "Robinho",
+          "ATA",
+          87
+        ],
+        [
+          "André",
+          "ATA",
+          82
+        ]
+      ]
+    },
+    {
+      "ano": 2011,
+      "tier": "D",
+      "n": "Campeão da Libertadores",
+      "jog": [
+        [
+          "Rafael",
+          "GOL",
+          83
+        ],
+        [
+          "Danilo",
+          "LAT",
+          85
+        ],
+        [
+          "Léo",
+          "LAT",
+          81
+        ],
+        [
+          "Edu Dracena",
+          "ZAG",
+          83
+        ],
+        [
+          "Durval",
+          "ZAG",
+          82
+        ],
+        [
+          "Arouca",
+          "VOL",
+          84
+        ],
+        [
+          "Henrique",
+          "VOL",
+          79
+        ],
+        [
+          "Ganso",
+          "MEI",
+          88
+        ],
+        [
+          "Elano",
+          "MEI",
+          84
+        ],
+        [
+          "Neymar",
+          "ATA",
+          92
+        ],
+        [
+          "Borges",
+          "ATA",
+          83
+        ]
+      ]
+    },
+    {
+      "ano": 2012,
+      "tier": "D",
+      "n": "Campeão da Recopa e Tricampeão Paulista",
+      "jog": [
+        [
+          "Rafael",
+          "GOL",
+          84
+        ],
+        [
+          "Léo",
+          "LAT",
+          80
+        ],
+        [
+          "Edu Dracena",
+          "ZAG",
+          82
+        ],
+        [
+          "Durval",
+          "ZAG",
+          81
+        ],
+        [
+          "Bruno Rodrigo",
+          "ZAG",
+          77
+        ],
+        [
+          "Arouca",
+          "VOL",
+          84
+        ],
+        [
+          "Henrique",
+          "VOL",
+          78
+        ],
+        [
+          "Ganso",
+          "MEI",
+          87
+        ],
+        [
+          "Neymar",
+          "ATA",
+          93
+        ],
+        [
+          "Borges",
+          "ATA",
+          83
+        ],
+        [
+          "Alan Kardec",
+          "ATA",
+          80
+        ]
+      ]
+    },
+    {
+      "ano": 2016,
+      "tier": "S",
+      "n": "Bicampeão Paulista",
+      "jog": [
+        [
+          "Vanderlei",
+          "GOL",
+          84
+        ],
+        [
+          "Victor Ferraz",
+          "LAT",
+          80
+        ],
+        [
+          "Zeca",
+          "LAT",
+          79
+        ],
+        [
+          "David Braz",
+          "ZAG",
+          81
+        ],
+        [
+          "Gustavo Henrique",
+          "ZAG",
+          80
+        ],
+        [
+          "Renato",
+          "VOL",
+          82
+        ],
+        [
+          "Thiago Maia",
+          "VOL",
+          80
+        ],
+        [
+          "Lucas Lima",
+          "MEI",
+          85
+        ],
+        [
+          "Vitor Bueno",
+          "MEI",
+          78
+        ],
+        [
+          "Ricardo Oliveira",
+          "ATA",
+          84
+        ],
+        [
+          "Gabigol",
+          "ATA",
+          84
+        ]
+      ]
+    },
+    {
+      "ano": 2018,
+      "tier": "S",
+      "n": "Gabigol artilheiro do Brasileirão",
+      "jog": [
+        [
+          "Vanderlei",
+          "GOL",
+          85
+        ],
+        [
+          "Dodô",
+          "LAT",
+          79
+        ],
+        [
+          "Victor Ferraz",
+          "LAT",
+          79
+        ],
+        [
+          "David Braz",
+          "ZAG",
+          80
+        ],
+        [
+          "Gustavo Henrique",
+          "ZAG",
+          80
+        ],
+        [
+          "Alison",
+          "VOL",
+          78
+        ],
+        [
+          "Carlos Sánchez",
+          "MEI",
+          82
+        ],
+        [
+          "Jean Mota",
+          "MEI",
+          78
+        ],
+        [
+          "Bryan Ruiz",
+          "MEI",
+          79
+        ],
+        [
+          "Gabigol",
+          "ATA",
+          87
+        ],
+        [
+          "Rodrygo",
+          "ATA",
+          83
+        ]
+      ]
+    },
+    {
+      "ano": 2019,
+      "tier": "S",
+      "n": "Vice do Brasileirão",
+      "jog": [
+        [
+          "Everson",
+          "GOL",
+          82
+        ],
+        [
+          "Pará",
+          "LAT",
+          78
+        ],
+        [
+          "Felipe Jonatan",
+          "LAT",
+          78
+        ],
+        [
+          "Lucas Veríssimo",
+          "ZAG",
+          82
+        ],
+        [
+          "Gustavo Henrique",
+          "ZAG",
+          79
+        ],
+        [
+          "Diego Pituca",
+          "VOL",
+          81
+        ],
+        [
+          "Alison",
+          "VOL",
+          77
+        ],
+        [
+          "Carlos Sánchez",
+          "MEI",
+          82
+        ],
+        [
+          "Soteldo",
+          "MEI",
+          84
+        ],
+        [
+          "Marinho",
+          "ATA",
+          85
+        ],
+        [
+          "Eduardo Sasha",
+          "ATA",
+          80
+        ]
+      ]
+    },
+    {
+      "ano": 2020,
+      "tier": "R",
+      "n": "Vice da Libertadores",
+      "jog": [
+        [
+          "John",
+          "GOL",
+          82
+        ],
+        [
+          "Madson",
+          "LAT",
+          77
+        ],
+        [
+          "Felipe Jonatan",
+          "LAT",
+          78
+        ],
+        [
+          "Lucas Veríssimo",
+          "ZAG",
+          83
+        ],
+        [
+          "Luan Peres",
+          "ZAG",
+          81
+        ],
+        [
+          "Alison",
+          "VOL",
+          78
+        ],
+        [
+          "Diego Pituca",
+          "VOL",
+          81
+        ],
+        [
+          "Soteldo",
+          "MEI",
+          85
+        ],
+        [
+          "Marinho",
+          "ATA",
+          88
+        ],
+        [
+          "Kaio Jorge",
+          "ATA",
+          80
+        ],
+        [
+          "Lucas Braga",
+          "ATA",
+          76
+        ]
+      ]
+    },
+    {
+      "ano": 2023,
+      "tier": "R",
+      "n": "O ano do rebaixamento",
+      "jog": [
+        [
+          "João Paulo",
+          "GOL",
+          81
+        ],
+        [
+          "Felipe Jonatan",
+          "LAT",
+          78
+        ],
+        [
+          "Joaquim",
+          "ZAG",
+          78
+        ],
+        [
+          "Messias",
+          "ZAG",
+          77
+        ],
+        [
+          "João Basso",
+          "ZAG",
+          76
+        ],
+        [
+          "Tomás Rincón",
+          "VOL",
+          79
+        ],
+        [
+          "Dodi",
+          "VOL",
+          76
+        ],
+        [
+          "Soteldo",
+          "MEI",
+          81
+        ],
+        [
+          "Marcos Leonardo",
+          "ATA",
+          82
+        ],
+        [
+          "Mendoza",
+          "ATA",
+          79
+        ],
+        [
+          "Lucas Braga",
+          "ATA",
+          76
+        ]
+      ]
+    }
+  ]
+}

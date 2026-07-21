@@ -1,0 +1,260 @@
+{
+  "adversarios": [
+    {
+      "rotulo": "Santos 1963",
+      "forca": 93
+    },
+    {
+      "rotulo": "Flamengo 1981",
+      "forca": 92
+    },
+    {
+      "rotulo": "Boca Juniors 2000",
+      "forca": 91
+    },
+    {
+      "rotulo": "Peñarol 1966",
+      "forca": 90
+    },
+    {
+      "rotulo": "Independiente 1973",
+      "forca": 90
+    },
+    {
+      "rotulo": "São Paulo 1992",
+      "forca": 90
+    },
+    {
+      "rotulo": "Flamengo 2019",
+      "forca": 90
+    },
+    {
+      "rotulo": "River Plate 1996",
+      "forca": 89
+    },
+    {
+      "rotulo": "River Plate 2018",
+      "forca": 89
+    },
+    {
+      "rotulo": "Boca Juniors 2003",
+      "forca": 88
+    },
+    {
+      "rotulo": "Santos 2011",
+      "forca": 88
+    },
+    {
+      "rotulo": "Flamengo 2025",
+      "forca": 88
+    },
+    {
+      "rotulo": "River Plate 1986",
+      "forca": 88
+    },
+    {
+      "rotulo": "Independiente 1984",
+      "forca": 87
+    },
+    {
+      "rotulo": "Palmeiras 1999",
+      "forca": 87
+    },
+    {
+      "rotulo": "Atlético-MG 2013",
+      "forca": 87
+    },
+    {
+      "rotulo": "Palmeiras 2021",
+      "forca": 87
+    },
+    {
+      "rotulo": "São Paulo 2005",
+      "forca": 87
+    },
+    {
+      "rotulo": "Cruzeiro 1976",
+      "forca": 86
+    },
+    {
+      "rotulo": "Grêmio 1983",
+      "forca": 86
+    },
+    {
+      "rotulo": "Estudiantes 1969",
+      "forca": 86
+    },
+    {
+      "rotulo": "Peñarol 1982",
+      "forca": 86
+    },
+    {
+      "rotulo": "Corinthians 2012",
+      "forca": 85
+    },
+    {
+      "rotulo": "Grêmio 1995",
+      "forca": 85
+    },
+    {
+      "rotulo": "Vasco 1998",
+      "forca": 85
+    },
+    {
+      "rotulo": "Fluminense 2023",
+      "forca": 85
+    },
+    {
+      "rotulo": "Botafogo 2024",
+      "forca": 85
+    },
+    {
+      "rotulo": "Vélez 1994",
+      "forca": 85
+    },
+    {
+      "rotulo": "Boca Juniors 1978",
+      "forca": 85
+    },
+    {
+      "rotulo": "Cruzeiro 1997",
+      "forca": 84
+    },
+    {
+      "rotulo": "Nacional 1980",
+      "forca": 84
+    },
+    {
+      "rotulo": "Racing 1967",
+      "forca": 84
+    },
+    {
+      "rotulo": "Estudiantes 2009",
+      "forca": 84
+    },
+    {
+      "rotulo": "Internacional 2010",
+      "forca": 84
+    },
+    {
+      "rotulo": "Nacional 1988",
+      "forca": 84
+    },
+    {
+      "rotulo": "Internacional 2006",
+      "forca": 83
+    },
+    {
+      "rotulo": "LDU 2008",
+      "forca": 83
+    },
+    {
+      "rotulo": "Colo-Colo 1991",
+      "forca": 83
+    },
+    {
+      "rotulo": "Atlético Nacional 1989",
+      "forca": 83
+    },
+    {
+      "rotulo": "Atlético Nacional 2016",
+      "forca": 83
+    },
+    {
+      "rotulo": "América de Cali 1986",
+      "forca": 82
+    },
+    {
+      "rotulo": "Argentinos Juniors 1985",
+      "forca": 82
+    },
+    {
+      "rotulo": "Olimpia 1979",
+      "forca": 82
+    },
+    {
+      "rotulo": "Cobreloa 1981",
+      "forca": 81
+    },
+    {
+      "rotulo": "San Lorenzo 2014",
+      "forca": 81
+    },
+    {
+      "rotulo": "Newell's 1992",
+      "forca": 80
+    },
+    {
+      "rotulo": "Once Caldas 2004",
+      "forca": 80
+    },
+    {
+      "rotulo": "Olimpia 1990",
+      "forca": 80
+    },
+    {
+      "rotulo": "Sporting Cristal 1997",
+      "forca": 78
+    },
+    {
+      "rotulo": "Barcelona SC 1998",
+      "forca": 78
+    },
+    {
+      "rotulo": "U. Católica 1993",
+      "forca": 77
+    },
+    {
+      "rotulo": "Universitario 1972",
+      "forca": 76
+    },
+    {
+      "rotulo": "Cerro Porteño 1999",
+      "forca": 75
+    },
+    {
+      "rotulo": "Alianza Lima 1978",
+      "forca": 74
+    },
+    {
+      "rotulo": "Palestino 1979",
+      "forca": 74
+    },
+    {
+      "rotulo": "Millonarios 1989",
+      "forca": 74
+    },
+    {
+      "rotulo": "Junior 1994",
+      "forca": 73
+    },
+    {
+      "rotulo": "Bolívar 1997",
+      "forca": 73
+    },
+    {
+      "rotulo": "Emelec 1995",
+      "forca": 72
+    },
+    {
+      "rotulo": "Caracas 2009",
+      "forca": 71
+    },
+    {
+      "rotulo": "Defensor 2014",
+      "forca": 71
+    },
+    {
+      "rotulo": "Guaraní 1966",
+      "forca": 70
+    },
+    {
+      "rotulo": "The Strongest 2014",
+      "forca": 68
+    },
+    {
+      "rotulo": "Deportivo Táchira 1994",
+      "forca": 67
+    }
+  ]
+}

@@ -1,0 +1,1248 @@
+{
+  "clube": "Boca Juniors",
+  "pais": "AR",
+  "cor": "#F2B705",
+  "ordem": 3,
+  "eras": [
+    {
+      "ano": 1963,
+      "tier": "R",
+      "n": "Subcampeón de la Libertadores ante el Santos de Pelé",
+      "jog": [
+        [
+          "Antonio Roma",
+          "GOL",
+          87
+        ],
+        [
+          "Marzolini",
+          "LAT",
+          88
+        ],
+        [
+          "Orlando",
+          "ZAG",
+          84
+        ],
+        [
+          "Silvero",
+          "ZAG",
+          78
+        ],
+        [
+          "Rattín",
+          "VOL",
+          88
+        ],
+        [
+          "Carmelo Simeone",
+          "VOL",
+          82
+        ],
+        [
+          "Rojitas",
+          "MEI",
+          83
+        ],
+        [
+          "Sanfilippo",
+          "ATA",
+          87
+        ],
+        [
+          "Paulo Valentim",
+          "ATA",
+          86
+        ],
+        [
+          "Norberto Menéndez",
+          "ATA",
+          82
+        ],
+        [
+          "Alfredo Rojas",
+          "ATA",
+          81
+        ]
+      ]
+    },
+    {
+      "ano": 1965,
+      "tier": "D",
+      "n": "Bicampeón Argentino (1964-65)",
+      "jog": [
+        [
+          "Antonio Roma",
+          "GOL",
+          87
+        ],
+        [
+          "Marzolini",
+          "LAT",
+          89
+        ],
+        [
+          "Orlando",
+          "ZAG",
+          84
+        ],
+        [
+          "Silvero",
+          "ZAG",
+          78
+        ],
+        [
+          "Rogel",
+          "ZAG",
+          79
+        ],
+        [
+          "Rattín",
+          "VOL",
+          89
+        ],
+        [
+          "Carmelo Simeone",
+          "VOL",
+          82
+        ],
+        [
+          "Rojitas",
+          "MEI",
+          85
+        ],
+        [
+          "Norberto Menéndez",
+          "ATA",
+          82
+        ],
+        [
+          "Alfredo Rojas",
+          "ATA",
+          82
+        ],
+        [
+          "Paulo Valentim",
+          "ATA",
+          86
+        ]
+      ]
+    },
+    {
+      "ano": 1976,
+      "tier": "D",
+      "n": "Campeón Metropolitano y Nacional",
+      "jog": [
+        [
+          "Gatti",
+          "GOL",
+          88
+        ],
+        [
+          "Pernía",
+          "LAT",
+          82
+        ],
+        [
+          "Tarantini",
+          "LAT",
+          81
+        ],
+        [
+          "Mouzo",
+          "ZAG",
+          82
+        ],
+        [
+          "Sá",
+          "ZAG",
+          84
+        ],
+        [
+          "Ribolzi",
+          "VOL",
+          79
+        ],
+        [
+          "Suñé",
+          "MEI",
+          82
+        ],
+        [
+          "Zanabria",
+          "MEI",
+          83
+        ],
+        [
+          "Mastrángelo",
+          "ATA",
+          84
+        ],
+        [
+          "Salinas",
+          "ATA",
+          81
+        ],
+        [
+          "Felman",
+          "ATA",
+          79
+        ]
+      ]
+    },
+    {
+      "ano": 1977,
+      "tier": "D",
+      "n": "Campeón de la Libertadores",
+      "jog": [
+        [
+          "Gatti",
+          "GOL",
+          88
+        ],
+        [
+          "Pernía",
+          "LAT",
+          82
+        ],
+        [
+          "Tarantini",
+          "LAT",
+          81
+        ],
+        [
+          "Mouzo",
+          "ZAG",
+          82
+        ],
+        [
+          "Sá",
+          "ZAG",
+          84
+        ],
+        [
+          "Ribolzi",
+          "VOL",
+          79
+        ],
+        [
+          "Suñé",
+          "MEI",
+          82
+        ],
+        [
+          "Zanabria",
+          "MEI",
+          83
+        ],
+        [
+          "Mastrángelo",
+          "ATA",
+          84
+        ],
+        [
+          "Salinas",
+          "ATA",
+          81
+        ],
+        [
+          "Felman",
+          "ATA",
+          79
+        ]
+      ]
+    },
+    {
+      "ano": 1978,
+      "tier": "D",
+      "n": "Bicampeón de la Libertadores",
+      "jog": [
+        [
+          "Gatti",
+          "GOL",
+          88
+        ],
+        [
+          "Pernía",
+          "LAT",
+          82
+        ],
+        [
+          "Tarantini",
+          "LAT",
+          81
+        ],
+        [
+          "Mouzo",
+          "ZAG",
+          82
+        ],
+        [
+          "Sá",
+          "ZAG",
+          84
+        ],
+        [
+          "Ribolzi",
+          "VOL",
+          79
+        ],
+        [
+          "Suñé",
+          "MEI",
+          82
+        ],
+        [
+          "Zanabria",
+          "MEI",
+          83
+        ],
+        [
+          "Mastrángelo",
+          "ATA",
+          84
+        ],
+        [
+          "Salinas",
+          "ATA",
+          81
+        ],
+        [
+          "Felman",
+          "ATA",
+          79
+        ]
+      ]
+    },
+    {
+      "ano": 1981,
+      "tier": "D",
+      "n": "Campeón del Metropolitano",
+      "jog": [
+        [
+          "Gatti",
+          "GOL",
+          87
+        ],
+        [
+          "Pernía",
+          "LAT",
+          81
+        ],
+        [
+          "Mouzo",
+          "ZAG",
+          82
+        ],
+        [
+          "Ruggeri",
+          "ZAG",
+          82
+        ],
+        [
+          "Passucci",
+          "VOL",
+          80
+        ],
+        [
+          "Lemme",
+          "VOL",
+          78
+        ],
+        [
+          "Brindisi",
+          "MEI",
+          86
+        ],
+        [
+          "Maradona",
+          "MEI",
+          97
+        ],
+        [
+          "Perotti",
+          "ATA",
+          82
+        ],
+        [
+          "Escudero",
+          "ATA",
+          79
+        ],
+        [
+          "Gareca",
+          "ATA",
+          83
+        ]
+      ]
+    },
+    {
+      "ano": 1996,
+      "tier": "S",
+      "n": "La vuelta de Maradona",
+      "jog": [
+        [
+          "Navarro Montoya",
+          "GOL",
+          84
+        ],
+        [
+          "Toresani",
+          "LAT",
+          78
+        ],
+        [
+          "Soñora",
+          "LAT",
+          77
+        ],
+        [
+          "Fabbri",
+          "ZAG",
+          80
+        ],
+        [
+          "Mac Allister",
+          "ZAG",
+          80
+        ],
+        [
+          "Basualdo",
+          "VOL",
+          82
+        ],
+        [
+          "Latorre",
+          "MEI",
+          83
+        ],
+        [
+          "Márcico",
+          "MEI",
+          84
+        ],
+        [
+          "Maradona",
+          "MEI",
+          88
+        ],
+        [
+          "Caniggia",
+          "ATA",
+          86
+        ],
+        [
+          "Manteca Martínez",
+          "ATA",
+          82
+        ]
+      ]
+    },
+    {
+      "ano": 1998,
+      "tier": "D",
+      "n": "Campeón del Apertura invicto",
+      "jog": [
+        [
+          "Córdoba",
+          "GOL",
+          89
+        ],
+        [
+          "Ibarra",
+          "LAT",
+          84
+        ],
+        [
+          "Arruabarrena",
+          "LAT",
+          82
+        ],
+        [
+          "Samuel",
+          "ZAG",
+          88
+        ],
+        [
+          "Bermúdez",
+          "ZAG",
+          85
+        ],
+        [
+          "Serna",
+          "VOL",
+          84
+        ],
+        [
+          "Battaglia",
+          "VOL",
+          83
+        ],
+        [
+          "Riquelme",
+          "MEI",
+          93
+        ],
+        [
+          "Schelotto",
+          "ATA",
+          86
+        ],
+        [
+          "Palermo",
+          "ATA",
+          89
+        ],
+        [
+          "Toresani",
+          "LAT",
+          77
+        ]
+      ]
+    },
+    {
+      "ano": 2000,
+      "tier": "D",
+      "n": "Campeón de la Libertadores y del Mundo",
+      "jog": [
+        [
+          "Córdoba",
+          "GOL",
+          89
+        ],
+        [
+          "Ibarra",
+          "LAT",
+          84
+        ],
+        [
+          "Arruabarrena",
+          "LAT",
+          82
+        ],
+        [
+          "Samuel",
+          "ZAG",
+          88
+        ],
+        [
+          "Bermúdez",
+          "ZAG",
+          85
+        ],
+        [
+          "Serna",
+          "VOL",
+          84
+        ],
+        [
+          "Battaglia",
+          "VOL",
+          83
+        ],
+        [
+          "Riquelme",
+          "MEI",
+          95
+        ],
+        [
+          "Schelotto",
+          "ATA",
+          86
+        ],
+        [
+          "Palermo",
+          "ATA",
+          89
+        ],
+        [
+          "Marcelo Delgado",
+          "ATA",
+          85
+        ]
+      ]
+    },
+    {
+      "ano": 2001,
+      "tier": "D",
+      "n": "Bicampeón de la Libertadores",
+      "jog": [
+        [
+          "Córdoba",
+          "GOL",
+          89
+        ],
+        [
+          "Ibarra",
+          "LAT",
+          84
+        ],
+        [
+          "Arruabarrena",
+          "LAT",
+          82
+        ],
+        [
+          "Matellán",
+          "ZAG",
+          79
+        ],
+        [
+          "Bermúdez",
+          "ZAG",
+          85
+        ],
+        [
+          "Burdisso",
+          "ZAG",
+          79
+        ],
+        [
+          "Serna",
+          "VOL",
+          84
+        ],
+        [
+          "Battaglia",
+          "VOL",
+          83
+        ],
+        [
+          "Riquelme",
+          "MEI",
+          94
+        ],
+        [
+          "Schelotto",
+          "ATA",
+          85
+        ],
+        [
+          "Marcelo Delgado",
+          "ATA",
+          85
+        ]
+      ]
+    },
+    {
+      "ano": 2003,
+      "tier": "D",
+      "n": "Campeón de la Libertadores y del Mundo",
+      "jog": [
+        [
+          "Abbondanzieri",
+          "GOL",
+          86
+        ],
+        [
+          "Clemente Rodríguez",
+          "LAT",
+          80
+        ],
+        [
+          "Schiavi",
+          "ZAG",
+          83
+        ],
+        [
+          "Burdisso",
+          "ZAG",
+          82
+        ],
+        [
+          "Battaglia",
+          "VOL",
+          84
+        ],
+        [
+          "Cascini",
+          "VOL",
+          81
+        ],
+        [
+          "Villarreal",
+          "MEI",
+          80
+        ],
+        [
+          "Donnet",
+          "MEI",
+          80
+        ],
+        [
+          "Tevez",
+          "ATA",
+          91
+        ],
+        [
+          "Marcelo Delgado",
+          "ATA",
+          85
+        ],
+        [
+          "Iarley",
+          "ATA",
+          82
+        ]
+      ]
+    },
+    {
+      "ano": 2004,
+      "tier": "S",
+      "n": "Bicampeón de la Sudamericana",
+      "jog": [
+        [
+          "Abbondanzieri",
+          "GOL",
+          85
+        ],
+        [
+          "Clemente Rodríguez",
+          "LAT",
+          80
+        ],
+        [
+          "Krupoviesa",
+          "LAT",
+          78
+        ],
+        [
+          "Schiavi",
+          "ZAG",
+          83
+        ],
+        [
+          "Burdisso",
+          "ZAG",
+          81
+        ],
+        [
+          "Battaglia",
+          "VOL",
+          84
+        ],
+        [
+          "Cascini",
+          "VOL",
+          80
+        ],
+        [
+          "Donnet",
+          "MEI",
+          79
+        ],
+        [
+          "Tevez",
+          "ATA",
+          90
+        ],
+        [
+          "Marcelo Delgado",
+          "ATA",
+          84
+        ],
+        [
+          "Schelotto",
+          "ATA",
+          84
+        ]
+      ]
+    },
+    {
+      "ano": 2005,
+      "tier": "D",
+      "n": "Campeón del Torneo y la Sudamericana",
+      "jog": [
+        [
+          "Abbondanzieri",
+          "GOL",
+          86
+        ],
+        [
+          "Ibarra",
+          "LAT",
+          83
+        ],
+        [
+          "Clemente Rodríguez",
+          "LAT",
+          80
+        ],
+        [
+          "Krupoviesa",
+          "LAT",
+          78
+        ],
+        [
+          "Schiavi",
+          "ZAG",
+          83
+        ],
+        [
+          "Gago",
+          "VOL",
+          82
+        ],
+        [
+          "Battaglia",
+          "VOL",
+          84
+        ],
+        [
+          "Guillermo Marino",
+          "MEI",
+          80
+        ],
+        [
+          "Neri Cardozo",
+          "MEI",
+          78
+        ],
+        [
+          "Palermo",
+          "ATA",
+          87
+        ],
+        [
+          "Palacio",
+          "ATA",
+          86
+        ]
+      ]
+    },
+    {
+      "ano": 2006,
+      "tier": "S",
+      "n": "Campeón del Clausura y la Recopa",
+      "jog": [
+        [
+          "Abbondanzieri",
+          "GOL",
+          85
+        ],
+        [
+          "Ibarra",
+          "LAT",
+          83
+        ],
+        [
+          "Morel Rodríguez",
+          "LAT",
+          81
+        ],
+        [
+          "Krupoviesa",
+          "LAT",
+          78
+        ],
+        [
+          "Daniel Díaz",
+          "ZAG",
+          81
+        ],
+        [
+          "Julio César Cáceres",
+          "ZAG",
+          80
+        ],
+        [
+          "Battaglia",
+          "VOL",
+          84
+        ],
+        [
+          "Ledesma",
+          "VOL",
+          81
+        ],
+        [
+          "Schelotto",
+          "MEI",
+          84
+        ],
+        [
+          "Palermo",
+          "ATA",
+          87
+        ],
+        [
+          "Palacio",
+          "ATA",
+          86
+        ]
+      ]
+    },
+    {
+      "ano": 2007,
+      "tier": "D",
+      "n": "Campeón de la Libertadores",
+      "jog": [
+        [
+          "Caranta",
+          "GOL",
+          82
+        ],
+        [
+          "Ibarra",
+          "LAT",
+          83
+        ],
+        [
+          "Morel Rodríguez",
+          "LAT",
+          81
+        ],
+        [
+          "Daniel Díaz",
+          "ZAG",
+          82
+        ],
+        [
+          "Julio César Cáceres",
+          "ZAG",
+          81
+        ],
+        [
+          "Battaglia",
+          "VOL",
+          84
+        ],
+        [
+          "Ledesma",
+          "VOL",
+          82
+        ],
+        [
+          "Banega",
+          "VOL",
+          80
+        ],
+        [
+          "Riquelme",
+          "MEI",
+          94
+        ],
+        [
+          "Palermo",
+          "ATA",
+          86
+        ],
+        [
+          "Palacio",
+          "ATA",
+          86
+        ]
+      ]
+    },
+    {
+      "ano": 2011,
+      "tier": "D",
+      "n": "Campeón del Apertura invicto",
+      "jog": [
+        [
+          "Orión",
+          "GOL",
+          83
+        ],
+        [
+          "Clemente Rodríguez",
+          "LAT",
+          79
+        ],
+        [
+          "Insaurralde",
+          "ZAG",
+          78
+        ],
+        [
+          "Schiavi",
+          "ZAG",
+          82
+        ],
+        [
+          "Roncaglia",
+          "ZAG",
+          79
+        ],
+        [
+          "Somoza",
+          "VOL",
+          79
+        ],
+        [
+          "Erviti",
+          "MEI",
+          80
+        ],
+        [
+          "Cristian Chávez",
+          "MEI",
+          77
+        ],
+        [
+          "Riquelme",
+          "MEI",
+          93
+        ],
+        [
+          "Mouche",
+          "ATA",
+          78
+        ],
+        [
+          "Viatri",
+          "ATA",
+          78
+        ]
+      ]
+    },
+    {
+      "ano": 2012,
+      "tier": "R",
+      "n": "Subcampeón de la Libertadores",
+      "jog": [
+        [
+          "Orión",
+          "GOL",
+          83
+        ],
+        [
+          "Clemente Rodríguez",
+          "LAT",
+          79
+        ],
+        [
+          "Sánchez Miño",
+          "LAT",
+          77
+        ],
+        [
+          "Roncaglia",
+          "ZAG",
+          79
+        ],
+        [
+          "Schiavi",
+          "ZAG",
+          82
+        ],
+        [
+          "Somoza",
+          "VOL",
+          79
+        ],
+        [
+          "Ledesma",
+          "VOL",
+          80
+        ],
+        [
+          "Erviti",
+          "MEI",
+          80
+        ],
+        [
+          "Riquelme",
+          "MEI",
+          94
+        ],
+        [
+          "Santiago Silva",
+          "ATA",
+          80
+        ],
+        [
+          "Viatri",
+          "ATA",
+          78
+        ]
+      ]
+    },
+    {
+      "ano": 2015,
+      "tier": "D",
+      "n": "Campeón del Torneo",
+      "jog": [
+        [
+          "Orión",
+          "GOL",
+          82
+        ],
+        [
+          "Peruzzi",
+          "LAT",
+          79
+        ],
+        [
+          "Jonathan Silva",
+          "LAT",
+          78
+        ],
+        [
+          "Daniel Díaz",
+          "ZAG",
+          80
+        ],
+        [
+          "Magallán",
+          "ZAG",
+          77
+        ],
+        [
+          "Gago",
+          "VOL",
+          84
+        ],
+        [
+          "Bentancur",
+          "VOL",
+          80
+        ],
+        [
+          "Pablo Pérez",
+          "MEI",
+          81
+        ],
+        [
+          "Lodeiro",
+          "MEI",
+          82
+        ],
+        [
+          "Tevez",
+          "ATA",
+          86
+        ],
+        [
+          "Calleri",
+          "ATA",
+          80
+        ]
+      ]
+    },
+    {
+      "ano": 2018,
+      "tier": "R",
+      "n": "Subcampeón de la Libertadores (Madrid)",
+      "jog": [
+        [
+          "Rossi",
+          "GOL",
+          84
+        ],
+        [
+          "Buffarini",
+          "LAT",
+          79
+        ],
+        [
+          "Fabra",
+          "LAT",
+          80
+        ],
+        [
+          "Izquierdoz",
+          "ZAG",
+          81
+        ],
+        [
+          "Magallán",
+          "ZAG",
+          78
+        ],
+        [
+          "Gago",
+          "VOL",
+          84
+        ],
+        [
+          "Nández",
+          "VOL",
+          83
+        ],
+        [
+          "Pablo Pérez",
+          "MEI",
+          82
+        ],
+        [
+          "Pavón",
+          "ATA",
+          84
+        ],
+        [
+          "Benedetto",
+          "ATA",
+          85
+        ],
+        [
+          "Tevez",
+          "ATA",
+          85
+        ]
+      ]
+    },
+    {
+      "ano": 2020,
+      "tier": "D",
+      "n": "Campeón de la Superliga",
+      "jog": [
+        [
+          "Andrada",
+          "GOL",
+          82
+        ],
+        [
+          "Buffarini",
+          "LAT",
+          78
+        ],
+        [
+          "Fabra",
+          "LAT",
+          80
+        ],
+        [
+          "Izquierdoz",
+          "ZAG",
+          81
+        ],
+        [
+          "Lisandro López",
+          "ZAG",
+          80
+        ],
+        [
+          "Pol Fernández",
+          "VOL",
+          80
+        ],
+        [
+          "Capaldo",
+          "VOL",
+          78
+        ],
+        [
+          "Salvio",
+          "MEI",
+          83
+        ],
+        [
+          "Mauro Zárate",
+          "ATA",
+          81
+        ],
+        [
+          "Tevez",
+          "ATA",
+          85
+        ],
+        [
+          "Soldano",
+          "ATA",
+          78
+        ]
+      ]
+    }
+  ]
+}

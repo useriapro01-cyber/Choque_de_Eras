@@ -1,0 +1,258 @@
+{
+  "paises": {
+    "BR": "🇧🇷",
+    "AR": "🇦🇷",
+    "UY": "🇺🇾",
+    "PY": "🇵🇾",
+    "CL": "🇨🇱",
+    "CO": "🇨🇴",
+    "EC": "🇪🇨",
+    "PE": "🇵🇪",
+    "BO": "🇧🇴",
+    "VE": "🇻🇪"
+  },
+  "clubes": [
+    {
+      "nome": "Santos",
+      "pais": "BR",
+      "coracao": true,
+      "cor": "#E8E8E8"
+    },
+    {
+      "nome": "Flamengo",
+      "pais": "BR",
+      "coracao": true,
+      "cor": "#C52B2B"
+    },
+    {
+      "nome": "Grêmio",
+      "pais": "BR"
+    },
+    {
+      "nome": "Cruzeiro",
+      "pais": "BR"
+    },
+    {
+      "nome": "São Paulo",
+      "pais": "BR"
+    },
+    {
+      "nome": "Vasco",
+      "pais": "BR"
+    },
+    {
+      "nome": "Palmeiras",
+      "pais": "BR",
+      "coracao": true,
+      "cor": "#1E7A46"
+    },
+    {
+      "nome": "Internacional",
+      "pais": "BR"
+    },
+    {
+      "nome": "Corinthians",
+      "pais": "BR"
+    },
+    {
+      "nome": "Atlético-MG",
+      "pais": "BR"
+    },
+    {
+      "nome": "Fluminense",
+      "pais": "BR"
+    },
+    {
+      "nome": "Botafogo",
+      "pais": "BR"
+    },
+    {
+      "nome": "Peñarol",
+      "pais": "UY"
+    },
+    {
+      "nome": "Nacional",
+      "pais": "UY"
+    },
+    {
+      "nome": "Danubio",
+      "pais": "UY"
+    },
+    {
+      "nome": "Defensor",
+      "pais": "UY"
+    },
+    {
+      "nome": "Wanderers",
+      "pais": "UY"
+    },
+    {
+      "nome": "Racing",
+      "pais": "AR"
+    },
+    {
+      "nome": "Estudiantes",
+      "pais": "AR"
+    },
+    {
+      "nome": "Independiente",
+      "pais": "AR"
+    },
+    {
+      "nome": "Boca Juniors",
+      "pais": "AR",
+      "coracao": true,
+      "cor": "#F2B705"
+    },
+    {
+      "nome": "River Plate",
+      "pais": "AR",
+      "coracao": true,
+      "cor": "#E63946"
+    },
+    {
+      "nome": "Argentinos Juniors",
+      "pais": "AR"
+    },
+    {
+      "nome": "Vélez",
+      "pais": "AR"
+    },
+    {
+      "nome": "San Lorenzo",
+      "pais": "AR"
+    },
+    {
+      "nome": "Newell's",
+      "pais": "AR"
+    },
+    {
+      "nome": "Olimpia",
+      "pais": "PY"
+    },
+    {
+      "nome": "Cerro Porteño",
+      "pais": "PY"
+    },
+    {
+      "nome": "Guaraní",
+      "pais": "PY"
+    },
+    {
+      "nome": "Colo-Colo",
+      "pais": "CL"
+    },
+    {
+      "nome": "Cobreloa",
+      "pais": "CL"
+    },
+    {
+      "nome": "U. Católica",
+      "pais": "CL"
+    },
+    {
+      "nome": "Palestino",
+      "pais": "CL"
+    },
+    {
+      "nome": "Atlético Nacional",
+      "pais": "CO"
+    },
+    {
+      "nome": "Once Caldas",
+      "pais": "CO"
+    },
+    {
+      "nome": "América de Cali",
+      "pais": "CO"
+    },
+    {
+      "nome": "Millonarios",
+      "pais": "CO"
+    },
+    {
+      "nome": "Junior",
+      "pais": "CO"
+    },
+    {
+      "nome": "LDU",
+      "pais": "EC"
+    },
+    {
+      "nome": "Barcelona SC",
+      "pais": "EC"
+    },
+    {
+      "nome": "Emelec",
+      "pais": "EC"
+    },
+    {
+      "nome": "El Nacional",
+      "pais": "EC"
+    },
+    {
+      "nome": "Sporting Cristal",
+      "pais": "PE"
+    },
+    {
+      "nome": "Alianza Lima",
+      "pais": "PE"
+    },
+    {
+      "nome": "Universitario",
+      "pais": "PE"
+    },
+    {
+      "nome": "Bolívar",
+      "pais": "BO"
+    },
+    {
+      "nome": "The Strongest",
+      "pais": "BO"
+    },
+    {
+      "nome": "Oriente Petrolero",
+      "pais": "BO"
+    },
+    {
+      "nome": "Blooming",
+      "pais": "BO"
+    },
+    {
+      "nome": "Aurora",
+      "pais": "BO"
+    },
+    {
+      "nome": "Always Ready",
+      "pais": "BO"
+    },
+    {
+      "nome": "Deportivo Táchira",
+      "pais": "VE"
+    },
+    {
+      "nome": "Portuguesa FC",
+      "pais": "VE"
+    },
+    {
+      "nome": "Caracas",
+      "pais": "VE"
+    },
+    {
+      "nome": "Estudiantes de Mérida",
+      "pais": "VE"
+    },
+    {
+      "nome": "Zamora",
+      "pais": "VE"
+    },
+    {
+      "nome": "Mineros",
+      "pais": "VE"
+    },
+    {
+      "nome": "Deportivo Galicia",
+      "pais": "VE"
+    }
+  ]
+}
