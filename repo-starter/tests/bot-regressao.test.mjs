@@ -73,7 +73,7 @@ function novoAcc() {
   return { campanhas: 0, erros: [], violSuspensao: [], violAdversario: [], violMercado: [], tier: {} };
 }
 
-test('regressão por bot contra dist/choque-de-eras.html', () => {
+test('regressão por bot contra o dist gerado', () => {
   const api = carregarMotor();
   const acc = novoAcc();
   const clubes = api.CORA_CLUBES.map(([nome]) => nome);

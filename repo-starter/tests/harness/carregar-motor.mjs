@@ -21,7 +21,7 @@ function stubEl() {
 }
 
 export function carregarMotor({ dist } = {}) {
-  const distPath = dist || path.join(ROOT, 'dist', 'choque-de-eras.html');
+  const distPath = dist || path.join(ROOT, 'dist', 'index.html');
   const html = fs.readFileSync(distPath, 'utf8');
   const m = html.match(/<script>\n?"use strict";([\s\S]*?)<\/script>/);
   if (!m) throw new Error('bloco <script> não encontrado no dist');
