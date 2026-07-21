@@ -1,0 +1,19 @@
+{
+  "name": "Choque de Eras",
+  "short_name": "Choque",
+  "description": "Manager de futebol bilíngue: escolha o clube da sua vida, monte o time eterno através das eras e dispute a Campanha Imortal contra os gigantes da América.",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#08150E",
+  "theme_color": "#08150E",
+  "categories": ["games", "sports", "entertainment"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
