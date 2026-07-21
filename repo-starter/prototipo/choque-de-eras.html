@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CHOQUE DE ERAS — o passado em campo, o futuro na prancheta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --grama:#0A2117; --grama2:#0D2A1C; --grama3:#123723;
+  --linha:rgba(226,247,235,.14);
+  --creme:#F6FBF8; --creme2:#E9F3EC; --tinta:#0F241A; --tinta2:#48604F;
+  --ouro:#E4B23A; --ouro2:#B98D24;
+  --gelo:#EAFBF3; --gelo2:#9FC7B4;
+  --verm:#D8504A; --amar:#E9C94C; --azul:#5B8DB8;
+  --verde:#29C46B; --verde2:#189B52;
+  --placar:#FFC94D; --placarbg:#081008;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Archivo',system-ui,-apple-system,sans-serif;
+  background:
+    radial-gradient(ellipse 130% 55% at 50% -14%, rgba(228,178,58,.10), transparent 58%),
+    radial-gradient(ellipse 120% 55% at 50% 116%, rgba(41,196,107,.10), transparent 60%),
+    linear-gradient(180deg,#08170F 0%,#0A2016 50%,#081308 100%);
+  color:var(--gelo); min-height:100vh; padding-bottom:60px;
+}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(circle 130px at 50% 46%, transparent 126px, var(--linha) 127px, var(--linha) 129px, transparent 130px),
+    linear-gradient(0deg, transparent 0%, transparent calc(46% - 1px), var(--linha) calc(46% - 1px), var(--linha) calc(46% + 1px), transparent calc(46% + 1px));
+  opacity:.5;
+}
+#app{position:relative;z-index:1;max-width:560px;margin:0 auto;padding:14px 14px 40px}
+h1,h2,h3,.disp{font-family:'Archivo Black','Arial Black',sans-serif;font-weight:400;letter-spacing:.5px}
+.top{display:flex;align-items:center;justify-content:space-between;margin:4px 0 14px}
+.logo{font-family:'Archivo Black',sans-serif;font-size:1.02rem;color:var(--gelo);cursor:pointer;line-height:1.15;user-select:none;display:flex;align-items:flex-start;gap:7px;letter-spacing:.3px;max-width:66%}
+.logo .mark{flex:none;margin-top:1px;filter:drop-shadow(0 0 5px rgba(228,178,58,.35))}
+.logo .txt{display:flex;flex-direction:column;min-width:0}
+.logo span.wm{transform:skewX(-6deg);display:inline-block;width:fit-content;border-bottom:3px solid var(--ouro);padding-bottom:3px;white-space:normal}
+.logo b{color:var(--ouro)}
+.logo small{display:block;font-family:'Archivo',sans-serif;font-size:.6rem;letter-spacing:1.6px;color:var(--gelo2);font-weight:600;margin-top:4px;line-height:1.3}
+.pill{font-size:.72rem;font-weight:700;background:rgba(0,0,0,.3);border:1px solid var(--linha);border-radius:99px;padding:6px 12px;color:var(--gelo2);cursor:pointer}
+.pill b{color:var(--ouro)}
+.panel{background:rgba(7,22,12,.55);border:1px solid var(--linha);border-radius:var(--r);padding:16px;margin-bottom:14px;backdrop-filter:blur(2px)}
+.pane{background:linear-gradient(180deg,var(--creme),var(--creme2));color:var(--tinta);border-radius:var(--r);padding:16px;margin-bottom:14px;border:1px solid rgba(0,0,0,.18);box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.pane h3{margin-bottom:6px}
+.eyebrow{font-size:.66rem;letter-spacing:2.4px;font-weight:800;text-transform:uppercase;color:var(--verde);margin-bottom:6px}
+.pane .eyebrow{color:var(--ouro2)}
+.hero h1{font-size:2.1rem;line-height:1.05;margin:6px 0 10px}
+.hero p{color:var(--gelo2);font-size:.95rem;line-height:1.5}
+.btn{display:block;width:100%;text-align:center;font-family:'Archivo Black',sans-serif;font-size:1rem;letter-spacing:.6px;padding:15px 16px;border-radius:12px;border:0;cursor:pointer;margin-top:10px;transition:transform .06s ease}
+.btn:active{transform:scale(.98)}
+.btn:focus-visible,.pill:focus-visible,.mini:focus-visible{outline:3px solid var(--ouro);outline-offset:2px}
+.btn.gold{background:linear-gradient(180deg,#F3C766,var(--ouro2));color:#241a05;box-shadow:0 4px 0 #7a5c15}
+.btn.green{background:linear-gradient(180deg,#1B3327,#0E2118);color:var(--gelo);box-shadow:0 4px 0 #061009;border:1px solid rgba(234,251,243,.14)}
+.btn.ghost{background:transparent;border:1.5px solid var(--linha);color:var(--gelo2);box-shadow:none;font-family:'Archivo',sans-serif;font-weight:700}
+.btn.red{background:linear-gradient(180deg,#c9524c,#a03a35);color:#fff;box-shadow:0 4px 0 #6d221e}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.mini{font-family:'Archivo',sans-serif;font-weight:800;font-size:.72rem;padding:7px 10px;border-radius:9px;border:0;cursor:pointer;letter-spacing:.4px}
+.mini.gold{background:var(--ouro);color:#241a05}
+.mini.dark{background:#183, background:#1a4a2c;color:var(--gelo);border:1px solid var(--linha)}
+.mini.red{background:var(--verm);color:#fff}
+.mini[disabled]{opacity:.4;cursor:not-allowed}
+.row{display:flex;gap:8px;align-items:center}
+.row.wrap{flex-wrap:wrap}
+.spread{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.muted{color:var(--gelo2);font-size:.82rem}
+.pane .muted{color:var(--tinta2)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+/* ---------- carteira / status bar ---------- */
+.hud{display:flex;gap:8px;margin-bottom:12px}
+.hud .box{flex:1;background:rgba(7,22,12,.65);border:1px solid var(--linha);border-radius:11px;padding:9px 10px;text-align:center}
+.hud .box small{display:block;font-size:.6rem;letter-spacing:1.6px;color:var(--gelo2);font-weight:700;text-transform:uppercase}
+.hud .box b{font-family:'Archivo Black',sans-serif;font-size:1.02rem;color:var(--gelo)}
+.hud .box b.gold{color:var(--ouro)}
+/* ---------- campo / escalação ---------- */
+.campo{background:
+  radial-gradient(circle 84px at 50% 0, transparent 82px, rgba(255,255,255,.42) 83px, transparent 85px),
+  repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 30px,transparent 30px 60px),
+  linear-gradient(180deg,#1A9C51,#12793D 70%,#0E6332);
+  border:2px solid rgba(255,255,255,.28);border-radius:var(--r);padding:14px 8px 10px;margin:10px 0;
+  box-shadow:inset 0 14px 34px rgba(0,0,0,.28)}
+.linha-t{display:flex;justify-content:center;gap:6px;margin-bottom:8px}
+.slot{width:76px;min-height:86px;background:linear-gradient(180deg,var(--creme),var(--creme2));border-radius:9px;border:1px solid rgba(0,0,0,.25);
+  padding:5px 4px;text-align:center;color:var(--tinta);cursor:pointer;position:relative;box-shadow:0 2px 0 rgba(0,0,0,.3);font-size:.68rem}
+.slot.vazio{background:rgba(0,0,0,.25);border:1.5px dashed var(--linha);color:var(--gelo2);box-shadow:none}
+.slot.sel{outline:3px solid var(--ouro)}
+.slot .pos{font-size:.56rem;font-weight:800;letter-spacing:1px;color:var(--tinta2)}
+.slot.vazio .pos{color:var(--gelo2)}
+.slot .nome{font-weight:800;line-height:1.1;margin:2px 0;font-size:.7rem;word-break:break-word}
+.slot .forca{font-family:'Archivo Black',sans-serif;font-size:1rem}
+.slot .forca.boa{color:#1c6b38}.slot .forca.media{color:#9a7a10}.slot .forca.ruim{color:#a33}
+.slot .tag{position:absolute;top:-7px;right:-5px;font-size:.75rem}
+.slot .lenda{position:absolute;top:-7px;left:-5px;font-size:.72rem}
+.slot .sub{font-size:.56rem;color:var(--tinta2)}
+/* ---------- figurinha mercado ---------- */
+.figs{display:grid;grid-template-columns:repeat(auto-fill,minmax(102px,1fr));gap:8px;margin-top:8px}
+.fig{background:linear-gradient(180deg,var(--creme),var(--creme2));border-radius:10px;border:1px solid rgba(0,0,0,.22);padding:8px 7px;color:var(--tinta);text-align:center;position:relative;box-shadow:0 2px 0 rgba(0,0,0,.28)}
+.fig.lend{background:linear-gradient(180deg,#f7e3ae,#ecc978);border-color:#a97f1f}
+.fig .p{font-size:.58rem;font-weight:800;letter-spacing:1px;color:var(--tinta2)}
+.fig .n{font-weight:800;font-size:.74rem;line-height:1.12;margin:3px 0;min-height:2.1em;display:flex;align-items:center;justify-content:center}
+.fig .f{font-family:'Archivo Black',sans-serif;font-size:1.25rem}
+.fig .pr{font-size:.66rem;font-weight:700;color:var(--tinta2);margin:2px 0 5px}
+.fig .star{position:absolute;top:4px;right:5px;font-size:.7rem}
+.sqhead{display:flex;align-items:center;gap:8px;margin:14px 0 2px}
+.sqhead .band{font-family:'Archivo Black',sans-serif;font-size:.92rem;color:var(--gelo)}
+.sqhead .yr{font-size:.7rem;font-weight:800;color:#231a05;background:var(--ouro);border-radius:6px;padding:2px 7px}
+/* ---------- placar / simulação ---------- */
+.placar{background:var(--placarbg);border:3px solid #23481f;border-radius:12px;padding:14px 10px;text-align:center;
+  font-family:ui-monospace,'Courier New',monospace;color:var(--placar);text-shadow:0 0 10px rgba(255,201,77,.45);margin-bottom:10px}
+.placar .times{display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:.72rem;letter-spacing:1px;font-weight:700}
+.placar .gols{font-size:2.6rem;letter-spacing:4px;line-height:1.15;font-weight:700}
+.placar .min{font-size:.8rem;letter-spacing:3px;color:#9fd88f;text-shadow:none}
+.barra{height:6px;background:#123312;border-radius:99px;overflow:hidden;margin-top:8px}
+.barra i{display:block;height:100%;background:var(--placar);width:0%}
+.feed{background:rgba(7,22,12,.6);border:1px solid var(--linha);border-radius:var(--r);padding:10px 12px;min-height:150px;max-height:260px;overflow-y:auto}
+.feed p{font-size:.84rem;padding:6px 2px;border-bottom:1px dashed rgba(237,245,238,.09);line-height:1.4}
+.feed p b{color:var(--ouro)}
+.feed p.gol{color:#ffe9b0;font-weight:700}
+.feed p.contra{color:#f0a29e;font-weight:700}
+.feed p.fim{color:var(--ouro);font-weight:800}
+.speed{display:flex;gap:8px;margin-top:10px}
+.speed .mini{flex:1;padding:10px}
+.speed .mini.on{background:var(--ouro);color:#231a05}
+/* ---------- tabelas ---------- */
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+th{font-size:.62rem;letter-spacing:1.6px;text-transform:uppercase;color:var(--gelo2);text-align:left;padding:6px 6px;border-bottom:1px solid var(--linha)}
+td{padding:8px 6px;border-bottom:1px dashed rgba(237,245,238,.09)}
+tr.eu td{color:var(--ouro);font-weight:800}
+.pane table th{color:var(--tinta2);border-color:rgba(0,0,0,.2)}
+.pane table td{border-color:rgba(0,0,0,.12)}
+/* ---------- misc ---------- */
+.badge{display:inline-block;font-size:.62rem;font-weight:800;letter-spacing:1px;border-radius:6px;padding:3px 8px;text-transform:uppercase}
+.badge.ouro{background:var(--ouro);color:#231a05}
+.badge.verm{background:var(--verm);color:#fff}
+.badge.verde{background:#2e7a4b;color:#eafff0}
+.badge.cinza{background:rgba(255,255,255,.12);color:var(--gelo2)}
+.resline{display:flex;gap:5px;font-size:1.05rem;letter-spacing:2px;margin:8px 0}
+input[type=text]{width:100%;font-family:'Archivo',sans-serif;font-weight:700;font-size:1rem;padding:13px 14px;border-radius:11px;border:1.5px solid var(--linha);background:rgba(0,0,0,.3);color:var(--gelo);text-transform:none}
+input[type=text]::placeholder{color:rgba(237,245,238,.35)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--creme);color:var(--tinta);font-weight:800;font-size:.82rem;
+  padding:11px 18px;border-radius:99px;box-shadow:0 6px 20px rgba(0,0,0,.5);z-index:50;opacity:0;transition:opacity .25s;pointer-events:none;max-width:90%;text-align:center}
+.toast.show{opacity:1}
+.evento{border:2px solid var(--ouro);border-radius:var(--r);padding:14px;background:rgba(233,180,76,.08);margin-bottom:14px}
+.evento h3{color:var(--ouro);font-size:1rem;margin-bottom:6px}
+.evento p{font-size:.88rem;color:var(--gelo);line-height:1.45}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.chip{font-size:.76rem;font-weight:800;padding:9px 13px;border-radius:99px;border:1.5px solid var(--linha);background:transparent;color:var(--gelo2);cursor:pointer}
+.chip.on{background:var(--gelo);color:var(--tinta);border-color:var(--gelo)}
+.center{text-align:center}
+.tro{font-size:3.2rem;line-height:1;margin:4px 0}
+.score-big{font-family:'Archivo Black',sans-serif;font-size:2.4rem;color:var(--ouro)}
+.split{border-top:1px dashed rgba(0,0,0,.25);margin:10px 0;padding-top:10px}
+.footer{margin-top:26px;text-align:center;color:rgba(237,245,238,.4);font-size:.68rem;letter-spacing:1px}
+.shake{animation:shk .5s ease}
+@keyframes shk{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.pulse{animation:pls 1.1s ease infinite}
+@keyframes pls{0%,100%{opacity:1}50%{opacity:.55}}
+@media (prefers-reduced-motion:reduce){.shake,.pulse{animation:none}.btn{transition:none}}
+@media (max-width:430px){
+  .slot{width:66px;min-height:80px}
+  .hero h1{font-size:1.75rem}
+}
+.slot.alvo{outline:3px dashed var(--ouro);animation:pls 1.1s ease infinite;cursor:pointer}
+.slot .tagb{position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);font-size:.5rem;font-weight:800;background:#5B8DB8;color:#fff;border-radius:5px;padding:1px 5px;letter-spacing:.5px}
+/* ---- tiers de era: relicário ---- */
+.badgeTier{font-family:'Archivo Black',sans-serif;font-size:.58rem;letter-spacing:1.4px;padding:4px 10px;border-radius:5px;display:inline-block;margin-left:6px}
+.badgeTier.D{background:linear-gradient(180deg,#F5CB6D,#C08F2A);color:#241a04;box-shadow:0 0 14px rgba(232,178,63,.5)}
+.badgeTier.S{background:#3E5C76;color:#EAF2F8}
+.badgeTier.R{background:#45454F;color:#C9C5D4}
+.panel.tierD{border-color:rgba(232,178,63,.55);box-shadow:0 0 26px rgba(232,178,63,.14), inset 0 0 46px rgba(232,178,63,.05);animation:altar 2.4s ease infinite}
+@keyframes altar{0%,100%{box-shadow:0 0 22px rgba(232,178,63,.12), inset 0 0 46px rgba(232,178,63,.05)}50%{box-shadow:0 0 34px rgba(232,178,63,.24), inset 0 0 46px rgba(232,178,63,.08)}}
+.panel.tierR{filter:saturate(.72)}
+.panel.tierR .fig{background:linear-gradient(180deg,#DDE2E4,#C6CDD2)}
+.fig.lend{box-shadow:0 2px 0 rgba(0,0,0,.28),0 0 16px rgba(232,178,63,.4)}
+.fig{border-radius:10px}
+/* ---- setup: escolha do clube ---- */
+.clubchip{display:flex;align-items:center;gap:10px;width:100%;text-align:left;font-family:'Archivo',sans-serif;font-weight:800;font-size:.9rem;
+  padding:12px 14px;border-radius:11px;border:1.5px solid var(--linha);background:rgba(0,0,0,.28);color:var(--gelo);cursor:pointer;margin-top:8px}
+.clubchip .cor{width:14px;height:34px;border-radius:4px;flex:none}
+.clubchip.on{border-color:var(--verde);background:rgba(41,196,107,.10);outline:2px solid var(--verde)}
+.clubchip small{display:block;font-weight:600;font-size:.68rem;color:var(--gelo2)}
+@media (prefers-reduced-motion:reduce){.panel.tierD{animation:none}}
+/* ---- tela de carregamento ---- */
+.loadscreen{min-height:80vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:10px;padding:0 30px}
+.loadscreen .mark{width:52px;height:52px}
+.loadwm{font-family:'Archivo Black',sans-serif;font-size:1.5rem;letter-spacing:.5px;transform:skewX(-6deg);margin-top:6px}
+.loadwm b{color:var(--ouro)}
+.loadtag{font-size:.68rem;letter-spacing:2.4px;font-weight:800;color:var(--gelo2);margin-bottom:14px}
+.loadbar{width:180px;height:5px;border-radius:3px;background:rgba(234,251,243,.14);overflow:hidden;margin-bottom:14px}
+.loadbar i{display:block;height:100%;width:40%;background:linear-gradient(90deg,var(--ouro2),var(--ouro));border-radius:3px;animation:loadsweep 1.1s ease-in-out infinite}
+@keyframes loadsweep{0%{transform:translateX(-120%)}100%{transform:translateX(360%)}}
+.loadfrase{font-size:.82rem;color:var(--gelo2);max-width:280px}
+@media (prefers-reduced-motion:reduce){.loadbar i{animation:none;width:70%}}
+</style>
+</head>
+<body>
+<div id="app" role="main"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+"use strict";
+/* ================= IDIOMAS (PT-BR / ES) ================= */
+const I18N={
+pt:{
+ tag:"O MANAGER DA AMÉRICA",tec_label:"Técnico(a):",card:"carteirinha 🪪",
+ antes:"Antes de apitar",comoChamar:"Como a torcida vai te chamar?",nickPh:"Apelido de técnico(a)",assinar:"Assinar a súmula",
+ hero_eb:"7 jogos · o dado comanda o mercado",
+ hero_h:'Monte a lenda.<br>Dome o dado.<br><span style="color:var(--ouro)">Glória Eterna.</span>',
+ hero_p:"Seu clube de bairro caiu no torneio dos gigantes da América, contra os times que fizeram história no continente. Contrate quantos craques o caixa aguentar — mas cada contratação <b>embaralha o clube de referência</b> do mercado. Administre base, banco, lesões e vaidades atrás da <b>Campanha Imortal</b>: 7 vitórias, nenhum gol sofrido.",
+ b_livre:"⚽ Campanha livre",b_dia:"📅 Desafio do dia",jaPontuado:"· já pontuado ✔",b_duelo:"🤝 Duelo entre amigos",b_rank:"🏅 Ranking do dia",b_ajuda:"📖 Como jogar",
+ sem_storage:"⚠️ Sem conexão com o armazenamento: rankings e perfil não vão persistir nesta sessão.",
+ footer:"GLÓRIA ETERNA · protótipo",toast_nick:"Digita um apelido aí, professor!",
+ daily_replay:"Você já pontuou hoje. Jogar de novo só por diversão (não conta no ranking)?",
+ duelo_eb:"Duelo entre amigos",duelo_h:"Mesma sorte, gestão diferente",
+ duelo_p:"Todo mundo na sala começa com a mesma base, o mesmo mercado e os mesmos adversários. Vence quem gerenciar melhor. O placar da sala é público para quem tiver o código.",
+ b_criarsala:"Criar sala nova",cod_ph:"CÓDIGO da sala (ex: XKQZP)",b_jogarsala:"Jogar nessa sala",b_versala:"Só ver o placar",
+ toast_sala:"Sala {c} criada! Compartilhe o código.",toast_cod5:"Código tem 5 letras",
+ abandonar:"✖ abandonar",voltar:"← voltar",confirm_ab:"Abandonar a campanha atual?",
+ h_caixa:"Caixa",h_fase:"Fase",h_atq:"Ataque",h_def:"Defesa",h_moral:"Moral",
+ fase_0:"Grupo · Jogo 1",fase_1:"Grupo · Jogo 2",fase_2:"Grupo · Jogo 3",fase_3:"Oitavas de final",fase_4:"Quartas de final",fase_5:"Semifinal",fase_6:"GRANDE FINAL",
+ grupo_regra:"Fase de grupos: precisa somar 4+ pontos em 3 jogos.",mata_regra:"Mata-mata: perdeu, tá fora.",media_xi:"Média do seu XI",
+ form_lbl:"Formação",estilo_lbl:"Estilo",st_of:"Ofensivo",st_eq:"Equilibrado",st_re:"Retranca",
+ b_bola:"🎙️ Bola rolando!",
+ mercado_eb:"Mercado — janela {n}",mercado_note:"🎰 Cada contratação sorteia um novo clube de referência.",
+ b_rolar:"🎲 Rolar",gratis:"(grátis)",pago:"($8M)",
+ p_GOL:"GOL",p_LAT:"LAT",p_ZAG:"ZAG",p_VOL:"VOL",p_MEI:"MEI",p_ATA:"ATA",
+ vaga:"vaga",buraco:"buraco",aqui:"jogaria aqui",fora_nj:"fora {n}j",base_tag:"base",
+ base_h:"La cantera — nossa base",base_badge:"11 crias",cria:"cria do clube",banco_h:"Banco de contratados",
+ b_escalar:"Escalar",b_contratar:"Contratar",no_elenco:"no elenco",em_campo:"em campo",dm:"DM {n}j",
+ b_mover:"Mover",b_banco:"Banco",b_vender:"Vender {v}",fechar:"fechar",
+ improv_nota:"⚠ improvisado: joga com {p}",
+ pend_mover:"Mover {n}",pend_escalar:"Escalar {n} ({pos} {f})",
+ pend_p:"Toque na posição do campo onde ele vai jogar. Fora de posição a força cai (vizinha −7, longe −13, gol −20).",
+ b_cancelar:"Cancelar",
+ t_ja_elenco:"{n} já está no seu elenco",t_sem_caixa:"Caixa insuficiente: {n} custa {v}",t_fora:"{n} está fora por {k} jogo(s)",
+ t_dm:"{n} está no departamento médico",t_ja_campo:"{n} já está em campo",
+ t_contratado:"{n} contratado! Titular como {r}",t_improv:" (improvisado)",t_vendido:"{n} vendido por {v}",
+ t_base_nv:"Cria da base não se vende. É patrimônio do clube!",t_jovem:"Jovem da base volta pro grupo sozinho — use Mover",
+ t_rolar_caixa:"Caixa insuficiente pra rolar de novo ($8M)",
+ prorroga:"· prorrogação",fim_lbl:"FIM",pen_lbl:"PÊN",b_continuar:"Continuar →",
+ v_radio:"▶ Rádio",v_rapido:"⏩ Rápido",v_direto:"⏭ Direto pro fim",aguarda:"A bola vai rolar...",
+ res_v:"VITÓRIA!",res_e:"Empate...",res_d:"Derrota",gols_lbl:"Gols",premio_lbl:"Premiação: +{v}",cs_badge:"VALLA INVICTA +10M",
+ b_janela:"🛒 Abrir janela de transferências",b_aceitar:"Aceitar",b_recusar:"Recusar",b_seguir:"Seguir o baile",
+ perf_t:"👑 CAMPANHA IMORTAL!",perf_s:"Campeão da América invicto e sem sofrer UM gol. Glória Eterna de verdade.",
+ camp_t:"🏆 CAMPEÃO DA AMÉRICA!",camp_s:"A taça é sua — mas a Campanha Imortal ainda te espera.",
+ elim_t:"📉 Eliminado",elim_grupo:"Só {p} pts no grupo (precisava de 4). A diretoria quer conversar.",elim_s:"Caiu na porrada do mata-mata. Bola pra frente.",
+ mult_imortal:" × 2 (imortal)",mult_camp:" × 1.3 (campeão)",pts_base:"base {b} × zebra {z}",
+ tb_fase:"Fase",tb_adv:"Adversário",tb_placar:"Placar",tb_tec:"Técnico",
+ resumo:"Gols pró {gf} · sofridos {gs} · jogos sem sofrer {cs} · gasto total {g} · média XI {m}",
+ b_copiar:"📋 Copiar resultado pro grupo",b_rankdia2:"🏅 Ver ranking do dia",b_sala2:"🤝 Placar da sala {c}",
+ b_denovo:"↻ Jogar de novo",b_inicio:"🏠 Início",
+ rank_eb:"Ranking mundial · desafio de {d}",
+ rank_p:"Todo mundo joga a mesma seed hoje: mesma base, mesmo mercado, mesmos adversários. Só a primeira campanha finalizada do dia pontua. O ranking é público entre jogadores.",
+ rank_vazio:"Ninguém pontuou ainda. Seja o primeiro nome da súmula!",b_jogar_hoje:"Jogar o desafio de hoje",carregando:"Carregando súmula...",
+ sala_eb:"Duelo · sala",sala_p:"Compartilhe o código <b>{c}</b> com a galera. Mesma seed, placares públicos na sala.",
+ sala_nao:"Sala não encontrada — confere o código ou crie uma nova.",b_jogar_sala:"Jogar nesta sala",buscando:"Buscando placar...",
+ perfil_eb:"Carteirinha de técnico(a)",sem_nome:"Sem nome",p_camp:"Campanhas",p_tit:"Títulos da América",p_imort:"Campanhas imortais",p_rec:"Recorde de pontos",p_leg:"Legado (pontos acumulados)",trofeus:"Sala de troféus",
+ aj_t:"Como jogar",
+ aj_1:"Seu clube de bairro foi convidado pro <b>torneio dos gigantes da América</b>: 3 jogos de grupo (some 4+ pontos) e mata-mata até a final, sempre contra esquadrões históricos do continente cada vez mais fortes.",
+ aj_2:"<b>🎰 Mercado:</b> o dado sorteia um clube histórico de referência. Contrate quantos couberem no caixa — mas cada contratação embaralha o clube e traz outro. Rolar na mão: 1x grátis por janela, depois $8M. Venda por 70% do valor. Lendas custam MUITO caro.",
+ aj_3:"<b>📋 Gestão:</b> você escolhe a posição de cada um — fora de posição a força despenca. Formação e estilo mudam ataque/defesa. Lesionou, entra alguém do banco na hora; 2 amarelos = suspensão. A base (11 crias, todas as posições) completa o time sozinha: dá até pra disputar só com ela.",
+ aj_4:"<b>👑 O objetivo:</b> ser campeão com <b>7 vitórias e nenhum gol sofrido</b> — a Campanha Imortal, que dobra a pontuação. Times mais fracos multiplicam pontos: fácil é ganhar de galáctico, glorioso é ganhar com o Operário Pé Quente.",
+ aj_5:"<b>🤝 Com amigos:</b> no Desafio do Dia todos jogam a mesma seed e disputam o ranking. No Duelo, crie uma sala, mande o código e compare campanhas. Copie o resultado com emojis e cole no grupo.",
+ share:"GLÓRIA ETERNA ⚽ {modo}\n{clube} — {st}\n{em}\n{pts} pts (média XI {m}, zebra ×{z})",
+ sh_perf:"👑 CAMPANHA IMORTAL!!",sh_camp:"🏆 CAMPEÃO DA AMÉRICA",sh_elim:"❌ eliminado ({f})",
+ modo_dia:"Desafio {d}",modo_duelo:"Duelo sala {c}",modo_livre:"Campanha livre",
+ t_copiado:"Resultado copiado! Cola no grupo 😎",t_nao_copiou:"Não consegui copiar automaticamente",
+ desfalque:"Desfalque: {n} (fora {k} jogo{s})",entra_base:"Da base, entra {n} ({pos})",improvisa:"Da base, improvisa {n} ({pos}→{r})",
+ sub_les:"🩹 {n} sai de maca (fora {k}j). <b>Entra {s}</b>{im}.",sub_im:" improvisado",sub_sem:"🩹 {n} sai de maca e o banco acabou! Jogamos com um a menos.",
+ expulso:"🟥 Segundo amarelo NO JOGO! {n} está expulso — fora do restante da partida e suspenso do próximo jogo. Jogamos com um a menos!",pendurado:"🟨 Amarelo para {n} — segundo cartão na campanha: cumpre suspensão no PRÓXIMO jogo, mas segue em campo.",verm_direto:"🟥 VERMELHO DIRETO! {n} entrou de carrinho criminoso: expulso e fora por {k} jogo(s). Um a menos!",amarelo:"🟨 Amarelo para {n}",susp_prox:" — <b>suspenso do próximo jogo!</b>",
+ prorrog_msg:"⏱️ Empate no tempo normal. PRORROGAÇÃO!",fimjogo:"📢 FIM DE JOGO: {a} × {b}",
+ pen_win:"🥅 PÊNALTIS {a}×{b} — CLASSIFICADOS! O goleiro virou herói!",pen_lose:"🥅 PÊNALTIS {a}×{b} — eliminados na marca da cal...",
+ gol_deles:"Gol do {o}... {a}×{b}",
+ ev_pat_t:"💰 Patrocínio fechado!",ev_pat_d:"A Pamonharia Eletrônica do seu Zé assinou com o {c}. Entram {v} no caixa.",
+ ev_ass_t:"📞 Assédio de gigante europeu",ev_ass_d:"Um clube milionário ofereceu {v} pelo seu craque {n} ({f}). Vender?",
+ ev_emp_t:"🕵️ Oportunidade de empresário",ev_emp_d:"{n} ({pos} {f}, {cl} {ano}) direto pro seu banco por {v} — 40% off, sem mexer no mercado. Fechar?",
+ ev_les_t:"🩹 Lesão no treino",ev_les_d:"{n} torceu o tornozelo no rachão. Fora do próximo jogo.",
+ ev_chu_t:"🍖 Churrasco do elenco",ev_chu_d:"A resenha foi boa e o grupo tá fechado. Moral +1.",
+ ev_rifa_t:"🎟️ Rifa do clube",ev_rifa_d:"A comunidade se mobilizou: +{v} pro caixa.",
+ t_ass_ok:"{n} vendido por {v}",t_ass_nao:"Proposta recusada. O craque fica!",t_emp_ok:"{n} chegou direto pro banco!",t_emp_caixa:"Caixa insuficiente pra fechar...",
+ cq_estreia:"Estreia no comando",cqd_estreia:"Termine sua primeira campanha",
+ cq_vitoria:"Primeira vitória",cqd_vitoria:"Vença um jogo",
+ cq_campeao:"Campeão da América",cqd_campeao:"Levante a taça",
+ cq_perfeito:"CAMPANHA IMORTAL",cqd_perfeito:"Campeão com 7 vitórias e nenhum gol sofrido",
+ cq_zebra:"Zebra suprema",cqd_zebra:"Seja campeão com XI de média final abaixo de 78",
+ cq_maodevaca:"Mão de vaca",cqd_maodevaca:"Seja campeão gastando menos de $100M",
+ cq_raiz:"Time raiz",cqd_raiz:"Passe da fase de grupos sem contratar ninguém — só a cantera",
+ cq_artilheiro:"Fábrica de artilheiro",cqd_artilheiro:"Um jogador seu com 8+ gols na campanha",
+ cq_muralha:"Valla invicta",cqd_muralha:"5+ jogos sem sofrer gol numa campanha",
+ cq_duelista:"Resenha valendo",cqd_duelista:"Termine um duelo entre amigos",
+ cq_diario:"Ponto batido",cqd_diario:"Termine um desafio do dia",
+ cq_novas:"🎖️ Conquista{s} desbloqueada{s}!"
+},
+es:{
+ tag:"EL MÁNAGER DE AMÉRICA",tec_label:"DT:",card:"carnet 🪪",
+ antes:"Antes del pitazo",comoChamar:"¿Cómo te va a gritar la hinchada?",nickPh:"Apodo de DT",assinar:"Firmar la planilla",
+ hero_eb:"7 partidos · el dado maneja el mercado",
+ hero_h:'Armá la leyenda.<br>Domá el dado.<br><span style="color:var(--ouro)">Gloria Eterna.</span>',
+ hero_p:"Tu club de barrio cayó en el torneo de los gigantes de América, contra los equipos que hicieron historia en el continente. Fichá todos los cracks que aguante la caja — pero cada fichaje <b>sortea un nuevo club de referencia</b> en el mercado. Administrá cantera, banco, lesiones y egos detrás de la <b>Campaña Inmortal</b>: 7 victorias, ningún gol en contra.",
+ b_livre:"⚽ Campaña libre",b_dia:"📅 Desafío del día",jaPontuado:"· ya puntuado ✔",b_duelo:"🤝 Duelo entre amigos",b_rank:"🏅 Ranking del día",b_ajuda:"📖 Cómo jugar",
+ sem_storage:"⚠️ Sin conexión con el almacenamiento: rankings y perfil no van a persistir en esta sesión.",
+ footer:"GLORIA ETERNA · prototipo",toast_nick:"¡Poné un apodo, profe!",
+ daily_replay:"Ya puntuaste hoy. ¿Jugar de nuevo solo por diversión (no cuenta pal ranking)?",
+ duelo_eb:"Duelo entre amigos",duelo_h:"Misma suerte, distinta gestión",
+ duelo_p:"Todos en la sala arrancan con la misma cantera, el mismo mercado y los mismos rivales. Gana el que mejor gestione. El marcador de la sala es público para quien tenga el código.",
+ b_criarsala:"Crear sala nueva",cod_ph:"CÓDIGO de la sala (ej: XKQZP)",b_jogarsala:"Jugar en esa sala",b_versala:"Solo ver el marcador",
+ toast_sala:"¡Sala {c} creada! Compartí el código.",toast_cod5:"El código tiene 5 letras",
+ abandonar:"✖ abandonar",voltar:"← volver",confirm_ab:"¿Abandonar la campaña actual?",
+ h_caixa:"Caja",h_fase:"Fase",h_atq:"Ataque",h_def:"Defensa",h_moral:"Moral",
+ fase_0:"Grupo · Partido 1",fase_1:"Grupo · Partido 2",fase_2:"Grupo · Partido 3",fase_3:"Octavos de final",fase_4:"Cuartos de final",fase_5:"Semifinal",fase_6:"GRAN FINAL",
+ grupo_regra:"Fase de grupos: hay que sumar 4+ puntos en 3 partidos.",mata_regra:"Mata-mata: si perdés, afuera.",media_xi:"Promedio de tu XI",
+ form_lbl:"Formación",estilo_lbl:"Estilo",st_of:"Ofensivo",st_eq:"Equilibrado",st_re:"Cerrojo",
+ b_bola:"🎙️ ¡Que ruede la pelota!",
+ mercado_eb:"Mercado — ventana {n}",mercado_note:"🎰 Cada fichaje sortea un nuevo club de referencia.",
+ b_rolar:"🎲 Tirar",gratis:"(gratis)",pago:"($8M)",
+ p_GOL:"ARQ",p_LAT:"LAT",p_ZAG:"DEF",p_VOL:"VOL",p_MEI:"MED",p_ATA:"DEL",
+ vaga:"puesto",buraco:"hueco",aqui:"jugaría acá",fora_nj:"afuera {n}p",base_tag:"cantera",
+ base_h:"La cantera",base_badge:"11 pibes",cria:"canterano",banco_h:"Banco de fichajes",
+ b_escalar:"Poner",b_contratar:"Fichar",no_elenco:"en plantel",em_campo:"en cancha",dm:"enfermería {n}p",
+ b_mover:"Mover",b_banco:"Al banco",b_vender:"Vender {v}",fechar:"cerrar",
+ improv_nota:"⚠ fuera de puesto: juega con {p}",
+ pend_mover:"Mover a {n}",pend_escalar:"Poner a {n} ({pos} {f})",
+ pend_p:"Tocá la posición de la cancha donde va a jugar. Fuera de puesto la fuerza baja (vecina −7, lejos −13, arco −20).",
+ b_cancelar:"Cancelar",
+ t_ja_elenco:"{n} ya está en tu plantel",t_sem_caixa:"Caja insuficiente: {n} cuesta {v}",t_fora:"{n} está afuera por {k} partido(s)",
+ t_dm:"{n} está en la enfermería",t_ja_campo:"{n} ya está en cancha",
+ t_contratado:"¡{n} fichado! Titular como {r}",t_improv:" (fuera de puesto)",t_vendido:"{n} vendido por {v}",
+ t_base_nv:"El canterano no se vende. ¡Es patrimonio del club!",t_jovem:"El pibe vuelve solo al grupo — usá Mover",
+ t_rolar_caixa:"Caja insuficiente para tirar de nuevo ($8M)",
+ prorroga:"· alargue",fim_lbl:"FIN",pen_lbl:"PEN",b_continuar:"Continuar →",
+ v_radio:"▶ Relato",v_rapido:"⏩ Rápido",v_direto:"⏭ Al final",aguarda:"La pelota va a rodar...",
+ res_v:"¡VICTORIA!",res_e:"Empate...",res_d:"Derrota",gols_lbl:"Goles",premio_lbl:"Premio: +{v}",cs_badge:"VALLA INVICTA +10M",
+ b_janela:"🛒 Abrir ventana de fichajes",b_aceitar:"Aceptar",b_recusar:"Rechazar",b_seguir:"Seguir nomás",
+ perf_t:"👑 ¡CAMPAÑA INMORTAL!",perf_s:"Campeón de América invicto y sin recibir UN gol. Gloria Eterna de verdad.",
+ camp_t:"🏆 ¡CAMPEÓN DE AMÉRICA!",camp_s:"La copa es tuya — pero la Campaña Inmortal todavía te espera.",
+ elim_t:"📉 Eliminado",elim_grupo:"Solo {p} pts en el grupo (necesitabas 4). La dirigencia quiere charlar.",elim_s:"Te bajaron en el mata-mata. La próxima es nuestra.",
+ mult_imortal:" × 2 (inmortal)",mult_camp:" × 1.3 (campeón)",pts_base:"base {b} × sorpresa {z}",
+ tb_fase:"Fase",tb_adv:"Rival",tb_placar:"Marcador",tb_tec:"DT",
+ resumo:"Goles a favor {gf} · en contra {gs} · vallas invictas {cs} · gasto total {g} · promedio XI {m}",
+ b_copiar:"📋 Copiar resultado pal grupo",b_rankdia2:"🏅 Ver ranking del día",b_sala2:"🤝 Marcador de la sala {c}",
+ b_denovo:"↻ Jugar de nuevo",b_inicio:"🏠 Inicio",
+ rank_eb:"Ranking mundial · desafío del {d}",
+ rank_p:"Todos juegan la misma seed hoy: misma cantera, mismo mercado, mismos rivales. Solo la primera campaña terminada del día puntúa. El ranking es público entre jugadores.",
+ rank_vazio:"Nadie puntuó todavía. ¡Sé el primer nombre de la planilla!",b_jogar_hoje:"Jugar el desafío de hoy",carregando:"Cargando planilla...",
+ sala_eb:"Duelo · sala",sala_p:"Compartí el código <b>{c}</b> con la banda. Misma seed, marcadores públicos en la sala.",
+ sala_nao:"Sala no encontrada — revisá el código o creá una nueva.",b_jogar_sala:"Jugar en esta sala",buscando:"Buscando marcador...",
+ perfil_eb:"Carnet de DT",sem_nome:"Sin nombre",p_camp:"Campañas",p_tit:"Títulos de América",p_imort:"Campañas inmortales",p_rec:"Récord de puntos",p_leg:"Legado (puntos acumulados)",trofeus:"Sala de trofeos",
+ aj_t:"Cómo jugar",
+ aj_1:"Tu club de barrio fue invitado al <b>torneo de los gigantes de América</b>: 3 partidos de grupo (sumá 4+ puntos) y mata-mata hasta la final, siempre contra escuadrones históricos del continente cada vez más fuertes.",
+ aj_2:"<b>🎰 Mercado:</b> el dado sortea un club histórico de referencia. Fichá todos los que entren en la caja — pero cada fichaje baraja el club y trae otro. Tirar a mano: 1x gratis por ventana, después $8M. Vendé al 70% del valor. Las leyendas cuestan CARÍSIMO.",
+ aj_3:"<b>📋 Gestión:</b> vos elegís la posición de cada uno — fuera de puesto la fuerza se derrumba. Formación y estilo cambian ataque/defensa. Si se lesiona, entra uno del banco al toque; 2 amarillas = suspensión. La cantera (11 pibes, todas las posiciones) completa el equipo sola: hasta podés competir solo con ella.",
+ aj_4:"<b>👑 El objetivo:</b> salir campeón con <b>7 victorias y ningún gol en contra</b> — la Campaña Inmortal, que duplica el puntaje. Los equipos más débiles multiplican puntos: fácil es ganar con un galáctico, glorioso es ganar con el Defensores del Barrio.",
+ aj_5:"<b>🤝 Con amigos:</b> en el Desafío del Día todos juegan la misma seed y pelean el ranking. En el Duelo, creá una sala, pasá el código y comparen campañas. Copiá el resultado con emojis y pegalo en el grupo.",
+ share:"GLORIA ETERNA ⚽ {modo}\n{clube} — {st}\n{em}\n{pts} pts (promedio XI {m}, sorpresa ×{z})",
+ sh_perf:"👑 ¡¡CAMPAÑA INMORTAL!!",sh_camp:"🏆 CAMPEÓN DE AMÉRICA",sh_elim:"❌ eliminado ({f})",
+ modo_dia:"Desafío {d}",modo_duelo:"Duelo sala {c}",modo_livre:"Campaña libre",
+ t_copiado:"¡Resultado copiado! Pegalo en el grupo 😎",t_nao_copiou:"No pude copiar automáticamente",
+ desfalque:"Baja: {n} (afuera {k} partido{s})",entra_base:"De la cantera, entra {n} ({pos})",improvisa:"De la cantera, improvisa {n} ({pos}→{r})",
+ sub_les:"🩹 {n} sale en camilla (afuera {k}p). <b>Entra {s}</b>{im}.",sub_im:" fuera de puesto",sub_sem:"🩹 {n} sale en camilla ¡y no queda banco! Jugamos con uno menos.",
+ expulso:"🟥 ¡Segunda amarilla EN EL PARTIDO! {n} expulsado — afuera del resto del partido y suspendido del próximo. ¡Jugamos con uno menos!",pendurado:"🟨 Amarilla para {n} — segunda en la campaña: suspendido para el PRÓXIMO partido, pero sigue en cancha.",verm_direto:"🟥 ¡ROJA DIRECTA! {n} entró asesino: expulsado y afuera por {k} partido(s). ¡Uno menos!",amarelo:"🟨 Amarilla para {n}",susp_prox:" — <b>¡suspendido del próximo partido!</b>",
+ prorrog_msg:"⏱️ Empate en los 90. ¡ALARGUE!",fimjogo:"📢 FINAL DEL PARTIDO: {a} × {b}",
+ pen_win:"🥅 PENALES {a}×{b} — ¡CLASIFICADOS! ¡El arquero es héroe!",pen_lose:"🥅 PENALES {a}×{b} — eliminados desde los doce pasos...",
+ gol_deles:"Gol de {o}... {a}×{b}",
+ ev_pat_t:"💰 ¡Sponsor cerrado!",ev_pat_d:"La Parrilla Eléctrica de Don Cacho firmó con {c}. Entran {v} a la caja.",
+ ev_ass_t:"📞 Acoso de gigante europeo",ev_ass_d:"Un club millonario ofreció {v} por tu crack {n} ({f}). ¿Vender?",
+ ev_emp_t:"🕵️ Oportunidad de representante",ev_emp_d:"{n} ({pos} {f}, {cl} {ano}) directo a tu banco por {v} — 40% off, sin tocar el mercado. ¿Cerramos?",
+ ev_les_t:"🩹 Lesión en la práctica",ev_les_d:"{n} se dobló el tobillo en el picado. Afuera del próximo partido.",
+ ev_chu_t:"🥩 Asado del plantel",ev_chu_d:"La juntada estuvo buena y el grupo está cerrado. Moral +1.",
+ ev_rifa_t:"🎟️ Rifa del club",ev_rifa_d:"El barrio se movilizó: +{v} pa' la caja.",
+ t_ass_ok:"{n} vendido por {v}",t_ass_nao:"Propuesta rechazada. ¡El crack se queda!",t_emp_ok:"¡{n} llegó directo al banco!",t_emp_caixa:"Caja insuficiente para cerrar...",
+ cq_estreia:"Debut en el banco",cqd_estreia:"Terminá tu primera campaña",
+ cq_vitoria:"Primera victoria",cqd_vitoria:"Ganá un partido",
+ cq_campeao:"Campeón de América",cqd_campeao:"Levantá la copa",
+ cq_perfeito:"CAMPAÑA INMORTAL",cqd_perfeito:"Campeón con 7 victorias y ningún gol en contra",
+ cq_zebra:"Batacazo supremo",cqd_zebra:"Salí campeón con XI de promedio final abajo de 78",
+ cq_maodevaca:"Amarrete",cqd_maodevaca:"Salí campeón gastando menos de $100M",
+ cq_raiz:"Puro potrero",cqd_raiz:"Pasá la fase de grupos sin fichar a nadie — pura cantera",
+ cq_artilheiro:"Fábrica de goleador",cqd_artilheiro:"Un jugador tuyo con 8+ goles en la campaña",
+ cq_muralha:"Valla invicta",cqd_muralha:"5+ partidos sin recibir gol en una campaña",
+ cq_duelista:"Picadito que vale",cqd_duelista:"Terminá un duelo entre amigos",
+ cq_diario:"Presente firmado",cqd_diario:"Terminá un desafío del día",
+ cq_novas:"🎖️ ¡Logro{s} desbloqueado{s}!"
+}};
+const NARR={
+pt:{gol:["GOOOOOL! {p} balança as redes","QUE PINTURA! Golaço de {p}","{p} aproveita o rebote e marca","De cabeça! {p} sobe mais que todo mundo","Contra-ataque fulminante e {p} finaliza no canto","{p} cobra falta com categoria: é gol","Pênalti convertido com frieza por {p}","{p} dribla o goleiro e empurra pro fundo do gasoso"],
+chance:["{p} carimba a trave!","Defesaça do goleiro em chute de {p}!","{p} manda por cima, tirando tinta do travessão","Que perdida de {p}, na cara do gol!","Bicicleta de {p}... pra fora!"],
+def:["Nosso goleiro faz um MILAGRE!","A zaga tira em cima da linha!","O adversário para na nossa muralha","Pressão adversária, mas a defesa segura firme"]},
+es:{gol:["¡GOOOOOL! {p} sacude la red","¡QUÉ PINTURA! Golazo de {p}","{p} aprovecha el rebote y la manda a guardar","¡De cabeza! {p} le gana a todos por arriba","Contragolpe letal y {p} define al palo","{p} clava el tiro libre: es gol","Penal cambiado por gol con frialdad por {p}","{p} gambetea al arquero y la empuja adentro"],
+chance:["¡{p} sacude el palo!","¡Atajadón del arquero al remate de {p}!","{p} la tira por arriba, rozando el travesaño","¡Qué se perdió {p}, solo frente al arco!","Chilena de {p}... ¡afuera!"],
+def:["¡Nuestro arquero hace un MILAGRO!","¡La defensa la saca sobre la línea!","El rival choca contra nuestra muralla","Presión rival, pero la defensa aguanta firme"]}};
+function t(k,v){let s=(I18N[S.lang]&&I18N[S.lang][k])||I18N.pt[k]||k;if(v)for(const x in v)s=s.split("{"+x+"}").join(v[x]);return s}
+/* ================= DADOS — GIGANTES DA AMÉRICA ================= */
+/* [nome, posição, força, clube, ano] */
+const DB=[
+// Santos 1963
+["Pelé","ATA",98,"Santos",1963],["Coutinho","ATA",90,"Santos",1963],["Pepe","ATA",88,"Santos",1963],
+["Dorval","ATA",84,"Santos",1963],["Mengálvio","MEI",85,"Santos",1963],["Zito","VOL",87,"Santos",1963],
+["Lima","VOL",82,"Santos",1963],["Mauro","ZAG",85,"Santos",1963],["Calvet","ZAG",80,"Santos",1963],["Gilmar","GOL",87,"Santos",1963],
+// Peñarol 1966
+["Alberto Spencer","ATA",94,"Peñarol",1966],["Pedro Rocha","MEI",89,"Peñarol",1966],["Joya","ATA",84,"Peñarol",1966],
+["Néstor Gonçalves","VOL",86,"Peñarol",1966],["William Martínez","ZAG",81,"Peñarol",1966],["Mazurkiewicz","GOL",89,"Peñarol",1966],
+// Racing 1967
+["Cárdenas","ATA",84,"Racing",1967],["Perfumo","ZAG",87,"Racing",1967],["Basile","ZAG",82,"Racing",1967],
+["Cejas","GOL",84,"Racing",1967],["Raffo","ATA",81,"Racing",1967],
+// Estudiantes 1969
+["J. R. Verón","ATA",88,"Estudiantes",1969],["Bilardo","VOL",82,"Estudiantes",1969],["Pachamé","VOL",81,"Estudiantes",1969],
+["Flores","ATA",80,"Estudiantes",1969],["Madero","ZAG",79,"Estudiantes",1969],["Malbernat","LAT",79,"Estudiantes",1969],["Poletti","GOL",82,"Estudiantes",1969],
+// Independiente 1973
+["Bochini","MEI",92,"Independiente",1973],["Bertoni","ATA",87,"Independiente",1973],["Maglioni","ATA",84,"Independiente",1973],
+["Semenewicz","VOL",81,"Independiente",1973],["Sá","ZAG",83,"Independiente",1973],["Pavoni","LAT",83,"Independiente",1973],["Santoro","GOL",84,"Independiente",1973],
+// Cruzeiro 1976
+["Nelinho","LAT",88,"Cruzeiro",1976],["Dirceu Lopes","MEI",89,"Cruzeiro",1976],["Palhinha","ATA",87,"Cruzeiro",1976],
+["Joãozinho","ATA",84,"Cruzeiro",1976],["Piazza","ZAG",84,"Cruzeiro",1976],["Zé Carlos","VOL",79,"Cruzeiro",1976],["Raul","GOL",85,"Cruzeiro",1976],
+// Boca Juniors 1978
+["Gatti","GOL",88,"Boca Juniors",1978],["Mastrángelo","ATA",84,"Boca Juniors",1978],["Salinas","ATA",81,"Boca Juniors",1978],
+["Zanabria","MEI",83,"Boca Juniors",1978],["Suñé","MEI",82,"Boca Juniors",1978],["Mouzo","ZAG",82,"Boca Juniors",1978],["Pernía","LAT",82,"Boca Juniors",1978],
+// Olimpia 1979
+["Ever Almeida","GOL",86,"Olimpia",1979],["Isasi","ATA",81,"Olimpia",1979],["Kiese","MEI",80,"Olimpia",1979],
+["Rogelio Delgado","ZAG",80,"Olimpia",1979],["Solalinde","LAT",80,"Olimpia",1979],["Talavera","VOL",78,"Olimpia",1979],
+// Flamengo 1981
+["Zico","MEI",96,"Flamengo",1981],["Júnior","LAT",90,"Flamengo",1981],["Leandro","LAT",88,"Flamengo",1981],
+["Adílio","MEI",85,"Flamengo",1981],["Andrade","VOL",84,"Flamengo",1981],["Nunes","ATA",86,"Flamengo",1981],
+["Tita","ATA",84,"Flamengo",1981],["Mozer","ZAG",83,"Flamengo",1981],["Marinho","ZAG",80,"Flamengo",1981],["Raul Plassmann","GOL",85,"Flamengo",1981],
+// Grêmio 1983
+["Renato Gaúcho","ATA",89,"Grêmio",1983],["Hugo De León","ZAG",88,"Grêmio",1983],["Paulo Isidoro","MEI",84,"Grêmio",1983],
+["Tarciso","ATA",82,"Grêmio",1983],["Osvaldo","MEI",81,"Grêmio",1983],["Baltazar","ATA",82,"Grêmio",1983],
+["China","ZAG",80,"Grêmio",1983],["Mazarópi","GOL",82,"Grêmio",1983],
+// Independiente 1984
+["Bochini","MEI",90,"Independiente",1984],["Burruchaga","ATA",87,"Independiente",1984],["Trossero","ZAG",82,"Independiente",1984],
+["Clausen","LAT",83,"Independiente",1984],["Marangoni","VOL",82,"Independiente",1984],["Goyén","GOL",82,"Independiente",1984],
+// River Plate 1986
+["Francescoli","MEI",93,"River Plate",1986],["Beto Alonso","MEI",88,"River Plate",1986],["Alzamendi","ATA",84,"River Plate",1986],
+["Funes","ATA",83,"River Plate",1986],["Ruggeri","ZAG",87,"River Plate",1986],["Gallego","VOL",84,"River Plate",1986],["Pumpido","GOL",84,"River Plate",1986],
+// Nacional 1980
+["Hugo De León","ZAG",87,"Nacional",1980],["Rodolfo Rodríguez","GOL",87,"Nacional",1980],["Victorino","ATA",86,"Nacional",1980],
+["Morales","MEI",84,"Nacional",1980],["Bica","ATA",82,"Nacional",1980],
+// Atlético Nacional 1989
+["Higuita","GOL",88,"Atlético Nacional",1989],["Andrés Escobar","ZAG",84,"Atlético Nacional",1989],["Leonel Álvarez","VOL",83,"Atlético Nacional",1989],
+["Usuriaga","ATA",83,"Atlético Nacional",1989],["Alexis García","MEI",83,"Atlético Nacional",1989],
+// Colo-Colo 1991
+["Barticciotto","ATA",85,"Colo-Colo",1991],["Jaime Pizarro","VOL",83,"Colo-Colo",1991],["Rubén Martínez","MEI",81,"Colo-Colo",1991],
+["Lizardo Garrido","ZAG",80,"Colo-Colo",1991],["Espinoza","LAT",80,"Colo-Colo",1991],["Dabrowski","ATA",80,"Colo-Colo",1991],["Morón","GOL",84,"Colo-Colo",1991],
+// São Paulo 1992
+["Raí","MEI",92,"São Paulo",1992],["Cafu","LAT",90,"São Paulo",1992],["Müller","ATA",88,"São Paulo",1992],
+["Toninho Cerezo","VOL",87,"São Paulo",1992],["Palhinha","ATA",84,"São Paulo",1992],["Leonardo","LAT",85,"São Paulo",1992],
+["Ronaldão","ZAG",84,"São Paulo",1992],["Pintado","VOL",80,"São Paulo",1992],["Zetti","GOL",86,"São Paulo",1992],
+// Vélez 1994
+["Chilavert","GOL",91,"Vélez",1994],["Asad","ATA",84,"Vélez",1994],["Trotta","ZAG",82,"Vélez",1994],
+["Bassedas","VOL",82,"Vélez",1994],["José Flores","ATA",81,"Vélez",1994],
+// Grêmio 1995
+["Jardel","ATA",88,"Grêmio",1995],["Paulo Nunes","ATA",85,"Grêmio",1995],["Dinho","VOL",83,"Grêmio",1995],
+["Roger","MEI",83,"Grêmio",1995],["Arilson","MEI",82,"Grêmio",1995],["Adílson","ZAG",82,"Grêmio",1995],
+["Rivarola","ZAG",80,"Grêmio",1995],["Danrlei","GOL",84,"Grêmio",1995],
+// River Plate 1996
+["Francescoli","MEI",90,"River Plate",1996],["Ortega","MEI",89,"River Plate",1996],["Crespo","ATA",87,"River Plate",1996],
+["Berti","MEI",82,"River Plate",1996],["Astrada","VOL",83,"River Plate",1996],["Hernán Díaz","LAT",82,"River Plate",1996],["Burgos","GOL",84,"River Plate",1996],
+// Cruzeiro 1997
+["Dida","GOL",87,"Cruzeiro",1997],["Ricardinho","MEI",84,"Cruzeiro",1997],["Marcelo Ramos","ATA",84,"Cruzeiro",1997],
+["Palhinha","ATA",82,"Cruzeiro",1997],["Wilson Gottardo","ZAG",82,"Cruzeiro",1997],
+// Vasco 1998
+["Luizão","ATA",86,"Vasco",1998],["Donizete","ATA",85,"Vasco",1998],["Felipe","MEI",84,"Vasco",1998],
+["Ramon","MEI",83,"Vasco",1998],["Mauro Galvão","ZAG",85,"Vasco",1998],["Odvan","ZAG",82,"Vasco",1998],["Carlos Germano","GOL",84,"Vasco",1998],
+// Palmeiras 1999
+["Marcos","GOL",91,"Palmeiras",1999],["Alex","MEI",89,"Palmeiras",1999],["César Sampaio","VOL",86,"Palmeiras",1999],
+["Arce","LAT",86,"Palmeiras",1999],["Zinho","MEI",85,"Palmeiras",1999],["Paulo Nunes","ATA",85,"Palmeiras",1999],
+["Roque Júnior","ZAG",85,"Palmeiras",1999],["Oséas","ATA",83,"Palmeiras",1999],["Júnior Baiano","ZAG",83,"Palmeiras",1999],
+// Boca Juniors 2000
+["Riquelme","MEI",95,"Boca Juniors",2000],["Palermo","ATA",89,"Boca Juniors",2000],["Óscar Córdoba","GOL",89,"Boca Juniors",2000],
+["Samuel","ZAG",88,"Boca Juniors",2000],["G. B. Schelotto","ATA",86,"Boca Juniors",2000],["Marcelo Delgado","ATA",85,"Boca Juniors",2000],
+["Bermúdez","ZAG",85,"Boca Juniors",2000],["Serna","VOL",84,"Boca Juniors",2000],["Ibarra","LAT",84,"Boca Juniors",2000],["Battaglia","VOL",83,"Boca Juniors",2000],
+// Boca Juniors 2003
+["Tevez","ATA",91,"Boca Juniors",2003],["Abbondanzieri","GOL",86,"Boca Juniors",2003],["Marcelo Delgado","ATA",85,"Boca Juniors",2003],
+["Battaglia","VOL",84,"Boca Juniors",2003],["Schiavi","ZAG",83,"Boca Juniors",2003],["Burdisso","ZAG",82,"Boca Juniors",2003],
+// São Paulo 2005
+["Rogério Ceni","GOL",92,"São Paulo",2005],["Amoroso","ATA",86,"São Paulo",2005],["Cicinho","LAT",86,"São Paulo",2005],
+["Lugano","ZAG",87,"São Paulo",2005],["Mineiro","VOL",84,"São Paulo",2005],["Danilo","MEI",84,"São Paulo",2005],
+["Luizão","ATA",83,"São Paulo",2005],["Fabão","ZAG",81,"São Paulo",2005],
+// Internacional 2006
+["Fernandão","ATA",86,"Internacional",2006],["Iarley","MEI",84,"Internacional",2006],["Tinga","MEI",84,"Internacional",2006],
+["Índio","ZAG",82,"Internacional",2006],["Clemer","GOL",83,"Internacional",2006],
+// LDU 2008
+["Cevallos","GOL",87,"LDU",2008],["Manso","MEI",83,"LDU",2008],["Bieler","ATA",82,"LDU",2008],
+["Urrutia","VOL",82,"LDU",2008],["Calderón","LAT",80,"LDU",2008],
+// Estudiantes 2009
+["J. S. Verón","MEI",89,"Estudiantes",2009],["Boselli","ATA",84,"Estudiantes",2009],["Enzo Pérez","MEI",83,"Estudiantes",2009],
+["Braña","VOL",82,"Estudiantes",2009],["Desábato","ZAG",81,"Estudiantes",2009],["Andújar","GOL",84,"Estudiantes",2009],
+// Internacional 2010
+["D'Alessandro","MEI",89,"Internacional",2010],["Giuliano","MEI",85,"Internacional",2010],["Rafael Sóbis","ATA",83,"Internacional",2010],
+["Índio","ZAG",82,"Internacional",2010],["Bolívar","ZAG",81,"Internacional",2010],
+// Santos 2011
+["Neymar","ATA",92,"Santos",2011],["Ganso","MEI",88,"Santos",2011],["Elano","MEI",84,"Santos",2011],
+["Danilo","LAT",85,"Santos",2011],["Arouca","VOL",84,"Santos",2011],["Borges","ATA",83,"Santos",2011],
+["Edu Dracena","ZAG",83,"Santos",2011],["Léo","LAT",81,"Santos",2011],["Rafael","GOL",83,"Santos",2011],
+// Corinthians 2012
+["Cássio","GOL",90,"Corinthians",2012],["Paulinho","VOL",87,"Corinthians",2012],["Guerrero","ATA",87,"Corinthians",2012],
+["Emerson Sheik","ATA",86,"Corinthians",2012],["Danilo","MEI",84,"Corinthians",2012],["Ralf","VOL",84,"Corinthians",2012],
+["Leandro Castán","ZAG",84,"Corinthians",2012],["Fábio Santos","LAT",83,"Corinthians",2012],["Chicão","ZAG",82,"Corinthians",2012],["Alessandro","LAT",81,"Corinthians",2012],
+// Atlético-MG 2013
+["Ronaldinho","MEI",91,"Atlético-MG",2013],["Victor","GOL",88,"Atlético-MG",2013],["Bernard","ATA",86,"Atlético-MG",2013],
+["Diego Tardelli","ATA",85,"Atlético-MG",2013],["Jô","ATA",84,"Atlético-MG",2013],["Réver","ZAG",84,"Atlético-MG",2013],
+["Marcos Rocha","LAT",82,"Atlético-MG",2013],["Pierre","VOL",81,"Atlético-MG",2013],
+// Atlético Nacional 2016
+["Armani","GOL",87,"Atlético Nacional",2016],["Borja","ATA",85,"Atlético Nacional",2016],["A. Guerra","MEI",84,"Atlético Nacional",2016],
+["Macnelly Torres","MEI",84,"Atlético Nacional",2016],["Berrío","ATA",82,"Atlético Nacional",2016],
+// River Plate 2018
+["Armani","GOL",90,"River Plate",2018],["Pity Martínez","MEI",89,"River Plate",2018],["Quintero","MEI",88,"River Plate",2018],
+["Enzo Pérez","VOL",84,"River Plate",2018],["Palacios","MEI",84,"River Plate",2018],["Pratto","ATA",84,"River Plate",2018],
+["Borré","ATA",83,"River Plate",2018],["Pinola","ZAG",82,"River Plate",2018],["Maidana","ZAG",82,"River Plate",2018],["Casco","LAT",81,"River Plate",2018],
+// Flamengo 2019
+["Gabigol","ATA",90,"Flamengo",2019],["Arrascaeta","MEI",90,"Flamengo",2019],["Bruno Henrique","ATA",88,"Flamengo",2019],
+["Gerson","VOL",87,"Flamengo",2019],["Everton Ribeiro","MEI",86,"Flamengo",2019],["Filipe Luís","LAT",85,"Flamengo",2019],
+["Diego Alves","GOL",85,"Flamengo",2019],["Rodrigo Caio","ZAG",84,"Flamengo",2019],["Rafinha","LAT",84,"Flamengo",2019],["Pablo Marí","ZAG",83,"Flamengo",2019],
+// Palmeiras 2021
+["Weverton","GOL",88,"Palmeiras",2021],["Gustavo Gómez","ZAG",87,"Palmeiras",2021],["Raphael Veiga","MEI",86,"Palmeiras",2021],
+["Dudu","ATA",85,"Palmeiras",2021],["Danilo","VOL",85,"Palmeiras",2021],["Rony","ATA",83,"Palmeiras",2021],
+["Zé Rafael","VOL",83,"Palmeiras",2021],["Marcos Rocha","LAT",81,"Palmeiras",2021],
+// Fluminense 2023
+["Cano","ATA",87,"Fluminense",2023],["Fábio","GOL",87,"Fluminense",2023],["Jhon Arias","MEI",86,"Fluminense",2023],
+["André","VOL",86,"Fluminense",2023],["Ganso","MEI",85,"Fluminense",2023],["Marcelo","LAT",85,"Fluminense",2023],
+["Nino","ZAG",84,"Fluminense",2023],["Keno","ATA",82,"Fluminense",2023],
+// Botafogo 2024
+["Luiz Henrique","ATA",87,"Botafogo",2024],["Almada","MEI",87,"Botafogo",2024],["Savarino","MEI",85,"Botafogo",2024],
+["John","GOL",85,"Botafogo",2024],["Igor Jesus","ATA",84,"Botafogo",2024],["Gregore","VOL",84,"Botafogo",2024],
+["Bastos","ZAG",83,"Botafogo",2024],["Marlon Freitas","VOL",83,"Botafogo",2024],
+// Flamengo 2025
+["Arrascaeta","MEI",88,"Flamengo",2025],["Pedro","ATA",87,"Flamengo",2025],["De la Cruz","MEI",86,"Flamengo",2025],
+["Rossi","GOL",86,"Flamengo",2025],["Danilo","ZAG",85,"Flamengo",2025],["Pulgar","VOL",84,"Flamengo",2025],
+["Léo Ortiz","ZAG",84,"Flamengo",2025],["Léo Pereira","ZAG",84,"Flamengo",2025],["Bruno Henrique","ATA",83,"Flamengo",2025],["Varela","LAT",82,"Flamengo",2025]
+];
+const CLUBE_PAIS={"Santos":"BR","Flamengo":"BR","Grêmio":"BR","Cruzeiro":"BR","São Paulo":"BR","Vasco":"BR","Palmeiras":"BR","Internacional":"BR","Corinthians":"BR","Atlético-MG":"BR","Fluminense":"BR","Botafogo":"BR",
+"Peñarol":"UY","Nacional":"UY","Danubio":"UY","Defensor":"UY","Wanderers":"UY",
+"Racing":"AR","Estudiantes":"AR","Independiente":"AR","Boca Juniors":"AR","River Plate":"AR","Argentinos Juniors":"AR","Vélez":"AR","San Lorenzo":"AR","Newell's":"AR",
+"Olimpia":"PY","Cerro Porteño":"PY","Guaraní":"PY",
+"Colo-Colo":"CL","Cobreloa":"CL","U. Católica":"CL","Palestino":"CL",
+"Atlético Nacional":"CO","Once Caldas":"CO","América de Cali":"CO","Millonarios":"CO","Junior":"CO",
+"LDU":"EC","Barcelona SC":"EC","Emelec":"EC","El Nacional":"EC",
+"Sporting Cristal":"PE","Alianza Lima":"PE","Universitario":"PE",
+"Bolívar":"BO","The Strongest":"BO","Oriente Petrolero":"BO","Blooming":"BO","Aurora":"BO","Always Ready":"BO",
+"Deportivo Táchira":"VE","Portuguesa FC":"VE","Caracas":"VE","Estudiantes de Mérida":"VE","Zamora":"VE","Mineros":"VE","Deportivo Galicia":"VE"};
+const FLAG_PAIS={BR:"🇧🇷",AR:"🇦🇷",UY:"🇺🇾",PY:"🇵🇾",CL:"🇨🇱",CO:"🇨🇴",EC:"🇪🇨",PE:"🇵🇪",BO:"🇧🇴",VE:"🇻🇪"};
+function flagClube(nome){return FLAG_PAIS[CLUBE_PAIS[nome]]||"🏳️"}
+/* Adversários históricos (nem todos precisam de elenco no mercado) */
+const OPPS=[
+["Santos 1963",93],["Flamengo 1981",92],["Boca Juniors 2000",91],["Peñarol 1966",90],["Independiente 1973",90],
+["São Paulo 1992",90],["Flamengo 2019",90],["River Plate 1996",89],["River Plate 2018",89],["Boca Juniors 2003",88],
+["Santos 2011",88],["Flamengo 2025",88],["River Plate 1986",88],["Independiente 1984",87],["Palmeiras 1999",87],
+["Atlético-MG 2013",87],["Palmeiras 2021",87],["São Paulo 2005",87],["Cruzeiro 1976",86],["Grêmio 1983",86],
+["Estudiantes 1969",86],["Peñarol 1982",86],["Corinthians 2012",85],["Grêmio 1995",85],["Vasco 1998",85],
+["Fluminense 2023",85],["Botafogo 2024",85],["Vélez 1994",85],["Boca Juniors 1978",85],["Cruzeiro 1997",84],
+["Nacional 1980",84],["Racing 1967",84],["Estudiantes 2009",84],["Internacional 2010",84],["Nacional 1988",84],
+["Internacional 2006",83],["LDU 2008",83],["Colo-Colo 1991",83],["Atlético Nacional 1989",83],["Atlético Nacional 2016",83],
+["América de Cali 1986",82],["Argentinos Juniors 1985",82],["Olimpia 1979",82],["Cobreloa 1981",81],["San Lorenzo 2014",81],
+["Newell's 1992",80],["Once Caldas 2004",80],["Olimpia 1990",80],["Sporting Cristal 1997",78],["Barcelona SC 1998",78],
+["U. Católica 1993",77],["Universitario 1972",76],["Cerro Porteño 1999",75],["Alianza Lima 1978",74],["Palestino 1979",74],
+["Millonarios 1989",74],["Junior 1994",73],["Bolívar 1997",73],["Emelec 1995",72],["Caracas 2009",71],
+["Defensor 2014",71],["Guaraní 1966",70],["The Strongest 2014",68],["Deportivo Táchira 1994",67]
+];
+/* La cantera: nomes reais por idioma */
+const NOMES_BASE={
+pt:["Lucas","Gabriel","Matheus","João Pedro","Vitor Hugo","Kaique","Ryan","Wesley","Igor","Davi","Caio","Pedro Henrique","Luan","Yago","Talles","Erick","Samuel","Breno","Enzo","Miguel","Arthur","Heitor","Murilo","Nicolas","Rafael","Gustavo"],
+es:["Santiago","Mateo","Thiago","Benjamín","Joaquín","Lautaro","Franco","Nicolás","Agustín","Bruno","Facundo","Ramiro","Tomás","Ignacio","Emiliano","Valentín","Bautista","Gonzalo","Maximiliano","Julián","Felipe","Alan","Brian","Kevin","Axel","Dylan"]};
+const SOBRENOMES_BASE={
+pt:["Silva","Santos","Oliveira","Souza","Pereira","Costa","Rodrigues","Almeida","Nascimento","Lima","Araújo","Ribeiro","Carvalho","Gomes","Martins","Rocha","Barbosa","Moura","Teixeira","Farias","Cardoso","Correia","Dias","Vieira"],
+es:["González","Rodríguez","Fernández","López","Martínez","García","Pérez","Sánchez","Romero","Torres","Flores","Acosta","Medina","Herrera","Aguirre","Sosa","Benítez","Cabrera","Ríos","Molina","Ledesma","Villalba","Quiroga","Paredes"]};
+const NOMES_CLUBE={
+pt:{a:["Esporte Clube","Grêmio Recreativo","Associação Atlética","Sociedade Esportiva","União","Real","Operário","Ferroviário","Nacional de","Independente"],
+    b:["da Várzea","do Bairro","Estrela do Norte","Vila Alegria","Beira-Rio","do Sertão","Pé Quente","Boa Vontade","Coração Valente","Futuro Campeão"]},
+es:{a:["Deportivo","Atlético","Club Social","Sportivo","Defensores de","Unión","Racing de","Juventud","Estrella de","Real"],
+    b:["del Barrio","La Loma","El Porvenir","Villa Esperanza","La Ribera","del Cerro","Corazón Valiente","La Cantera","Los Andes","San Cayetano"]}};
+/* ================= NÚCLEO ================= */
+function hashStr(s){let h=1779033703^s.length;for(let i=0;i<s.length;i++){h=Math.imul(h^s.charCodeAt(i),3432918353);h=h<<13|h>>>19}return(h>>>0)||1}
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const rnd=(rng,min,max)=>Math.floor(rng()*(max-min+1))+min;
+const pick=(rng,arr)=>arr[Math.floor(rng()*arr.length)];
+const MR=Math.random;
+/* preço: curva normal + luva de lenda */
+function preco(f){let p=0.035*Math.pow(f-52,2);if(f>=92)p*=1+(f-91)*0.15;return Math.max(2,Math.round(p))}
+function fmtM(v){return "$"+Math.round(v)+"M"}
+const TORCIDA=1;
+const FORMACOES={
+ "4-3-3":{roles:["GOL","LAT","ZAG","ZAG","LAT","VOL","MEI","MEI","ATA","ATA","ATA"],atk:3,def:-2},
+ "4-4-2":{roles:["GOL","LAT","ZAG","ZAG","LAT","VOL","VOL","MEI","MEI","ATA","ATA"],atk:0,def:0},
+ "3-5-2":{roles:["GOL","ZAG","ZAG","ZAG","LAT","VOL","MEI","MEI","LAT","ATA","ATA"],atk:2,def:-2},
+ "5-3-2":{roles:["GOL","LAT","ZAG","ZAG","ZAG","LAT","VOL","VOL","MEI","ATA","ATA"],atk:-4,def:4}
+};
+const ESTILOS={of:{atk:5,def:-5},eq:{atk:0,def:0},re:{atk:-5,def:6}};
+const ADJ={GOL:[],LAT:["ZAG"],ZAG:["LAT","VOL"],VOL:["ZAG","MEI"],MEI:["VOL","ATA"],ATA:["MEI"]};
+function penalPos(pos,role){if(pos===role)return 0;if(pos==="GOL"||role==="GOL")return -20;if(ADJ[role].includes(pos))return -7;return -13}
+const FAIXA_OPP=[[66,72],[69,75],[72,78],[76,82],[80,85],[83,88],[86,93]];
+const PREMIO_V=[26,26,26,36,46,56,70], PREMIO_E=[10,10,10,0,0,0,0];
+const SQUADS={};
+DB.forEach((p,i)=>{const k=p[3]+" "+p[4];(SQUADS[k]=SQUADS[k]||[]).push(i)});
+const SQUAD_KEYS=Object.keys(SQUADS).filter(k=>SQUADS[k].length>=5);
+/* ---------- storage / estado ---------- */
+async function stGet(k,shared){try{const r=await window.storage.get(k,!!shared);return r?JSON.parse(r.value):null}catch(e){return null}}
+async function stSet(k,v,shared){try{await window.storage.set(k,JSON.stringify(v),!!shared)}catch(e){}}
+const PROFILE_KEY="choque:perfil";
+let S={screen:"home",lang:"pt",profile:null,camp:null,sim:null,sel:null,pend:null,salaCode:null,storageOk:(typeof window!=="undefined"&&!!window.storage)};
+async function loadProfile(){
+  let p=await stGet(PROFILE_KEY,false);
+  if(!p)p={nick:"",lang:"pt",jogos:0,titulos:0,perfeitos:0,recorde:0,legado:0,conq:[],dailyFeito:""};
+  S.profile=p;S.lang=p.lang||"pt";
+}
+function saveProfile(){S.profile.lang=S.lang;stSet(PROFILE_KEY,S.profile,false)}
+function toggleLang(){S.lang=S.lang==="pt"?"es":"pt";saveProfile();render()}
+function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");clearTimeout(el._to);el._to=setTimeout(()=>el.classList.remove("show"),2600)}
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function pl(p){return t("p_"+p)}
+/* ---------- elenco / cantera ---------- */
+function novoJogador(i){const d=DB[i];return{id:"d"+i,n:d[0],pos:d[1],f:d[2],clube:d[3],ano:d[4],preco:preco(d[2]),lenda:d[2]>=91,gols:0,amar:0,fora:0}}
+function gerarBase(rng){
+  const roles=["GOL","LAT","LAT","ZAG","ZAG","VOL","VOL","MEI","MEI","ATA","ATA"];
+  const joia=rnd(rng,0,10),usados=new Set(),base=[],ln=S.lang;
+  roles.forEach((pos,i)=>{
+    let n;do{n=pick(rng,NOMES_BASE[ln])+" "+pick(rng,SOBRENOMES_BASE[ln])}while(usados.has(n));usados.add(n);
+    const f=i===joia?rnd(rng,69,73):rnd(rng,56,67);
+    base.push({id:"b"+i+"_"+Math.floor(rng()*1e6),n,pos,f,clube:"",ano:"",preco:0,lenda:false,base:true,gols:0,amar:0,fora:0});
+  });
+  return base;
+}
+function nomeClube(rng){const g=NOMES_CLUBE[S.lang];return pick(rng,g.a)+" "+pick(rng,g.b)}
+function startCampaign(mode,seedStr,roomCode){
+  const seed=seedStr||("livre-"+Date.now()+"-"+Math.floor(MR()*1e6));
+  const rM=mulberry32(hashStr(seed+"::mercado")), rO=mulberry32(hashStr(seed+"::copa")), rB=mulberry32(hashStr(seed+"::base"));
+  const usados=new Set(), opps=[];
+  for(let r=0;r<7;r++){const[lo,hi]=FAIXA_OPP[r];const cands=OPPS.filter(o=>o[1]>=lo&&o[1]<=hi&&!usados.has(o[0]));
+    const c=cands.length?pick(rO,cands):pick(rO,OPPS);usados.add(c[0]);opps.push({n:c[0],f:c[1]})}
+  const form=FORMACOES["4-3-3"];
+  S.camp={mode,seed,roomCode:roomCode||null,clube:nomeClube(rO),
+    caixa:170,gasto:0,vendas:0,formacao:"4-3-3",estilo:"eq",
+    slots:form.roles.map(r=>({role:r,p:null})),banco:[],base:gerarBase(rB),
+    rodada:0,opps,resultados:[],gf:0,gs:0,cs:0,moral:0,
+    rM,rolls:0,rollGratis:true,mercado:null,evento:null,
+    eliminado:false,campeao:false,fim:false,contratados:0};
+  refreshMercado();
+  autoEscalar();
+  S.screen="janela";S.sel=null;S.pend=null;render();
+}
+/* 🎰 clube de referência: um por vez; cada contratação sorteia outro */
+function refreshMercado(){
+  const c=S.camp,atual=c.mercado?c.mercado.key:null;
+  let k=pick(c.rM,SQUAD_KEYS),g=0;
+  while(k===atual&&g++<20)k=pick(c.rM,SQUAD_KEYS);
+  c.mercado={key:k,jog:SQUADS[k].map(novoJogador)};
+  c.rolls++;
+}
+function rolarMercado(){
+  const c=S.camp;
+  if(c.rollGratis){c.rollGratis=false}
+  else{if(c.caixa<8){toast(t("t_rolar_caixa"));return}c.caixa-=8}
+  refreshMercado();render();
+}
+function escaladosSet(){const s=new Set();S.camp.slots.forEach(x=>{if(x.p)s.add(x.p.id)});return s}
+function baseDisponivel(){const e=escaladosSet();return S.camp.base.filter(b=>!e.has(b.id)&&b.fora<=0)}
+function noElenco(id){return escaladosSet().has(id)||S.camp.banco.some(p=>p.id===id)}
+/* o time se completa sozinho com a cantera */
+function autoEscalar(msgs){
+  const c=S.camp;
+  c.slots.forEach(s=>{if(s.p&&s.p.fora>0){
+    if(msgs)msgs.push(t("desfalque",{n:s.p.n,k:s.p.fora,s:s.p.fora>1?"s":""}));
+    if(!s.p.base)c.banco.push(s.p);s.p=null}});
+  c.slots.forEach(s=>{if(s.p)return;const cand=baseDisponivel().filter(b=>b.pos===s.role).sort((a,b)=>b.f-a.f);
+    if(cand[0]){s.p=cand[0];if(msgs)msgs.push(t("entra_base",{n:cand[0].n,pos:pl(cand[0].pos)}))}});
+  c.slots.forEach(s=>{if(s.p)return;let best=null,bf=-1;
+    baseDisponivel().forEach(b=>{const f=b.f+penalPos(b.pos,s.role);if(f>bf){bf=f;best=b}});
+    if(best){s.p=best;if(msgs)msgs.push(t("improvisa",{n:best.n,pos:pl(best.pos),r:pl(s.role)}))}});
+}
+function forcaEfetiva(slot,moral){
+  if(!slot.p||slot.p.fora>0)return 50;
+  const f=slot.p.f+penalPos(slot.p.pos,slot.role);
+  return Math.max(45,f+(moral||0)*2);
+}
+function mediaXI(){const c=S.camp;return c.slots.reduce((a,s)=>a+forcaEfetiva(s,0),0)/11}
+/* ---------- escolher onde o jogador vai jogar ---------- */
+function iniciarContratacao(pi){
+  const c=S.camp,p=c.mercado.jog[pi];
+  if(noElenco(p.id)){toast(t("t_ja_elenco",{n:p.n}));return}
+  if(p.preco>c.caixa){toast(t("t_sem_caixa",{n:p.n,v:fmtM(p.preco)}));return}
+  S.pend={tipo:"mercado",p,pi};S.sel=null;render();window.scrollTo(0,0);
+}
+function iniciarEscalarBanco(i){const p=S.camp.banco[i];if(!p)return;
+  if(p.fora>0){toast(t("t_fora",{n:p.n,k:p.fora}));return}
+  S.pend={tipo:"banco",p,idx:i};S.sel=null;render();window.scrollTo(0,0)}
+function iniciarEscalarBase(id){const p=S.camp.base.find(b=>b.id===id);if(!p)return;
+  if(p.fora>0){toast(t("t_dm",{n:p.n}));return}
+  if(escaladosSet().has(p.id)){toast(t("t_ja_campo",{n:p.n}));return}
+  S.pend={tipo:"base",p};S.sel=null;render();window.scrollTo(0,0)}
+function iniciarMover(i){S.pend={tipo:"mover",from:i,p:S.camp.slots[i].p};S.sel=null;render();window.scrollTo(0,0)}
+function cancelarPend(){S.pend=null;render()}
+function colocarEm(i){
+  const c=S.camp,pd=S.pend;if(!pd)return;
+  const slot=c.slots[i];
+  if(pd.tipo==="mover"){
+    if(i!==pd.from){const a=c.slots[pd.from].p;c.slots[pd.from].p=slot.p;slot.p=a}
+    S.pend=null;autoEscalar();render();return;
+  }
+  if(pd.p.fora>0){S.pend=null;render();return}
+  const desloc=slot.p;
+  if(pd.tipo==="mercado"){
+    if(pd.p.preco>c.caixa){S.pend=null;render();return}
+    const novo=Object.assign({},pd.p);
+    c.caixa-=novo.preco;c.gasto+=novo.preco;c.contratados++;
+    if(desloc&&!desloc.base)c.banco.push(desloc);
+    slot.p=novo;
+    toast(t("t_contratado",{n:novo.n,r:pl(slot.role)})+(penalPos(novo.pos,slot.role)<0?t("t_improv"):""));
+    refreshMercado(); // 🎰 o clube de referência muda
+  }else{
+    if(desloc&&!desloc.base)c.banco.push(desloc);
+    slot.p=pd.p;
+    if(pd.tipo==="banco"){const ix=c.banco.findIndex(x=>x.id===pd.p.id);if(ix>=0)c.banco.splice(ix,1)}
+  }
+  S.pend=null;S.sel=null;autoEscalar();render();
+}
+function selSlot(i){if(S.pend){colocarEm(i);return}S.sel=(S.sel===i?null:i);render()}
+function mandarBanco(i){
+  const c=S.camp,s=c.slots[i];if(!s.p)return;
+  if(s.p.base){toast(t("t_jovem"));return}
+  c.banco.push(s.p);s.p=null;S.sel=null;autoEscalar();render();
+}
+function venderSlot(i){
+  const c=S.camp,s=c.slots[i];if(!s.p)return;
+  if(s.p.base){toast(t("t_base_nv"));return}
+  const v=Math.round(s.p.preco*0.7);
+  c.caixa+=v;c.vendas++;toast(t("t_vendido",{n:s.p.n,v:fmtM(v)}));
+  s.p=null;S.sel=null;autoEscalar();render();
+}
+function venderBanco(i){const c=S.camp,p=c.banco[i];if(!p)return;const v=Math.round(p.preco*0.7);c.caixa+=v;c.vendas++;c.banco.splice(i,1);toast(t("t_vendido",{n:p.n,v:fmtM(v)}));render()}
+function setFormacao(f){
+  const c=S.camp;if(f===c.formacao)return;S.pend=null;
+  const atuais=c.slots.filter(s=>s.p).map(s=>s.p);
+  c.formacao=f;c.slots=FORMACOES[f].roles.map(r=>({role:r,p:null}));
+  const conts=atuais.filter(p=>!p.base).sort((a,b)=>b.f-a.f);
+  conts.forEach(p=>{let i=c.slots.findIndex(s=>!s.p&&s.role===p.pos);
+    if(i<0)i=c.slots.findIndex(s=>!s.p&&ADJ[s.role].includes(p.pos));
+    if(i<0)i=c.slots.findIndex(s=>!s.p&&s.role!=="GOL");
+    if(i>=0)c.slots[i].p=p;else c.banco.push(p)});
+  autoEscalar();S.sel=null;render();
+}
+function setEstilo(e){S.camp.estilo=e;render()}
+/* ================= SIMULAÇÃO ================= */
+function ratingTime(){
+  const c=S.camp,WD={GOL:1.4,ZAG:1.25,LAT:1.0,VOL:.85,MEI:.35,ATA:.1},WA={GOL:0,ZAG:.15,LAT:.55,VOL:.7,MEI:1.15,ATA:1.35};
+  let da=0,dw=0,aa=0,aw=0;
+  c.slots.forEach(s=>{const f=forcaEfetiva(s,c.moral);da+=f*WD[s.role];dw+=WD[s.role];aa+=f*WA[s.role];aw+=WA[s.role]});
+  const fm=FORMACOES[c.formacao],es=ESTILOS[c.estilo];
+  return{atk:aa/aw+fm.atk+es.atk+TORCIDA,def:da/dw+fm.def+es.def+TORCIDA};
+}
+function lambdaGols(atk,def,sup){let l=1.28*Math.pow(1.7,(atk-def)/15);if(sup)l*=Math.pow(0.86,Math.max(0,def-atk)/4);return Math.min(5.2,Math.max(.06,l))}
+function recalcLambdas(){
+  const sim=S.sim,r=ratingTime();
+  sim.lambF=lambdaGols(r.atk,sim.oDef)/94;
+  sim.lambC=lambdaGols(sim.oAtk,r.def,true)/94;
+}
+function sorteiaAutor(){
+  const c=S.camp,cand=[];
+  c.slots.forEach((s,i)=>{if(!s.p||s.p.fora>0)return;const w=s.role==="ATA"?6:s.role==="MEI"?3:s.role==="VOL"?1:s.role==="GOL"?0:.6;
+    for(let k=0;k<w*10;k++)cand.push(i)});
+  if(!cand.length)return -1;
+  return cand[Math.floor(MR()*cand.length)];
+}
+function sorteiaCartao(){
+  const c=S.camp,cand=[];
+  c.slots.forEach((s,i)=>{if(!s.p||s.p.fora>0)return;const w={ZAG:3,VOL:3,LAT:2,MEI:1.5,ATA:1,GOL:.2}[s.role];
+    for(let k=0;k<w*10;k++)cand.push(i)});
+  if(!cand.length)return -1;
+  return cand[Math.floor(MR()*cand.length)];
+}
+function startMatch(){
+  const c=S.camp,opp=c.opps[c.rodada];
+  S.pend=null;S.sel=null;
+  const msgs=[];autoEscalar(msgs);
+  [...c.slots.filter(s2=>s2.p).map(s2=>s2.p),...c.banco,...c.base].forEach(p=>p.amarJogo=0);
+  const rSeed=mulberry32(hashStr(c.seed+"o"+c.rodada));
+  const oAtk=opp.f+rnd(rSeed,-2,2),oDef=opp.f;
+  S.sim={min:0,gf:0,gs:0,feed:[],oAtk,oDef,speed:1,timer:null,fim:false,penaltis:null,prorroga:false,gols:[],subs:0,opp};
+  recalcLambdas();
+  msgs.forEach(m=>feed("📋 "+esc(m)));
+  S.screen="jogo";render();
+  runTicker();
+}
+function runTicker(){
+  const sim=S.sim;clearInterval(sim.timer);
+  if(sim.speed>=99){while(!sim.fim)tickMin(true);render();return}
+  sim.timer=setInterval(()=>{tickMin(false);renderPlacarVivo();if(sim.fim){clearInterval(sim.timer);setTimeout(render,650)}},sim.speed===1?520:180);
+}
+function feed(txt,cls){S.sim.feed.unshift({t:txt,c:cls||""})}
+function substituir(slotIdx){
+  const c=S.camp,slot=c.slots[slotIdx],e=escaladosSet();
+  const cands=[];
+  c.banco.forEach(p=>{if(p.fora<=0)cands.push(p)});
+  c.base.forEach(b=>{if(b.fora<=0&&!e.has(b.id))cands.push(b)});
+  let best=null,bf=-1;
+  cands.forEach(p=>{const f=p.f+penalPos(p.pos,slot.role);if(f>bf){bf=f;best=p}});
+  if(!best){slot.p=null;return null}
+  const ix=c.banco.findIndex(x=>x.id===best.id);if(ix>=0)c.banco.splice(ix,1);
+  slot.p=best;return best;
+}
+function tickMin(mudo){
+  const sim=S.sim,c=S.camp;if(sim.fim)return;
+  sim.min++;
+  const lim=sim.prorroga?120:90;
+  const N=NARR[S.lang]||NARR.pt;
+  if(MR()<sim.lambF*(sim.prorroga?.4:1)){
+    const i=sorteiaAutor(),a=i>=0?c.slots[i].p:null;
+    sim.gf++;sim.gols.push({m:sim.min,p:a?a.n:"—",nosso:true});
+    if(a){a.gols++;if(a.tier==="R")c.golSofrencia=true}
+    feed(sim.min+"' — "+pick(MR,N.gol).replace("{p}","<b>"+esc(a?a.n:"#9")+"</b>")+"! <b>"+sim.gf+"×"+sim.gs+"</b>","gol");
+  }else if(MR()<sim.lambC*(sim.prorroga?.4:1)){
+    sim.gs++;sim.gols.push({m:sim.min,p:sim.opp.n,nosso:false});
+    feed(sim.min+"' — "+t("gol_deles",{o:esc(sim.opp.n),a:sim.gf,b:sim.gs}),"contra");
+  }else if(MR()<.035){
+    const i=sorteiaAutor(),a=i>=0?c.slots[i].p:null;
+    if(a)feed(sim.min+"' — "+pick(MR,N.chance).replace("{p}",esc(a.n)));
+  }else if(MR()<.02){
+    feed(sim.min+"' — "+pick(MR,N.def));
+  }
+  if(MR()<.012){
+    const i=sorteiaCartao(),a=i>=0?c.slots[i].p:null;
+    if(a){
+      a.amarJogo=(a.amarJogo||0)+1;a.amar++;
+      if(a.amarJogo>=2){
+        /* 🟥 2 amarelos no MESMO jogo = vermelho: fora do restante + próximo, sem substituição */
+        a.amar=0;a.amarJogo=0;a.fora=1;a._nl=true;
+        if(!a.base)c.banco.push(a);
+        c.slots[i].p=null;
+        recalcLambdas();
+        feed(sim.min+"' — "+t("expulso",{n:esc(a.n)}),"contra");
+      }else if(a.amar>=2){
+        /* acúmulo em jogos diferentes: segue em campo, cumpre só o próximo (aplicado no fim) */
+        feed(sim.min+"' — "+t("pendurado",{n:esc(a.n)}));
+      }else{
+        feed(sim.min+"' — "+t("amarelo",{n:esc(a.n)}));
+      }
+    }
+  }
+  if(MR()<.0004){
+    /* 🟥 vermelho direto (raro): fora do restante + 1-2 jogos, sem substituição */
+    const i=sorteiaCartao(),a=i>=0?c.slots[i].p:null;
+    if(a){
+      a.fora=rnd(MR,1,2);a._nl=true;a.amarJogo=0;
+      if(!a.base)c.banco.push(a);
+      c.slots[i].p=null;
+      recalcLambdas();
+      feed(sim.min+"' — "+t("verm_direto",{n:esc(a.n),k:a.fora}),"contra");
+    }
+  }
+  if(sim.subs<5&&MR()<.006){ /* 🩹 lesão: sai de campo, entra do banco, perde o próximo */
+    const i=sorteiaAutor();
+    if(i>=0&&c.slots[i].p){
+      const a=c.slots[i].p;a.fora=rnd(MR,1,2);a._nl=true;
+      if(!a.base)c.banco.push(a);
+      c.slots[i].p=null;
+      const sub=substituir(i);sim.subs++;
+      recalcLambdas();
+      if(sub)feed(sim.min+"' — "+t("sub_les",{n:esc(a.n),k:a.fora,s:esc(sub.n),im:sub.pos!==c.slots[i].role?t("sub_im"):""}),"contra");
+      else feed(sim.min+"' — "+t("sub_sem",{n:esc(a.n)}),"contra");
+    }
+  }
+  if(sim.min>=lim){
+    const ko=c.rodada>=3;
+    if(ko&&sim.gf===sim.gs&&!sim.prorroga){sim.prorroga=true;feed(t("prorrog_msg"),"fim");return}
+    if(ko&&sim.gf===sim.gs&&sim.prorroga){disputaPenaltis();return}
+    sim.fim=true;feed(t("fimjogo",{a:sim.gf,b:sim.gs}),"fim");
+  }
+}
+function disputaPenaltis(){
+  const sim=S.sim,c=S.camp;
+  const gol=c.slots.find(s=>s.role==="GOL");
+  const minhaDef=forcaEfetiva(gol,0), kickers=c.slots.filter(s=>s.p).map(s=>s.p).sort((a,b)=>b.f-a.f);
+  let pf=0,pc=0;
+  for(let i=0;i<5||pf===pc;i++){
+    if(i>10)break;
+    const k=kickers[i%Math.max(1,kickers.length)];
+    if(MR()<.76+((k?k.f:60)-sim.opp.f)/200)pf++;
+    if(MR()<.76+(sim.opp.f-minhaDef)/200)pc++;
+    if(i>=4&&pf!==pc)break;
+    if(i<4){const rest=4-i;if(pf>pc+rest||pc>pf+rest)break}
+  }
+  if(pf===pc)MR()<.5?pf++:pc++;
+  sim.penaltis={pf,pc};sim.fim=true;
+  feed(t(pf>pc?"pen_win":"pen_lose",{a:pf,b:pc}),"fim");
+}
+function setSpeed(v){S.sim.speed=v;if(!S.sim.fim)runTicker();else render()}
+/* ---------- pós-jogo ---------- */
+function encerrarPartida(){
+  const c=S.camp,sim=S.sim,ko=c.rodada>=3;
+  let res, venceu=sim.gf>sim.gs||(sim.penaltis&&sim.penaltis.pf>sim.penaltis.pc);
+  const empatou=sim.gf===sim.gs&&!sim.penaltis;
+  c.gf+=sim.gf;c.gs+=sim.gs;if(sim.gs===0)c.cs++;
+  let premio=0;
+  if(venceu){premio+=PREMIO_V[c.rodada];c.moral=Math.min(3,c.moral+1);res=sim.gs===0?"V0":"V"}
+  else if(empatou&&!ko){premio+=PREMIO_E[c.rodada];res="E"}
+  else{c.moral=Math.max(-3,c.moral-1);res="D"}
+  premio+=sim.gf*3+(sim.gs===0?10:0);
+  c.caixa+=premio;
+  c.resultados.push({fase:c.rodada,opp:sim.opp.n,gf:sim.gf,gs:sim.gs,res,pen:sim.penaltis,premio});
+  /* recuperação: quem já estava fora cumpriu este jogo (baixas da própria partida não contam) */
+  const todos=[...c.slots.filter(s=>s.p).map(s=>s.p),...c.banco,...c.base];
+  todos.forEach(p=>{if(p.fora>0&&!p._nl)p.fora--});
+  todos.forEach(p=>{delete p._nl});
+  /* acúmulo de amarelos em jogos diferentes: suspenso do próximo (não saiu do atual) */
+  todos.forEach(p=>{if(p.amar>=2){p.amar=0;p.fora=Math.max(p.fora,1)}});
+  if(ko&&!venceu){c.eliminado=true;c.fim=true}
+  if(!ko&&c.rodada===2){
+    const pts=c.resultados.slice(0,3).reduce((a,r)=>a+(r.res[0]==="V"?3:r.res==="E"?1:0),0);
+    if(pts<4){c.eliminado=true;c.fim=true;c.notaGrupo=pts}
+  }
+  if(c.rodada===6&&venceu){c.campeao=true;c.fim=true}
+  c.rodada++;
+  if(c.fim){finalizarCampanha();return}
+  c.evento=sortearEvento();
+  c.rollGratis=true;
+  autoEscalar();
+  refreshMercado();
+  S.screen="posjogo";render();
+}
+function melhorContratado(){
+  const c=S.camp,pool=[...c.slots.filter(s=>s.p&&!s.p.base).map(s=>s.p),...c.banco.filter(p=>!p.base)];
+  pool.sort((a,b)=>b.f-a.f);return pool[0]||null;
+}
+function sortearEvento(){
+  const c=S.camp,r=MR();
+  if(r<.16){const v=rnd(MR,8,18);c.caixa+=v;return{k:"pat",vars:{c:c.clube,v:fmtM(v)}}}
+  if(r<.30){const alvo=melhorContratado();
+    if(alvo){const of=Math.round(alvo.preco*1.3);
+      return{k:"ass",vars:{v:fmtM(of),n:alvo.n,f:alvo.f},escolha:true,alvoId:alvo.id,oferta:of}}}
+  if(r<.42){const p=novoJogador(pick(MR,SQUADS[pick(MR,SQUAD_KEYS)]));p.preco=Math.round(p.preco*.6);
+    if(!noElenco(p.id))return{k:"emp",vars:{n:p.n,pos:pl(p.pos),f:p.f,cl:p.clube,ano:p.ano,v:fmtM(p.preco)},escolha:true,promo:p}}
+  if(r<.50){const alvos=c.slots.filter(s=>s.p);if(alvos.length){const s=pick(MR,alvos);s.p.fora=1;
+    return{k:"les",vars:{n:s.p.n}}}}
+  if(r<.58){c.moral=Math.min(3,c.moral+1);return{k:"chu",vars:{}}}
+  if(r<.64){const v=rnd(MR,3,6);c.caixa+=v;return{k:"rifa",vars:{v:fmtM(v)}}}
+  return null;
+}
+function eventoEscolha(aceita){
+  const c=S.camp,ev=c.evento;if(!ev)return;
+  if(ev.alvoId&&aceita){
+    const i=c.slots.findIndex(s=>s.p&&s.p.id===ev.alvoId);
+    let nome="";
+    if(i>=0){nome=c.slots[i].p.n;c.slots[i].p=null}
+    else{const j=c.banco.findIndex(p=>p.id===ev.alvoId);if(j>=0){nome=c.banco[j].n;c.banco.splice(j,1)}}
+    c.caixa+=ev.oferta;c.vendas++;toast(t("t_ass_ok",{n:nome,v:fmtM(ev.oferta)}));autoEscalar();
+  }else if(ev.alvoId){toast(t("t_ass_nao"))}
+  if(ev.promo&&aceita){
+    if(ev.promo.preco>c.caixa)toast(t("t_emp_caixa"));
+    else{c.caixa-=ev.promo.preco;c.gasto+=ev.promo.preco;c.contratados++;c.banco.push(ev.promo);toast(t("t_emp_ok",{n:ev.promo.n}))}
+  }
+  c.evento=null;render();
+}
+/* ---------- fim de campanha ---------- */
+function calcScore(){
+  const c=S.camp;
+  const wins=c.resultados.filter(r=>r.res[0]==="V").length;
+  const draws=c.resultados.filter(r=>r.res==="E").length;
+  const alcance=[0,0,0,50,100,160,230][Math.min(6,c.rodada-1)]+(c.campeao?320:0);
+  const media=mediaXI();
+  const zebra=1+Math.max(0,(85-media))*.06;
+  const perfeito=c.campeao&&wins===7&&c.gs===0;
+  let base=wins*100+draws*30+c.gf*8+c.cs*40+alcance+Math.floor(c.caixa/3);
+  let total=Math.round(base*zebra*(perfeito?2:c.campeao?1.3:1));
+  return{total,base,zebra:zebra.toFixed(2),perfeito,wins,draws,media:Math.round(media)};
+}
+const CONQ_IDS=["estreia","vitoria","campeao","perfeito","zebra","maodevaca","raiz","artilheiro","muralha","redencao","duelista","diario"];
+function checarConquistas(sc){
+  const c=S.camp,p=S.profile,novas=[];
+  const add=id=>{if(!p.conq.includes(id)){p.conq.push(id);novas.push(id)}};
+  add("estreia");
+  if(sc.wins>0)add("vitoria");
+  if(c.campeao)add("campeao");
+  if(sc.perfeito)add("perfeito");
+  if(c.campeao&&sc.media<78)add("zebra");
+  if(c.campeao&&c.gasto<100)add("maodevaca");
+  if(c.contratados===0&&c.resultados.length>=4)add("raiz");
+  const todos=[...c.slots.filter(s=>s.p).map(s=>s.p),...c.banco,...c.base];
+  if(Math.max(0,...todos.map(p2=>p2.gols))>=8)add("artilheiro");
+  if(c.cs>=5)add("muralha");
+  if(c.campeao&&c.golSofrencia)add("redencao");
+  if(c.mode==="duelo")add("duelista");
+  if(c.mode==="diario")add("diario");
+  return novas;
+}
+async function finalizarCampanha(){
+  const c=S.camp,sc=calcScore();
+  c.score=sc;
+  const p=S.profile;
+  p.jogos++;if(c.campeao)p.titulos++;if(sc.perfeito)p.perfeitos++;
+  p.recorde=Math.max(p.recorde,sc.total);p.legado+=sc.total;
+  c.novasConq=checarConquistas(sc);
+  saveProfile();
+  if(S.storageOk&&p.nick){
+    if(c.mode==="diario"&&p.dailyFeito!==hojeStr()){
+      p.dailyFeito=hojeStr();saveProfile();
+      await pushRank("choque:dia:"+hojeStr(),sc,c);
+    }
+    if(c.mode==="duelo"&&c.roomCode)await pushRank("choque:sala:"+c.roomCode,sc,c);
+  }
+  S.screen="fim";render();
+}
+async function pushRank(key,sc,c){
+  try{
+    const cur=(await stGet(key,true))||{entries:[]};
+    cur.entries.push({nick:S.profile.nick,pts:sc.total,perf:sc.perfeito,campeao:c.campeao,fase:c.rodada,ts:Date.now()});
+    cur.entries.sort((a,b)=>b.pts-a.pts);cur.entries=cur.entries.slice(0,50);
+    await stSet(key,cur,true);
+  }catch(e){}
+}
+function hojeStr(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+function shareText(){
+  const c=S.camp,sc=c.score;
+  const em=c.resultados.map(r=>r.res==="V0"?"🟩":r.res==="V"?"🟨":r.res==="E"?"⬜":"🟥").join("");
+  const st=sc.perfeito?t("sh_perf"):c.campeao?t("sh_camp"):c.eliminado?t("sh_elim",{f:t("fase_"+c.resultados[c.resultados.length-1].fase)}):"";
+  const modo=c.mode==="diario"?t("modo_dia",{d:hojeStr()}):c.mode==="duelo"?t("modo_duelo",{c:c.roomCode}):t("modo_livre");
+  return t("share",{modo,clube:c.clube,st,em,pts:sc.total,m:sc.media,z:sc.zebra});
+}
+async function copiarShare(){
+  try{await navigator.clipboard.writeText(shareText());toast(t("t_copiado"))}
+  catch(e){toast(t("t_nao_copiou"))}
+}
+/* ================= TELAS ================= */
+const LINHAS={"4-3-3":[[8,9,10],[5,6,7],[1,2,3,4],[0]],"4-4-2":[[9,10],[5,6,7,8],[1,2,3,4],[0]],
+"3-5-2":[[9,10],[4,5,6,7,8],[1,2,3],[0]],"5-3-2":[[9,10],[6,7,8],[1,2,3,4,5],[0]]};
+function el(){return document.getElementById("app")}
+const LOGO_MARK=`<svg class="mark" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M12 1L22 6.5V17.5L12 23L2 17.5V6.5L12 1Z" stroke="var(--ouro)" stroke-width="1.6" stroke-linejoin="round"/>
+  <path d="M7 6.5H17L12 11.8L17 17.5H7L12 11.8L7 6.5Z" stroke="var(--gelo)" stroke-width="1.4" stroke-linejoin="round" fill="none"/>
+  <line x1="4" y1="19.5" x2="20" y2="4.5" stroke="var(--ouro)" stroke-width="1.3"/>
+</svg>`;
+function header(extra){
+  const nome=`<span class="wm">CHOQUE DE <b>ERAS</b></span>`;
+  return `<div class="top"><div class="logo" onclick="irHome()">${LOGO_MARK}<div class="txt">${nome}<small>${t("tag")}</small></div></div><div class="row">${extra||""}<button class="pill" onclick="toggleLang()">🌎 ${S.lang==="pt"?"ES":"PT"}</button></div></div>`;
+}
+function fclass(f){return f>=85?"boa":f>=72?"media":"ruim"}
+function irHome(){if(S.camp&&!S.camp.fim&&!confirm(t("confirm_ab")))return;S.camp=null;S.pend=null;S.screen="home";render()}
+function render(){
+  const scr=S.screen;
+  if(scr==="home")return renderHome();
+  if(scr==="setup")return renderSetup();
+  if(scr==="duelo")return renderDuelo();
+  if(scr==="janela")return renderJanela();
+  if(scr==="jogo")return renderJogo();
+  if(scr==="posjogo")return renderPosjogo();
+  if(scr==="fim")return renderFim();
+  if(scr==="rankdia")return renderRankDia();
+  if(scr==="sala")return renderSala();
+  if(scr==="perfil")return renderPerfil();
+  if(scr==="ajuda")return renderAjuda();
+}
+/* ---------- HOME ---------- */
+function renderHome(){
+  const p=S.profile||{nick:""};
+  const nickBox=p.nick?
+    `<div class="spread" style="margin-bottom:10px"><span class="muted">${t("tec_label")} <b style="color:var(--ouro)">${esc(p.nick)}</b></span><button class="pill" onclick="go('perfil')">${t("card")}</button></div>`:
+    `<div class="panel"><div class="eyebrow">${t("antes")}</div>
+     <p class="muted" style="margin-bottom:8px">${t("comoChamar")}</p>
+     <input type="text" id="nick" maxlength="16" placeholder="${t("nickPh")}">
+     <button class="btn gold" onclick="salvarNick()">${t("assinar")}</button></div>`;
+  const jaFez=p.dailyFeito===hojeStr();
+  el().innerHTML=header()+nickBox+`
+  <div class="panel hero">
+    <div class="eyebrow">${t("hero_eb")}</div>
+    <h1>${t("hero_h")}</h1>
+    <p>${t("hero_p")}</p>
+    <button class="btn gold" onclick="abrirSetup('livre')">${t("b_livre")}</button>
+    <button class="btn green" ${p.nick?"":"disabled"} onclick="startDaily()">${t("b_dia")} ${jaFez?t("jaPontuado"):""}</button>
+    <button class="btn green" ${p.nick?"":"disabled"} onclick="go('duelo')">${t("b_duelo")}</button>
+    <div class="grid2">
+      <button class="btn ghost" onclick="go('rankdia')">${t("b_rank")}</button>
+      <button class="btn ghost" onclick="go('ajuda')">${t("b_ajuda")}</button>
+    </div>
+  </div>
+  ${S.storageOk?"":`<div class="panel"><p class="muted">${t("sem_storage")}</p></div>`}
+  <div class="footer">${t("footer")}</div>`;
+}
+function salvarNick(){const v=document.getElementById("nick").value.trim();if(!v){toast(t("toast_nick"));return}S.profile.nick=v;saveProfile();render()}
+function go(s){S.screen=s;render();if(s==="rankdia")carregarRankDia()}
+function startDaily(){
+  if(S.profile.dailyFeito===hojeStr()&&!confirm(t("daily_replay")))return;
+  startCampaign("diario","dia-"+hojeStr());
+}
+/* ---------- DUELO ---------- */
+function renderDuelo(){
+  el().innerHTML=header(`<button class="pill" onclick="irHome()">${t("voltar")}</button>`)+`
+  <div class="panel"><div class="eyebrow">${t("duelo_eb")}</div>
+    <h2 style="margin-bottom:6px">${t("duelo_h")}</h2>
+    <p class="muted">${t("duelo_p")}</p>
+    <button class="btn gold" onclick="abrirSetup('duelo')">${t("b_criarsala")}</button>
+    <div style="margin-top:14px"><input type="text" id="codigo" maxlength="5" placeholder="${t("cod_ph")}" style="text-transform:uppercase"></div>
+    <div class="grid2">
+      <button class="btn green" onclick="entrarSala(true)">${t("b_jogarsala")}</button>
+      <button class="btn ghost" onclick="entrarSala(false)">${t("b_versala")}</button>
+    </div>
+  </div>`;
+}
+function criarSala(){
+  const abc="ABCDEFGHJKMNPQRSTUVWXYZ";let code="";for(let i=0;i<5;i++)code+=abc[Math.floor(MR()*abc.length)];
+  stSet("choque:sala:"+code,{criador:S.profile.nick,ts:Date.now(),entries:[]},true);
+  toast(t("toast_sala",{c:code}));
+  startCampaign("duelo","sala-"+code,code);
+}
+function entrarSala(jogar){
+  const code=(document.getElementById("codigo").value||"").trim().toUpperCase();
+  if(code.length!==5){toast(t("toast_cod5"));return}
+  if(jogar)startCampaign("duelo","sala-"+code,code);
+  else{S.salaCode=code;S.screen="sala";render();carregarSala(code)}
+}
+/* ---------- JANELA ---------- */
+function hud(){
+  const c=S.camp,r=ratingTime();
+  return `<div class="hud">
+    <div class="box"><small>${t("h_caixa")}</small><b class="gold">${fmtM(c.caixa)}</b></div>
+    <div class="box"><small>${t("h_fase")}</small><b>${Math.min(7,c.rodada+1)}/7</b></div>
+    <div class="box"><small>${t("h_atq")}</small><b>${Math.round(r.atk)}</b></div>
+    <div class="box"><small>${t("h_def")}</small><b>${Math.round(r.def)}</b></div>
+    <div class="box"><small>${t("h_moral")}</small><b>${c.moral>0?"+":""}${c.moral}</b></div>
+  </div>`;
+}
+function slotHtml(i){
+  const c=S.camp,s=c.slots[i],alvo=!!S.pend;
+  const click=`onclick="selSlot(${i})"`;
+  if(!s.p)return `<div class="slot vazio ${alvo?'alvo':''} ${S.sel===i?'sel':''}" ${click} role="button" tabindex="0"><div class="pos">${pl(s.role)}</div><div class="nome">${t("vaga")}</div><div class="forca ruim">${alvo?Math.max(45,S.pend.p.f+penalPos(S.pend.p.pos,s.role)):50}</div><div class="sub">${alvo?t("aqui"):t("buraco")}</div></div>`;
+  const fe=Math.round(forcaEfetiva(s,c.moral));
+  const fora=s.p.fora>0, pen=penalPos(s.p.pos,s.role);
+  const subtxt=alvo?("→ "+Math.max(45,S.pend.p.f+penalPos(S.pend.p.pos,s.role))):
+    fora?t("fora_nj",{n:s.p.fora}):esc((s.p.clube?flagClube(s.p.clube)+" ":"")+(s.p.ano||t("base_tag")));
+  return `<div class="slot ${alvo?'alvo':''} ${S.sel===i?'sel':''}" ${click} role="button" tabindex="0">
+    ${s.p.lenda?'<span class="lenda">⭐</span>':''}
+    ${fora?'<span class="tag">🩹</span>':s.p.amar===1?'<span class="tag">🟨</span>':''}
+    <div class="pos">${pl(s.role)}${pen<0?" ⚠"+pen:""}</div>
+    <div class="nome">${esc(s.p.n)}</div>
+    <div class="forca ${fclass(fe)}">${fe}</div>
+    <div class="sub">${subtxt}</div>
+    ${s.p.base?'<span class="tagb">'+t("base_tag").toUpperCase()+'</span>':''}
+  </div>`;
+}
+function figJog(p,botoes){
+  return `<div class="fig ${p.lenda?'lend':''}">${p.lenda?'<span class="star">⭐</span>':''}
+    <div class="p">${pl(p.pos)}${p.fora>0?" 🩹":""}</div><div class="n">${esc(p.n)}</div><div class="f">${p.f}</div>
+    <div class="pr">${p.preco?fmtM(p.preco):t("cria")}</div>${botoes}</div>`;
+}
+function renderJanela(){
+  const c=S.camp,opp=c.opps[c.rodada];
+  const pendBar=S.pend?`<div class="evento"><h3>${S.pend.tipo==="mover"?t("pend_mover",{n:esc(S.pend.p.n)}):t("pend_escalar",{n:esc(S.pend.p.n),pos:pl(S.pend.p.pos),f:S.pend.p.f})}</h3>
+    <p>${t("pend_p")}</p>
+    <button class="btn ghost" style="margin-top:8px" onclick="cancelarPend()">${t("b_cancelar")}</button></div>`:"";
+  const selBar=(!S.pend&&S.sel!=null&&c.slots[S.sel].p)?(()=>{const p=c.slots[S.sel].p;
+    return `<div class="pane"><div class="spread"><div><b>${esc(p.n)}</b> · ${pl(p.pos)} ${p.f} <span class="muted">${esc(p.clube||"")} ${p.ano||""}</span>${penalPos(p.pos,c.slots[S.sel].role)<0?'<div class="muted">'+t("improv_nota",{p:penalPos(p.pos,c.slots[S.sel].role)})+'</div>':''}</div>
+    <div class="row wrap" style="justify-content:flex-end"><button class="mini dark" onclick="iniciarMover(${S.sel})">${t("b_mover")}</button>${p.base?"":`<button class="mini dark" onclick="mandarBanco(${S.sel})">${t("b_banco")}</button><button class="mini red" onclick="venderSlot(${S.sel})">${t("b_vender",{v:fmtM(Math.round(p.preco*.7))})}</button>`}<button class="mini dark" onclick="selSlot(${S.sel})">${t("fechar")}</button></div></div></div>`})():"";
+  const mm=c.mercado,mClube=mm.clube||mm.key.slice(0,mm.key.lastIndexOf(" ")),mAno=mm.ano||mm.key.slice(mm.key.lastIndexOf(" ")+1);
+  const mercadoHtml=`<div class="sqhead"><span style="font-size:1.2rem">${flagClube(mClube)}</span><span class="band">${esc(mClube)}</span><span class="yr">${mAno}</span>${mm.tier?`<span class="badgeTier ${mm.tier}">${t("tier_"+mm.tier)}</span>`:""}</div>${mm.eraNome?`<p class="muted" style="margin:2px 0 2px">${esc(mm.eraNome)}</p>`:""}
+    <div class="figs">${c.mercado.jog.map((p,pi)=>{
+      const meu=noElenco(p.id);
+      const btn=`<button class="mini ${meu?'dark':'gold'}" ${meu||p.preco>c.caixa?"disabled":""} onclick="iniciarContratacao(${pi})">${meu?t("no_elenco"):t("b_contratar")}</button>`;
+      return figJog(p,btn)}).join("")}</div>`;
+  const escalados=escaladosSet();
+  const baseHtml=`<div class="sqhead"><span style="font-size:1.2rem">🧒</span><span class="band">${t("base_h")}</span><span class="yr" style="background:#5B8DB8;color:#fff">${t("base_badge")}</span></div>
+    <div class="figs">${c.base.map(b=>{
+      const emCampo=escalados.has(b.id);
+      const btn=emCampo?`<span class="badge verde">${t("em_campo")}</span>`:
+        b.fora>0?`<span class="badge verm">${t("dm",{n:b.fora})}</span>`:
+        `<button class="mini gold" onclick="iniciarEscalarBase('${b.id}')">${t("b_escalar")}</button>`;
+      return figJog(b,btn)}).join("")}</div>`;
+  const bancoHtml=c.banco.length?`<div class="sqhead"><span style="font-size:1.2rem">🪑</span><span class="band">${t("banco_h")}</span></div>
+    <div class="figs">${c.banco.map((p,i)=>figJog(p,`<div class="row" style="justify-content:center;gap:4px"><button class="mini gold" ${p.fora>0?"disabled":""} onclick="iniciarEscalarBanco(${i})">${t("b_escalar")}</button><button class="mini red" onclick="venderBanco(${i})">${fmtM(Math.round(p.preco*.7))}</button></div>`)).join("")}</div>`:"";
+  el().innerHTML=header(`<button class="pill" onclick="irHome()">${t("abandonar")}</button>`)+hud()+pendBar+`
+  <div class="panel">
+    <div class="eyebrow">${t("fase_"+c.rodada)}</div>
+    <div class="spread"><h2 style="font-size:1.05rem">${esc(c.clube)}</h2><span class="badge verm">vs ${esc(opp.n)} · ${opp.f}</span></div>
+    <p class="muted" style="margin-top:4px">${c.rodada<3?t("grupo_regra"):t("mata_regra")} ${t("media_xi")}: <b>${Math.round(mediaXI())}</b></p>
+    <div class="campo">${LINHAS[c.formacao].map(l=>`<div class="linha-t">${l.map(slotHtml).join("")}</div>`).join("")}</div>
+    ${selBar}
+    <div class="eyebrow">${t("form_lbl")}</div>
+    <div class="chips">${Object.keys(FORMACOES).map(f=>`<button class="chip ${c.formacao===f?'on':''}" onclick="setFormacao('${f}')">${f}</button>`).join("")}</div>
+    <div class="eyebrow" style="margin-top:10px">${t("estilo_lbl")}</div>
+    <div class="chips">${Object.keys(ESTILOS).map(e=>`<button class="chip ${c.estilo===e?'on':''}" onclick="setEstilo('${e}')">${t("st_"+e)}</button>`).join("")}</div>
+    <button class="btn gold" onclick="startMatch()">${t("b_bola")}</button>
+  </div>
+  <div class="panel ${c.mercado.tier?("tier"+c.mercado.tier):""}">
+    <div class="spread"><div class="eyebrow" style="margin:0">${t("mercado_eb",{n:Math.min(7,c.rodada+1)})}</div>
+    <button class="mini gold" onclick="rolarMercado()">${t("b_rolar")} ${c.rollGratis?t("gratis"):t("pago")}</button></div>
+    <p class="muted" style="margin:4px 0 2px">${t("mercado_note")}</p>
+    ${mercadoHtml}
+  </div>
+  <div class="panel">${bancoHtml}${baseHtml}</div>`;
+  if(!S.pend)window.scrollTo(0,0);
+}
+/* ---------- JOGO ---------- */
+function renderJogo(){
+  const sim=S.sim,c=S.camp;
+  el().innerHTML=header()+`
+  <div class="panel">
+    <div class="eyebrow">${t("fase_"+c.rodada)} ${sim.prorroga?t("prorroga"):""}</div>
+    <div class="placar">
+      <div class="times"><span>${esc(c.clube).toUpperCase()}</span><span>${esc(sim.opp.n).toUpperCase()}</span></div>
+      <div class="gols" id="pgols">${sim.gf} × ${sim.gs}</div>
+      <div class="min" id="pmin">${sim.fim?t("fim_lbl"):sim.min+"'"}${sim.penaltis?" · "+t("pen_lbl")+" "+sim.penaltis.pf+"×"+sim.penaltis.pc:""}</div>
+      <div class="barra"><i id="pbar" style="width:${Math.min(100,sim.min/(sim.prorroga?120:90)*100)}%"></i></div>
+    </div>
+    <div class="feed" id="pfeed">${feedHtml()}</div>
+    ${sim.fim?`<button class="btn gold" onclick="encerrarPartida()">${t("b_continuar")}</button>`:
+    `<div class="speed">
+      <button class="mini dark ${sim.speed===1?'on':''}" onclick="setSpeed(1)">${t("v_radio")}</button>
+      <button class="mini dark ${sim.speed===3?'on':''}" onclick="setSpeed(3)">${t("v_rapido")}</button>
+      <button class="mini dark" onclick="setSpeed(99)">${t("v_direto")}</button>
+    </div>`}
+  </div>`;
+}
+function feedHtml(){return S.sim.feed.slice(0,40).map(f=>`<p class="${f.c}">${f.t}</p>`).join("")||`<p class="muted pulse">${t("aguarda")}</p>`}
+function renderPlacarVivo(){
+  const sim=S.sim;
+  const g=document.getElementById("pgols"),m=document.getElementById("pmin"),b=document.getElementById("pbar"),f=document.getElementById("pfeed");
+  if(!g)return;
+  g.textContent=sim.gf+" × "+sim.gs;
+  m.textContent=(sim.fim?t("fim_lbl"):sim.min+"'")+(sim.penaltis?" · "+t("pen_lbl")+" "+sim.penaltis.pf+"×"+sim.penaltis.pc:"");
+  b.style.width=Math.min(100,sim.min/(sim.prorroga?120:90)*100)+"%";
+  f.innerHTML=feedHtml();
+}
+/* ---------- PÓS-JOGO ---------- */
+function renderPosjogo(){
+  const c=S.camp,ult=c.resultados[c.resultados.length-1];
+  const gols=S.sim.gols.filter(g=>g.nosso).map(g=>esc(g.p)+" "+g.m+"'").join(", ");
+  const ev=c.evento;
+  const evHtml=ev?`<div class="evento"><h3>${t("ev_"+ev.k+"_t")}</h3><p>${esc(t("ev_"+ev.k+"_d",ev.vars))}</p>
+    ${ev.escolha?`<div class="grid2" style="margin-top:10px"><button class="btn gold" style="margin:0" onclick="eventoEscolha(true)">${t("b_aceitar")}</button><button class="btn ghost" style="margin:0" onclick="eventoEscolha(false)">${t("b_recusar")}</button></div>`:
+    `<button class="btn ghost" onclick="eventoEscolha(false)" style="margin-top:10px">${t("b_seguir")}</button>`}</div>`:"";
+  el().innerHTML=header()+hud()+`
+  <div class="pane center">
+    <div class="eyebrow">${t("fase_"+ult.fase)}</div>
+    <h3 style="font-size:1.4rem">${ult.res[0]==="V"?t("res_v"):ult.res==="E"?t("res_e"):t("res_d")} ${ult.gf}×${ult.gs}${ult.pen?" ("+t("pen_lbl").toLowerCase()+" "+ult.pen.pf+"×"+ult.pen.pc+")":""}</h3>
+    <p class="muted">vs ${esc(ult.opp)}</p>${gols?`<p class="muted">${t("gols_lbl")}: ${gols}</p>`:""}
+    <div class="split"><b style="color:#1c6b38">${t("premio_lbl",{v:fmtM(ult.premio)})}</b>${ult.gs===0?' <span class="badge verde">'+t("cs_badge")+'</span>':""}</div>
+  </div>
+  ${evHtml}
+  <button class="btn gold" onclick="go('janela')">${t("b_janela")}</button>`;
+  window.scrollTo(0,0);
+}
+/* ---------- FIM ---------- */
+function renderFim(){
+  const c=S.camp,sc=c.score;
+  const emojis=c.resultados.map(r=>r.res==="V0"?"🟩":r.res==="V"?"🟨":r.res==="E"?"⬜":"🟥").join(" ");
+  const titulo=sc.perfeito?{e:"👑",t:t("perf_t"),s:t("perf_s")}:
+    c.campeao?{e:"🏆",t:t("camp_t"),s:t("camp_s")}:
+    {e:"📉",t:t("elim_t"),s:c.notaGrupo!=null?t("elim_grupo",{p:c.notaGrupo}):t("elim_s")};
+  const linhas=c.resultados.map(r=>`<tr><td>${t("fase_"+r.fase)}</td><td>${esc(r.opp)}</td><td><b>${r.gf}×${r.gs}</b>${r.pen?" <span class='muted'>p"+r.pen.pf+"-"+r.pen.pc+"</span>":""}</td></tr>`).join("");
+  const nc=c.novasConq||[];
+  const conq=nc.length?`<div class="evento"><h3>${t("cq_novas",{s:nc.length>1?"s":""})}</h3><p>${nc.map(id=>t("cq_"+id)).join(" · ")}</p></div>`:"";
+  const rk=c.mode==="diario"?`<button class="btn green" onclick="go('rankdia')">${t("b_rankdia2")}</button>`:
+    c.mode==="duelo"?`<button class="btn green" onclick="verSalaAtual()">${t("b_sala2",{c:c.roomCode})}</button>`:"";
+  el().innerHTML=header()+`
+  <div class="pane center">
+    <div class="tro">${titulo.e}</div>
+    <h2>${titulo.t}</h2>
+    <p class="muted" style="margin:4px 0 8px">${titulo.s}</p>
+    <div class="resline" style="justify-content:center">${emojis}</div>
+    <div class="score-big">${sc.total} pts</div>
+    <p class="muted">${t("pts_base",{b:sc.base,z:sc.zebra})}${sc.perfeito?t("mult_imortal"):c.campeao?t("mult_camp"):""}</p>
+    <div class="split" style="text-align:left">
+      <table><tr><th>${t("tb_fase")}</th><th>${t("tb_adv")}</th><th>${t("tb_placar")}</th></tr>${linhas}</table>
+      <p class="muted" style="margin-top:8px">${t("resumo",{gf:c.gf,gs:c.gs,cs:c.cs,g:fmtM(c.gasto),m:sc.media})}</p>
+    </div>
+  </div>
+  ${conq}
+  <button class="btn gold" onclick="copiarShare()">${t("b_copiar")}</button>
+  ${rk}
+  <div class="grid2">
+    <button class="btn ghost" onclick="jogarDeNovo()">${t("b_denovo")}</button>
+    <button class="btn ghost" onclick="S.camp=null;go('home')">${t("b_inicio")}</button>
+  </div>`;
+  window.scrollTo(0,0);
+}
+function jogarDeNovo(){const m=S.camp.mode,code=S.camp.roomCode;
+  if(m==="duelo"&&code)startCampaign("duelo","sala-"+code,code);
+  else if(m==="diario")startDaily();
+  else startCampaign("livre");}
+function verSalaAtual(){S.salaCode=S.camp.roomCode;S.screen="sala";render();carregarSala(S.salaCode)}
+/* ---------- RANKINGS ---------- */
+function rankTable(entries){
+  if(!entries||!entries.length)return `<p class="muted">${t("rank_vazio")}</p>`;
+  return `<table><tr><th>#</th><th>${t("tb_tec")}</th><th>Pts</th><th></th></tr>${entries.map((e,i)=>
+    `<tr class="${e.nick===S.profile.nick?'eu':''}"><td>${i+1}</td><td>${esc(e.nick)}</td><td><b>${e.pts}</b></td><td>${e.perf?"👑":e.campeao?"🏆":""}</td></tr>`).join("")}</table>`;
+}
+function renderRankDia(){
+  el().innerHTML=header(`<button class="pill" onclick="irHome()">${t("voltar")}</button>`)+`
+  <div class="panel"><div class="eyebrow">${t("rank_eb",{d:hojeStr()})}</div>
+  <p class="muted" style="margin-bottom:10px">${t("rank_p")}</p>
+  <div id="rk"><p class="muted pulse">${t("carregando")}</p></div>
+  <button class="btn gold" onclick="startDaily()">${t("b_jogar_hoje")}</button></div>`;
+}
+async function carregarRankDia(){
+  const d=await stGet("choque:dia:"+hojeStr(),true);
+  const box=document.getElementById("rk");if(box)box.innerHTML=rankTable(d?d.entries:null);
+}
+function renderSala(){
+  el().innerHTML=header(`<button class="pill" onclick="irHome()">${t("voltar")}</button>`)+`
+  <div class="panel"><div class="eyebrow">${t("sala_eb")} <span style="color:var(--ouro)">${esc(S.salaCode||"")}</span></div>
+  <p class="muted" style="margin-bottom:10px">${t("sala_p",{c:esc(S.salaCode||"")})}</p>
+  <div id="rk"><p class="muted pulse">${t("buscando")}</p></div>
+  <button class="btn gold" onclick="startCampaign('duelo','sala-${esc(S.salaCode||"")}','${esc(S.salaCode||"")}')">${t("b_jogar_sala")}</button></div>`;
+}
+async function carregarSala(code){
+  const d=await stGet("choque:sala:"+code,true);
+  const box=document.getElementById("rk");
+  if(box)box.innerHTML=d?rankTable(d.entries):`<p class="muted">${t("sala_nao")}</p>`;
+}
+/* ---------- PERFIL ---------- */
+function renderPerfil(){
+  const p=S.profile;
+  el().innerHTML=header(`<button class="pill" onclick="irHome()">${t("voltar")}</button>`)+`
+  <div class="pane">
+    <div class="eyebrow">${t("perfil_eb")}</div>
+    <h2 style="font-size:1.5rem">${esc(p.nick||t("sem_nome"))}</h2>
+    <div class="split"></div>
+    <table>
+      <tr><td>${t("p_camp")}</td><td><b>${p.jogos}</b></td></tr>
+      <tr><td>${t("p_tit")}</td><td><b>${p.titulos} 🏆</b></td></tr>
+      <tr><td>${t("p_imort")}</td><td><b>${p.perfeitos} 👑</b></td></tr>
+      <tr><td>${t("p_rec")}</td><td><b>${p.recorde}</b></td></tr>
+      <tr><td>${t("p_leg")}</td><td><b style="color:var(--ouro2)">${p.legado}</b></td></tr>
+    </table>
+  </div>
+  <div class="panel"><div class="eyebrow">${t("trofeus")}</div>
+    ${CONQ_IDS.map(id=>`<div class="spread" style="padding:8px 0;border-bottom:1px dashed rgba(237,245,238,.09)">
+      <div><b style="${p.conq.includes(id)?'color:var(--ouro)':'color:var(--gelo2)'}">${p.conq.includes(id)?"🎖️":"🔒"} ${t("cq_"+id)}</b><div class="muted">${t("cqd_"+id)}</div></div></div>`).join("")}
+  </div>`;
+}
+/* ---------- AJUDA ---------- */
+function renderAjuda(){
+  el().innerHTML=header(`<button class="pill" onclick="irHome()">${t("voltar")}</button>`)+`
+  <div class="pane">
+    <h3>${t("aj_t")}</h3>
+    <p style="margin:8px 0;line-height:1.55">${t("aj_1")}</p>
+    <p style="margin:8px 0;line-height:1.55">${t("aj_2")}</p>
+    <p style="margin:8px 0;line-height:1.55">${t("aj_3")}</p>
+    <p style="margin:8px 0;line-height:1.55">${t("aj_4")}</p>
+    <p style="margin:8px 0;line-height:1.55">${t("aj_5")}</p>
+  </div>`;
+}
+
+/* ================= IDOLATRIA · MODO MEU CLUBE ================= */
+Object.assign(I18N.pt,{
+ tag:"ESCALE SEUS DEUSES",footer:"IDOLATRIA · protótipo",
+ hero_eb:"7 jogos · eras douradas e sofrência",
+ hero_h:'Convoque seus deuses.<br>Carregue sua cruz.<br><span style="color:var(--ouro)">IDOLATRIA.</span>',
+ hero_p:"Escolha o clube da sua vida e o dado sorteia <b>eras inteiras</b> da história dele — das douradas que você decora escalação até a sofrência que você quer esquecer. Monte o time eterno com o SEU nome, enfrente os gigantes da América e persiga a <b>Campanha Imortal</b>: 7 vitórias, nenhum gol sofrido. Ou jogue no modo Continental, com lendas de todo o continente.",
+ setup_eb:"Nova campanha",setup_modo:"Escolha seu caminho",
+ modo_cont:"🌎 Continental",modo_cont_d:"lendas de toda a América no dado",
+ modo_cora:"Meu Clube",modo_cora_d:"só as eras do time da sua vida",
+ setup_nome:"Nome do seu time",setup_nome_ph:"deixe vazio para sortear um",
+ b_comecar:"🎺 Começar campanha",escolha_clube:"Escolha um clube",
+ tier_D:"ERA DOURADA",tier_S:"ERA SÓLIDA",tier_R:"SOFRÊNCIA",
+ cq_redencao:"Redenção",cqd_redencao:"Seja campeão com gol de um jogador vindo da Sofrência",
+ aj_2:"<b>🎰 Mercado:</b> no modo Meu Clube, o dado sorteia uma ERA do seu clube — ✨ douradas na maioria das vezes, ⚡ sólidas com frequência e, de vez em quando, a 🌧️ Sofrência (às vezes com uma joia escondida). Cada contratação embaralha a era. No Continental, sorteia esquadrões históricos de toda a América. Rolar na mão: 1x grátis por janela, depois $8M. Venda por 70%."
+});
+Object.assign(I18N.es,{
+ tag:"PONÉ A TUS DIOSES EN CANCHA",footer:"IDOLATRÍA · prototipo",
+ hero_eb:"7 partidos · eras doradas y años de mufa",
+ hero_h:'Convocá a tus dioses.<br>Cargá tu cruz.<br><span style="color:var(--ouro)">IDOLATRÍA.</span>',
+ hero_p:"Elegí el club de tu vida y el dado sortea <b>eras enteras</b> de su historia — de las doradas que sabés de memoria hasta la mufa que querés olvidar. Armá el equipo eterno con TU nombre, enfrentá a los gigantes de América y perseguí la <b>Campaña Inmortal</b>: 7 victorias, ningún gol en contra. O jugá el modo Continental, con leyendas de todo el continente.",
+ setup_eb:"Nueva campaña",setup_modo:"Elegí tu camino",
+ modo_cont:"🌎 Continental",modo_cont_d:"leyendas de toda América en el dado",
+ modo_cora:"Mi Club",modo_cora_d:"solo las eras del club de tu vida",
+ setup_nome:"Nombre de tu equipo",setup_nome_ph:"vacío = sorteamos uno",
+ b_comecar:"🎺 Arrancar campaña",escolha_clube:"Elegí un club",
+ tier_D:"ERA DORADA",tier_S:"ERA SÓLIDA",tier_R:"AÑOS DE MUFA",
+ cq_redencao:"Redención",cqd_redencao:"Salí campeón con gol de un jugador de los Años de Mufa",
+ aj_2:"<b>🎰 Mercado:</b> en Mi Club, el dado sortea una ERA de tu club — ✨ doradas casi siempre, ⚡ sólidas seguido y, cada tanto, los 🌧️ Años de Mufa (a veces con una joya escondida). Cada fichaje baraja la era. En Continental, sortea escuadrones históricos de toda América. Tirar a mano: 1x gratis por ventana, después $8M. Vendé al 70%."
+});
+/* ---- eras curadas: 5 clubes, 3 tiers ---- */
+const CORA_CLUBES=[["Palmeiras","#1E7A46"],["Flamengo","#C52B2B"],["Santos","#E8E8E8"],["Boca Juniors","#F2B705"],["River Plate","#E63946"]];
+const ERAS={
+"Flamengo":[
+ {ano:1980,tier:"D",n:"Campeão Brasileiro",jog:[["Raul","GOL",85],["Toninho","LAT",78],["Leandro","LAT",88],["Júnior","LAT",90],["Rondinelli","ZAG",82],["Marinho","ZAG",80],["Andrade","VOL",84],["Adílio","MEI",85],["Zico","MEI",95],["Tita","ATA",84],["Nunes","ATA",86]]},
+ {ano:1981,tier:"D",n:"Campeão da Libertadores e do Mundo",jog:[["Raul","GOL",85],["Leandro","LAT",88],["Júnior","LAT",90],["Marinho","ZAG",80],["Mozer","ZAG",83],["Andrade","VOL",84],["Adílio","MEI",85],["Zico","MEI",96],["Tita","ATA",84],["Nunes","ATA",86],["Lico","ATA",82]]},
+ {ano:1982,tier:"D",n:"Campeão Brasileiro",jog:[["Raul","GOL",85],["Leandro","LAT",88],["Júnior","LAT",90],["Marinho","ZAG",80],["Mozer","ZAG",83],["Andrade","VOL",84],["Adílio","MEI",85],["Zico","MEI",96],["Tita","ATA",84],["Nunes","ATA",86],["Lico","ATA",82]]},
+ {ano:1983,tier:"D",n:"Campeão Brasileiro",jog:[["Raul","GOL",85],["Leandro","LAT",88],["Júnior","LAT",90],["Marinho","ZAG",80],["Mozer","ZAG",83],["Andrade","VOL",84],["Adílio","MEI",85],["Zico","MEI",96],["Tita","ATA",84],["Nunes","ATA",86],["Bebeto","ATA",80]]},
+ {ano:1987,tier:"D",n:"Campeão da Copa União",jog:[["Zé Carlos","GOL",79],["Jorginho","LAT",85],["Leonardo","LAT",84],["Edinho","ZAG",84],["Andrade","VOL",84],["Ailton","VOL",78],["Uidemar","VOL",78],["Zico","MEI",94],["Zinho","MEI",82],["Bebeto","ATA",86],["Gaúcho","ATA",80]]},
+ {ano:1992,tier:"D",n:"Hexacampeão Brasileiro",jog:[["Zé Carlos","GOL",79],["Charles","LAT",79],["Júnior Baiano","ZAG",81],["Rogério Lourenço","ZAG",78],["Fabinho","VOL",79],["Júnior","MEI",87],["Djalminha","MEI",84],["Marcelinho Carioca","MEI",83],["Gaúcho","ATA",83],["Nélio","ATA",80],["Paulo Nunes","ATA",81]]},
+ {ano:2019,tier:"D",n:"Campeão da Libertadores e do Brasileirão",jog:[["Diego Alves","GOL",85],["Rafinha","LAT",84],["Filipe Luís","LAT",85],["Rodrigo Caio","ZAG",84],["Pablo Marí","ZAG",83],["Willian Arão","VOL",84],["Gerson","VOL",87],["Everton Ribeiro","MEI",86],["Arrascaeta","MEI",90],["Bruno Henrique","ATA",88],["Gabigol","ATA",90]]},
+ {ano:2020,tier:"D",n:"Bicampeão Brasileiro",jog:[["Diego Alves","GOL",85],["Isla","LAT",82],["Filipe Luís","LAT",85],["Rodrigo Caio","ZAG",84],["Gustavo Henrique","ZAG",80],["Willian Arão","VOL",84],["Gerson","VOL",87],["Everton Ribeiro","MEI",86],["Arrascaeta","MEI",90],["Bruno Henrique","ATA",88],["Gabigol","ATA",90]]},
+ {ano:2022,tier:"D",n:"Campeão da Libertadores e da Copa do Brasil",jog:[["Santos","GOL",83],["Varela","LAT",81],["Ayrton Lucas","LAT",82],["David Luiz","ZAG",84],["Léo Pereira","ZAG",83],["João Gomes","VOL",83],["Thiago Maia","VOL",81],["Everton Ribeiro","MEI",85],["Arrascaeta","MEI",90],["Pedro","ATA",88],["Gabigol","ATA",87]]},
+ {ano:2024,tier:"D",n:"Campeão da Copa do Brasil",jog:[["Rossi","GOL",86],["Varela","LAT",82],["Ayrton Lucas","LAT",81],["Léo Ortiz","ZAG",84],["Léo Pereira","ZAG",84],["Pulgar","VOL",84],["Gerson","VOL",88],["De la Cruz","MEI",86],["Arrascaeta","MEI",87],["Pedro","ATA",87],["Bruno Henrique","ATA",83]]},
+ {ano:2025,tier:"D",n:"Campeão da Libertadores",jog:[["Rossi","GOL",86],["Varela","LAT",82],["Alex Sandro","LAT",83],["Léo Ortiz","ZAG",84],["Léo Pereira","ZAG",84],["Danilo","ZAG",85],["Pulgar","VOL",84],["De la Cruz","MEI",86],["Arrascaeta","MEI",88],["Pedro","ATA",87],["Bruno Henrique","ATA",83]]},
+ {ano:1978,tier:"S",n:"A base da dinastia dos anos 80",jog:[["Cantarele","GOL",80],["Toninho","LAT",78],["Júnior","LAT",85],["Rondinelli","ZAG",83],["Carpegiani","VOL",84],["Adílio","MEI",82],["Zico","MEI",92],["Cláudio Adão","ATA",82],["Geraldo","ATA",79],["Tita","ATA",79],["Luisinho","ATA",78]]},
+ {ano:1995,tier:"S",n:"O ataque Romário, Edmundo e Sávio",jog:[["Gilmar","GOL",81],["Charles","LAT",80],["Mozer","ZAG",84],["Júnior Baiano","ZAG",82],["Rogério Lourenço","ZAG",79],["Fabinho","VOL",80],["Nélio","MEI",81],["Piá","MEI",80],["Romário","ATA",92],["Edmundo","ATA",87],["Sávio","ATA",86]]},
+ {ano:1996,tier:"S",n:"Campeão Carioca",jog:[["Gilmar","GOL",81],["Charles","LAT",80],["Mozer","ZAG",84],["Júnior Baiano","ZAG",82],["Rogério Lourenço","ZAG",79],["Fabinho","VOL",80],["Nélio","MEI",81],["Piá","MEI",80],["Romário","ATA",92],["Edmundo","ATA",87],["Sávio","ATA",86]]},
+ {ano:2001,tier:"S",n:"O gol de falta do título Carioca",jog:[["Júlio César","GOL",85],["Gilberto","LAT",81],["Athirson","LAT",83],["Jorginho","LAT",83],["Juan","ZAG",82],["Gamarra","ZAG",85],["Leandro Ávila","VOL",79],["Fábio Baiano","MEI",80],["Petkovic","MEI",87],["Edílson","ATA",85],["Reinaldo","ATA",78]]},
+ {ano:2011,tier:"S",n:"O Carioca de Ronaldinho",jog:[["Felipe","GOL",82],["Léo Moura","LAT",83],["Junior César","LAT",77],["Alex Silva","ZAG",78],["Welinton","ZAG",77],["Willians","VOL",79],["Renato Abreu","MEI",82],["Thiago Neves","MEI",84],["Ronaldinho","MEI",88],["Vágner Love","ATA",84],["Deivid","ATA",80]]},
+ {ano:2013,tier:"S",n:"Campeão da Copa do Brasil",jog:[["Felipe","GOL",81],["Léo Moura","LAT",82],["André Santos","LAT",79],["Chiquinho","LAT",77],["Wallace","ZAG",78],["Samir","ZAG",77],["Elias","VOL",84],["Luiz Antônio","VOL",78],["Carlos Eduardo","MEI",78],["Hernane","ATA",82],["Marcelo Moreno","ATA",79]]},
+ {ano:2016,tier:"S",n:"A reconstrução",jog:[["Alex Muralha","GOL",78],["Pará","LAT",79],["Jorge","LAT",80],["Réver","ZAG",81],["Juan","ZAG",81],["Márcio Araújo","VOL",77],["Willian Arão","VOL",84],["Diego","MEI",85],["Mancuello","MEI",80],["Guerrero","ATA",86],["Marcelo Cirino","ATA",78]]},
+ {ano:2017,tier:"S",n:"Finalista da Sul-Americana",jog:[["Diego Alves","GOL",84],["Pará","LAT",79],["Renê","LAT",79],["Réver","ZAG",81],["Juan","ZAG",80],["Cuéllar","VOL",83],["Diego","MEI",85],["Everton Ribeiro","MEI",85],["Lucas Paquetá","MEI",82],["Guerrero","ATA",86],["Vinicius Jr","ATA",79]]},
+ {ano:1997,tier:"R",n:"O ano sem taças",jog:[["Zé Carlos","GOL",79],["Athirson","LAT",78],["Gonçalves","ZAG",83],["Juan","ZAG",77],["Fabinho","VOL",79],["Iranildo","MEI",80],["Zé Roberto","MEI",83],["Piá","MEI",80],["Sávio","ATA",86],["Palhinha","ATA",82],["Rodrigo Mendes","ATA",77]]},
+ {ano:2005,tier:"R",n:"A luta contra o rebaixamento",jog:[["Diego","GOL",77],["Léo Moura","LAT",81],["Fábio Luciano","ZAG",79],["Ronaldo Angelim","ZAG",80],["Fabiano Eller","ZAG",78],["Ibson","VOL",80],["Renato Abreu","MEI",82],["Juninho Paulista","MEI",83],["Renato Augusto","MEI",78],["Obina","ATA",78],["Dimba","ATA",76]]},
+],
+"Palmeiras":[
+ {ano:1951,tier:"D",n:"Campeão Mundial — Copa Rio",jog:[["Oberdan","GOL",85],["Canhotinho","LAT",79],["Juvenal","ZAG",81],["Lima","ZAG",80],["Salvador","ZAG",79],["Waldemar Fiúme","VOL",80],["Jair Rosa Pinto","MEI",90],["Liminha","MEI",82],["Rodrigues","ATA",82],["Ponce de León","ATA",80],["Achilles","ATA",79]]},
+ {ano:1967,tier:"D",n:"Campeão do Robertão",jog:[["Valdir de Moraes","GOL",82],["Djalma Santos","LAT",87],["Djalma Dias","ZAG",84],["Procópio","ZAG",80],["Dudu","VOL",86],["Zequinha","VOL",81],["Ademir da Guia","MEI",93],["Julinho Botelho","ATA",88],["César Maluco","ATA",84],["Tupãzinho","ATA",84],["Rinaldo","ATA",82]]},
+ {ano:1969,tier:"D",n:"Bicampeão do Robertão",jog:[["Leão","GOL",86],["Eurico","LAT",79],["Luís Pereira","ZAG",85],["Baldochi","ZAG",80],["Dudu","VOL",86],["Zequinha","VOL",80],["Ademir da Guia","MEI",93],["César Maluco","ATA",84],["Tupãzinho","ATA",83],["Rinaldo","ATA",81],["Edu Bala","ATA",79]]},
+ {ano:1972,tier:"D",n:"Campeão Brasileiro",jog:[["Leão","GOL",88],["Eurico","LAT",80],["Luís Pereira","ZAG",87],["Alfredo","ZAG",82],["Dudu","VOL",85],["Zequinha","VOL",80],["Ademir da Guia","MEI",93],["Leivinha","ATA",88],["César Maluco","ATA",85],["Nei","ATA",80],["Edu Bala","ATA",80]]},
+ {ano:1973,tier:"D",n:"Bicampeão Brasileiro",jog:[["Leão","GOL",88],["Eurico","LAT",80],["Luís Pereira","ZAG",88],["Alfredo","ZAG",82],["Dudu","VOL",85],["Zequinha","VOL",80],["Ademir da Guia","MEI",93],["Leivinha","ATA",88],["César Maluco","ATA",85],["Nei","ATA",80],["Edu Bala","ATA",80]]},
+ {ano:1974,tier:"S",n:"Vice do Campeonato Brasileiro",jog:[["Leão","GOL",88],["Eurico","LAT",80],["Luís Pereira","ZAG",88],["Alfredo","ZAG",82],["Dudu","VOL",85],["Zequinha","VOL",80],["Ademir da Guia","MEI",93],["Leivinha","ATA",88],["César Maluco","ATA",85],["Nei","ATA",80],["Edu Bala","ATA",80]]},
+ {ano:1993,tier:"D",n:"Campeão Paulista e Rio–São Paulo",jog:[["Velloso","GOL",83],["Gil Baiano","LAT",79],["Roberto Carlos","LAT",88],["Antônio Carlos","ZAG",84],["Cléber","ZAG",84],["César Sampaio","VOL",86],["Mazinho","MEI",85],["Zinho","MEI",85],["Edmundo","ATA",88],["Evair","ATA",87],["Edílson","ATA",84]]},
+ {ano:1994,tier:"D",n:"Bicampeão Brasileiro — Era Parmalat",jog:[["Velloso","GOL",83],["Gil Baiano","LAT",79],["Roberto Carlos","LAT",88],["Antônio Carlos","ZAG",84],["Cléber","ZAG",84],["César Sampaio","VOL",86],["Flávio Conceição","VOL",83],["Zinho","MEI",85],["Rivaldo","MEI",91],["Evair","ATA",87],["Edmundo","ATA",88]]},
+ {ano:1998,tier:"D",n:"Campeão da Copa do Brasil e da Mercosul",jog:[["Velloso","GOL",82],["Arce","LAT",86],["Júnior","LAT",84],["Roque Júnior","ZAG",84],["Júnior Baiano","ZAG",84],["Rogério","VOL",80],["Galeano","VOL",80],["Alex","MEI",88],["Zinho","MEI",85],["Oséas","ATA",83],["Paulo Nunes","ATA",85]]},
+ {ano:1999,tier:"D",n:"Campeão da Libertadores",jog:[["Marcos","GOL",91],["Arce","LAT",86],["Júnior","LAT",84],["Roque Júnior","ZAG",85],["Júnior Baiano","ZAG",83],["César Sampaio","VOL",86],["Alex","MEI",89],["Zinho","MEI",85],["Paulo Nunes","ATA",85],["Oséas","ATA",83],["Euller","ATA",83]]},
+ {ano:2020,tier:"D",n:"Campeão da Libertadores e da Copa do Brasil",jog:[["Weverton","GOL",88],["Marcos Rocha","LAT",81],["Matías Viña","LAT",82],["Gustavo Gómez","ZAG",87],["Luan","ZAG",82],["Felipe Melo","VOL",84],["Danilo","VOL",84],["Gustavo Scarpa","MEI",83],["Raphael Veiga","MEI",85],["Rony","ATA",83],["Breno Lopes","ATA",80]]},
+ {ano:2021,tier:"D",n:"Bicampeão da Libertadores",jog:[["Weverton","GOL",88],["Marcos Rocha","LAT",81],["Piquerez","LAT",84],["Gustavo Gómez","ZAG",87],["Luan","ZAG",82],["Danilo","VOL",85],["Zé Rafael","VOL",83],["Raphael Veiga","MEI",86],["Dudu","ATA",85],["Rony","ATA",83],["Deyverson","ATA",80]]},
+ {ano:2022,tier:"D",n:"Campeão Brasileiro",jog:[["Weverton","GOL",88],["Marcos Rocha","LAT",80],["Piquerez","LAT",84],["Gustavo Gómez","ZAG",87],["Murilo","ZAG",82],["Danilo","VOL",85],["Zé Rafael","VOL",83],["Gustavo Scarpa","MEI",84],["Raphael Veiga","MEI",86],["Dudu","ATA",85],["Rony","ATA",83]]},
+ {ano:2023,tier:"D",n:"Bicampeão Brasileiro",jog:[["Weverton","GOL",87],["Marcos Rocha","LAT",79],["Piquerez","LAT",84],["Gustavo Gómez","ZAG",87],["Murilo","ZAG",83],["Zé Rafael","VOL",82],["Richard Ríos","VOL",82],["Raphael Veiga","MEI",86],["Artur","ATA",81],["Endrick","ATA",84],["Rony","ATA",82]]},
+ {ano:2015,tier:"S",n:"Campeão da Copa do Brasil",jog:[["Fernando Prass","GOL",84],["Lucas","LAT",78],["Egídio","LAT",79],["Zé Roberto","LAT",85],["Vitor Hugo","ZAG",82],["Tobio","ZAG",77],["Arouca","VOL",84],["Robinho","MEI",82],["Dudu","ATA",85],["Gabriel Jesus","ATA",82],["Rafael Marques","ATA",80]]},
+ {ano:2016,tier:"S",n:"Campeão Brasileiro",jog:[["Jailson","GOL",83],["Jean","LAT",80],["Zé Roberto","LAT",85],["Vitor Hugo","ZAG",82],["Yerry Mina","ZAG",81],["Tchê Tchê","VOL",82],["Thiago Santos","VOL",79],["Moisés","MEI",83],["Gabriel Jesus","ATA",86],["Dudu","ATA",85],["Róger Guedes","ATA",80]]},
+ {ano:2018,tier:"S",n:"Campeão Brasileiro — o décimo",jog:[["Weverton","GOL",86],["Marcos Rocha","LAT",81],["Diogo Barbosa","LAT",79],["Gustavo Gómez","ZAG",85],["Luan","ZAG",82],["Felipe Melo","VOL",84],["Bruno Henrique","VOL",82],["Gustavo Scarpa","MEI",83],["Dudu","ATA",85],["Willian","ATA",82],["Miguel Borja","ATA",81]]},
+ {ano:2010,tier:"R",n:"O Centenário sem título",jog:[["Marcos","GOL",85],["Armero","LAT",80],["Maurício Ramos","ZAG",77],["Pierre","VOL",79],["João Vítor","VOL",76],["Márcio Araújo","VOL",77],["Marcos Assunção","MEI",83],["Valdivia","MEI",85],["Lincoln","MEI",81],["Kleber","ATA",83],["Ewerthon","ATA",82]]},
+ {ano:2012,tier:"R",n:"Campeão da Copa do Brasil e rebaixado",jog:[["Bruno","GOL",77],["Artur","LAT",76],["Juninho","LAT",77],["Henrique","ZAG",79],["Thiago Heleno","ZAG",77],["João Vítor","VOL",76],["Wesley","VOL",78],["Marcos Assunção","MEI",83],["Valdivia","MEI",85],["Barcos","ATA",82],["Maikon Leite","ATA",76]]},
+ {ano:2013,tier:"R",n:"O ano na Série B",jog:[["Fernando Prass","GOL",84],["Ayrton","LAT",77],["Juninho","LAT",77],["Henrique","ZAG",79],["Vilson","ZAG",76],["Márcio Araújo","VOL",77],["Eguren","VOL",79],["Wesley","MEI",78],["Valdivia","MEI",85],["Marcos Assunção","MEI",83],["Alan Kardec","ATA",81]]},
+],
+"Santos":[
+ {ano:1961,tier:"D",n:"Campeão Brasileiro e Paulista",jog:[["Gilmar","GOL",87],["Dalmo","LAT",82],["Mauro","ZAG",85],["Calvet","ZAG",80],["Zito","VOL",87],["Lima","VOL",82],["Mengálvio","MEI",85],["Pelé","ATA",97],["Coutinho","ATA",89],["Pepe","ATA",88],["Dorval","ATA",84]]},
+ {ano:1962,tier:"D",n:"Campeão Mundial e da Libertadores",jog:[["Gilmar","GOL",87],["Dalmo","LAT",82],["Mauro","ZAG",85],["Calvet","ZAG",80],["Zito","VOL",87],["Lima","VOL",82],["Mengálvio","MEI",85],["Pelé","ATA",98],["Coutinho","ATA",90],["Pepe","ATA",88],["Dorval","ATA",84]]},
+ {ano:1963,tier:"D",n:"Bicampeão Mundial e da Libertadores",jog:[["Gilmar","GOL",87],["Dalmo","LAT",82],["Mauro","ZAG",85],["Calvet","ZAG",80],["Zito","VOL",87],["Lima","VOL",82],["Mengálvio","MEI",85],["Pelé","ATA",98],["Coutinho","ATA",90],["Pepe","ATA",88],["Dorval","ATA",84]]},
+ {ano:1964,tier:"D",n:"Campeão Brasileiro",jog:[["Gilmar","GOL",87],["Dalmo","LAT",82],["Mauro","ZAG",85],["Calvet","ZAG",80],["Zito","VOL",87],["Lima","VOL",82],["Mengálvio","MEI",85],["Pelé","ATA",97],["Coutinho","ATA",89],["Pepe","ATA",88],["Dorval","ATA",84]]},
+ {ano:1965,tier:"D",n:"Pentacampeão Brasileiro",jog:[["Gilmar","GOL",87],["Dalmo","LAT",82],["Mauro","ZAG",85],["Calvet","ZAG",80],["Zito","VOL",87],["Lima","VOL",82],["Mengálvio","MEI",85],["Pelé","ATA",97],["Coutinho","ATA",89],["Pepe","ATA",88],["Dorval","ATA",84]]},
+ {ano:1966,tier:"D",n:"Campeão do Rio–São Paulo",jog:[["Gilmar","GOL",86],["Carlos Alberto","LAT",91],["Dalmo","LAT",81],["Mauro","ZAG",84],["Ramos Delgado","ZAG",84],["Zito","VOL",86],["Lima","VOL",81],["Mengálvio","MEI",84],["Pelé","ATA",97],["Coutinho","ATA",88],["Toninho Guerreiro","ATA",85]]},
+ {ano:1967,tier:"D",n:"Campeão Paulista",jog:[["Gilmar","GOL",85],["Carlos Alberto","LAT",92],["Rildo","LAT",83],["Ramos Delgado","ZAG",84],["Joel Camargo","ZAG",82],["Zito","VOL",85],["Clodoaldo","VOL",83],["Mengálvio","MEI",84],["Pelé","ATA",98],["Coutinho","ATA",87],["Toninho Guerreiro","ATA",86]]},
+ {ano:1968,tier:"D",n:"Campeão do Robertão",jog:[["Gilmar","GOL",84],["Carlos Alberto","LAT",92],["Rildo","LAT",83],["Ramos Delgado","ZAG",83],["Joel Camargo","ZAG",82],["Clodoaldo","VOL",84],["Lima","MEI",80],["Pelé","ATA",97],["Pepe","ATA",86],["Toninho Guerreiro","ATA",85],["Edu","ATA",86]]},
+ {ano:1969,tier:"D",n:"Campeão Paulista",jog:[["Gilmar","GOL",84],["Carlos Alberto","LAT",92],["Rildo","LAT",83],["Ramos Delgado","ZAG",83],["Joel Camargo","ZAG",82],["Clodoaldo","VOL",84],["Lima","MEI",80],["Pelé","ATA",97],["Pepe","ATA",86],["Toninho Guerreiro","ATA",85],["Edu","ATA",86]]},
+ {ano:2002,tier:"D",n:"Campeão Brasileiro",jog:[["Fábio Costa","GOL",84],["Léo","LAT",83],["Alex","ZAG",84],["André Luís","ZAG",80],["Renato","VOL",83],["Paulo Almeida","VOL",79],["Elano","MEI",84],["Diego","MEI",88],["Robert","MEI",81],["Robinho","ATA",88],["William","ATA",78]]},
+ {ano:2003,tier:"R",n:"Vice da Libertadores",jog:[["Fábio Costa","GOL",84],["Léo","LAT",83],["Alex","ZAG",84],["André Luís","ZAG",80],["Renato","VOL",83],["Paulo Almeida","VOL",79],["Elano","MEI",84],["Diego","MEI",88],["Robert","MEI",81],["Robinho","ATA",89],["William","ATA",78]]},
+ {ano:2004,tier:"D",n:"Bicampeão Brasileiro",jog:[["Fábio Costa","GOL",84],["Léo","LAT",84],["Ávalos","ZAG",78],["Pereira","ZAG",77],["Preto Casagrande","VOL",80],["Fabinho","VOL",79],["Ricardinho","MEI",84],["Elano","MEI",85],["Robinho","ATA",89],["Deivid","ATA",82],["Basílio","ATA",81]]},
+ {ano:2010,tier:"S",n:"Campeão da Copa do Brasil e Paulista",jog:[["Rafael","GOL",82],["Léo","LAT",82],["Pará","LAT",78],["Edu Dracena","ZAG",83],["Durval","ZAG",81],["Arouca","VOL",83],["Wesley","MEI",81],["Ganso","MEI",88],["Neymar","ATA",88],["Robinho","ATA",87],["André","ATA",82]]},
+ {ano:2011,tier:"D",n:"Campeão da Libertadores",jog:[["Rafael","GOL",83],["Danilo","LAT",85],["Léo","LAT",81],["Edu Dracena","ZAG",83],["Durval","ZAG",82],["Arouca","VOL",84],["Henrique","VOL",79],["Ganso","MEI",88],["Elano","MEI",84],["Neymar","ATA",92],["Borges","ATA",83]]},
+ {ano:2012,tier:"D",n:"Campeão da Recopa e Tricampeão Paulista",jog:[["Rafael","GOL",84],["Léo","LAT",80],["Edu Dracena","ZAG",82],["Durval","ZAG",81],["Bruno Rodrigo","ZAG",77],["Arouca","VOL",84],["Henrique","VOL",78],["Ganso","MEI",87],["Neymar","ATA",93],["Borges","ATA",83],["Alan Kardec","ATA",80]]},
+ {ano:2016,tier:"S",n:"Bicampeão Paulista",jog:[["Vanderlei","GOL",84],["Victor Ferraz","LAT",80],["Zeca","LAT",79],["David Braz","ZAG",81],["Gustavo Henrique","ZAG",80],["Renato","VOL",82],["Thiago Maia","VOL",80],["Lucas Lima","MEI",85],["Vitor Bueno","MEI",78],["Ricardo Oliveira","ATA",84],["Gabigol","ATA",84]]},
+ {ano:2018,tier:"S",n:"Gabigol artilheiro do Brasileirão",jog:[["Vanderlei","GOL",85],["Dodô","LAT",79],["Victor Ferraz","LAT",79],["David Braz","ZAG",80],["Gustavo Henrique","ZAG",80],["Alison","VOL",78],["Carlos Sánchez","MEI",82],["Jean Mota","MEI",78],["Bryan Ruiz","MEI",79],["Gabigol","ATA",87],["Rodrygo","ATA",83]]},
+ {ano:2019,tier:"S",n:"Vice do Brasileirão",jog:[["Everson","GOL",82],["Pará","LAT",78],["Felipe Jonatan","LAT",78],["Lucas Veríssimo","ZAG",82],["Gustavo Henrique","ZAG",79],["Diego Pituca","VOL",81],["Alison","VOL",77],["Carlos Sánchez","MEI",82],["Soteldo","MEI",84],["Marinho","ATA",85],["Eduardo Sasha","ATA",80]]},
+ {ano:2020,tier:"R",n:"Vice da Libertadores",jog:[["John","GOL",82],["Madson","LAT",77],["Felipe Jonatan","LAT",78],["Lucas Veríssimo","ZAG",83],["Luan Peres","ZAG",81],["Alison","VOL",78],["Diego Pituca","VOL",81],["Soteldo","MEI",85],["Marinho","ATA",88],["Kaio Jorge","ATA",80],["Lucas Braga","ATA",76]]},
+ {ano:2023,tier:"R",n:"O ano do rebaixamento",jog:[["João Paulo","GOL",81],["Felipe Jonatan","LAT",78],["Joaquim","ZAG",78],["Messias","ZAG",77],["João Basso","ZAG",76],["Tomás Rincón","VOL",79],["Dodi","VOL",76],["Soteldo","MEI",81],["Marcos Leonardo","ATA",82],["Mendoza","ATA",79],["Lucas Braga","ATA",76]]},
+],
+"Boca Juniors":[
+ {ano:1963,tier:"R",n:"Subcampeón de la Libertadores ante el Santos de Pelé",jog:[["Antonio Roma","GOL",87],["Marzolini","LAT",88],["Orlando","ZAG",84],["Silvero","ZAG",78],["Rattín","VOL",88],["Carmelo Simeone","VOL",82],["Rojitas","MEI",83],["Sanfilippo","ATA",87],["Paulo Valentim","ATA",86],["Norberto Menéndez","ATA",82],["Alfredo Rojas","ATA",81]]},
+ {ano:1965,tier:"D",n:"Bicampeón Argentino (1964-65)",jog:[["Antonio Roma","GOL",87],["Marzolini","LAT",89],["Orlando","ZAG",84],["Silvero","ZAG",78],["Rogel","ZAG",79],["Rattín","VOL",89],["Carmelo Simeone","VOL",82],["Rojitas","MEI",85],["Norberto Menéndez","ATA",82],["Alfredo Rojas","ATA",82],["Paulo Valentim","ATA",86]]},
+ {ano:1976,tier:"D",n:"Campeón Metropolitano y Nacional",jog:[["Gatti","GOL",88],["Pernía","LAT",82],["Tarantini","LAT",81],["Mouzo","ZAG",82],["Sá","ZAG",84],["Ribolzi","VOL",79],["Suñé","MEI",82],["Zanabria","MEI",83],["Mastrángelo","ATA",84],["Salinas","ATA",81],["Felman","ATA",79]]},
+ {ano:1977,tier:"D",n:"Campeón de la Libertadores",jog:[["Gatti","GOL",88],["Pernía","LAT",82],["Tarantini","LAT",81],["Mouzo","ZAG",82],["Sá","ZAG",84],["Ribolzi","VOL",79],["Suñé","MEI",82],["Zanabria","MEI",83],["Mastrángelo","ATA",84],["Salinas","ATA",81],["Felman","ATA",79]]},
+ {ano:1978,tier:"D",n:"Bicampeón de la Libertadores",jog:[["Gatti","GOL",88],["Pernía","LAT",82],["Tarantini","LAT",81],["Mouzo","ZAG",82],["Sá","ZAG",84],["Ribolzi","VOL",79],["Suñé","MEI",82],["Zanabria","MEI",83],["Mastrángelo","ATA",84],["Salinas","ATA",81],["Felman","ATA",79]]},
+ {ano:1981,tier:"D",n:"Campeón del Metropolitano",jog:[["Gatti","GOL",87],["Pernía","LAT",81],["Mouzo","ZAG",82],["Ruggeri","ZAG",82],["Passucci","VOL",80],["Lemme","VOL",78],["Brindisi","MEI",86],["Maradona","MEI",97],["Perotti","ATA",82],["Escudero","ATA",79],["Gareca","ATA",83]]},
+ {ano:1996,tier:"S",n:"La vuelta de Maradona",jog:[["Navarro Montoya","GOL",84],["Toresani","LAT",78],["Soñora","LAT",77],["Fabbri","ZAG",80],["Mac Allister","ZAG",80],["Basualdo","VOL",82],["Latorre","MEI",83],["Márcico","MEI",84],["Maradona","MEI",88],["Caniggia","ATA",86],["Manteca Martínez","ATA",82]]},
+ {ano:1998,tier:"D",n:"Campeón del Apertura invicto",jog:[["Córdoba","GOL",89],["Ibarra","LAT",84],["Arruabarrena","LAT",82],["Samuel","ZAG",88],["Bermúdez","ZAG",85],["Serna","VOL",84],["Battaglia","VOL",83],["Riquelme","MEI",93],["Schelotto","ATA",86],["Palermo","ATA",89],["Toresani","LAT",77]]},
+ {ano:2000,tier:"D",n:"Campeón de la Libertadores y del Mundo",jog:[["Córdoba","GOL",89],["Ibarra","LAT",84],["Arruabarrena","LAT",82],["Samuel","ZAG",88],["Bermúdez","ZAG",85],["Serna","VOL",84],["Battaglia","VOL",83],["Riquelme","MEI",95],["Schelotto","ATA",86],["Palermo","ATA",89],["Marcelo Delgado","ATA",85]]},
+ {ano:2001,tier:"D",n:"Bicampeón de la Libertadores",jog:[["Córdoba","GOL",89],["Ibarra","LAT",84],["Arruabarrena","LAT",82],["Matellán","ZAG",79],["Bermúdez","ZAG",85],["Burdisso","ZAG",79],["Serna","VOL",84],["Battaglia","VOL",83],["Riquelme","MEI",94],["Schelotto","ATA",85],["Marcelo Delgado","ATA",85]]},
+ {ano:2003,tier:"D",n:"Campeón de la Libertadores y del Mundo",jog:[["Abbondanzieri","GOL",86],["Clemente Rodríguez","LAT",80],["Schiavi","ZAG",83],["Burdisso","ZAG",82],["Battaglia","VOL",84],["Cascini","VOL",81],["Villarreal","MEI",80],["Donnet","MEI",80],["Tevez","ATA",91],["Marcelo Delgado","ATA",85],["Iarley","ATA",82]]},
+ {ano:2004,tier:"S",n:"Bicampeón de la Sudamericana",jog:[["Abbondanzieri","GOL",85],["Clemente Rodríguez","LAT",80],["Krupoviesa","LAT",78],["Schiavi","ZAG",83],["Burdisso","ZAG",81],["Battaglia","VOL",84],["Cascini","VOL",80],["Donnet","MEI",79],["Tevez","ATA",90],["Marcelo Delgado","ATA",84],["Schelotto","ATA",84]]},
+ {ano:2005,tier:"D",n:"Campeón del Torneo y la Sudamericana",jog:[["Abbondanzieri","GOL",86],["Ibarra","LAT",83],["Clemente Rodríguez","LAT",80],["Krupoviesa","LAT",78],["Schiavi","ZAG",83],["Gago","VOL",82],["Battaglia","VOL",84],["Guillermo Marino","MEI",80],["Neri Cardozo","MEI",78],["Palermo","ATA",87],["Palacio","ATA",86]]},
+ {ano:2006,tier:"S",n:"Campeón del Clausura y la Recopa",jog:[["Abbondanzieri","GOL",85],["Ibarra","LAT",83],["Morel Rodríguez","LAT",81],["Krupoviesa","LAT",78],["Daniel Díaz","ZAG",81],["Julio César Cáceres","ZAG",80],["Battaglia","VOL",84],["Ledesma","VOL",81],["Schelotto","MEI",84],["Palermo","ATA",87],["Palacio","ATA",86]]},
+ {ano:2007,tier:"D",n:"Campeón de la Libertadores",jog:[["Caranta","GOL",82],["Ibarra","LAT",83],["Morel Rodríguez","LAT",81],["Daniel Díaz","ZAG",82],["Julio César Cáceres","ZAG",81],["Battaglia","VOL",84],["Ledesma","VOL",82],["Banega","VOL",80],["Riquelme","MEI",94],["Palermo","ATA",86],["Palacio","ATA",86]]},
+ {ano:2011,tier:"D",n:"Campeón del Apertura invicto",jog:[["Orión","GOL",83],["Clemente Rodríguez","LAT",79],["Insaurralde","ZAG",78],["Schiavi","ZAG",82],["Roncaglia","ZAG",79],["Somoza","VOL",79],["Erviti","MEI",80],["Cristian Chávez","MEI",77],["Riquelme","MEI",93],["Mouche","ATA",78],["Viatri","ATA",78]]},
+ {ano:2012,tier:"R",n:"Subcampeón de la Libertadores",jog:[["Orión","GOL",83],["Clemente Rodríguez","LAT",79],["Sánchez Miño","LAT",77],["Roncaglia","ZAG",79],["Schiavi","ZAG",82],["Somoza","VOL",79],["Ledesma","VOL",80],["Erviti","MEI",80],["Riquelme","MEI",94],["Santiago Silva","ATA",80],["Viatri","ATA",78]]},
+ {ano:2015,tier:"D",n:"Campeón del Torneo",jog:[["Orión","GOL",82],["Peruzzi","LAT",79],["Jonathan Silva","LAT",78],["Daniel Díaz","ZAG",80],["Magallán","ZAG",77],["Gago","VOL",84],["Bentancur","VOL",80],["Pablo Pérez","MEI",81],["Lodeiro","MEI",82],["Tevez","ATA",86],["Calleri","ATA",80]]},
+ {ano:2018,tier:"R",n:"Subcampeón de la Libertadores (Madrid)",jog:[["Rossi","GOL",84],["Buffarini","LAT",79],["Fabra","LAT",80],["Izquierdoz","ZAG",81],["Magallán","ZAG",78],["Gago","VOL",84],["Nández","VOL",83],["Pablo Pérez","MEI",82],["Pavón","ATA",84],["Benedetto","ATA",85],["Tevez","ATA",85]]},
+ {ano:2020,tier:"D",n:"Campeón de la Superliga",jog:[["Andrada","GOL",82],["Buffarini","LAT",78],["Fabra","LAT",80],["Izquierdoz","ZAG",81],["Lisandro López","ZAG",80],["Pol Fernández","VOL",80],["Capaldo","VOL",78],["Salvio","MEI",83],["Mauro Zárate","ATA",81],["Tevez","ATA",85],["Soldano","ATA",78]]},
+],
+"River Plate":[
+ {ano:1945,tier:"D",n:"Campeón Argentino — La Máquina",jog:[["Amadeo Carrizo","GOL",88],["Yácono","LAT",84],["Vaghi","ZAG",82],["Néstor Rossi","VOL",88],["Pedernera","MEI",93],["J. M. Moreno","MEI",92],["Labruna","ATA",92],["Di Stéfano","ATA",94],["Loustau","ATA",87],["Muñoz","ATA",86],["Deambrossi","ATA",80]]},
+ {ano:1947,tier:"D",n:"Campeón — Di Stéfano goleador",jog:[["Amadeo Carrizo","GOL",88],["Yácono","LAT",84],["Vaghi","ZAG",82],["Néstor Rossi","VOL",88],["Ángel Allegri","VOL",79],["J. M. Moreno","MEI",92],["Labruna","ATA",92],["Di Stéfano","ATA",96],["Loustau","ATA",87],["Muñoz","ATA",86],["Deambrossi","ATA",80]]},
+ {ano:1956,tier:"D",n:"Tricampeón Argentino (1955-57)",jog:[["Amadeo Carrizo","GOL",88],["Federico Vairo","LAT",82],["José Ramos Delgado","ZAG",84],["Néstor Rossi","VOL",87],["Sívori","MEI",91],["Walter Gómez","MEI",85],["Labruna","ATA",88],["Santiago Vernazza","ATA",82],["Roberto Zárate","ATA",81],["Eliseo Prado","ATA",80],["Norberto Menéndez","ATA",81]]},
+ {ano:1975,tier:"D",n:"Campeón — el fin de la sequía",jog:[["Fillol","GOL",88],["Comelles","LAT",77],["Wolff","LAT",80],["Passarella","ZAG",89],["Perfumo","ZAG",85],["Merlo","VOL",84],["J. J. López","MEI",84],["Beto Alonso","MEI",87],["Luque","ATA",86],["Morete","ATA",84],["Pinino Más","ATA",83]]},
+ {ano:1979,tier:"D",n:"Campeón del Metropolitano y Nacional",jog:[["Fillol","GOL",88],["Saporiti","LAT",78],["Comelles","LAT",77],["Passarella","ZAG",89],["Héctor López","ZAG",76],["Merlo","VOL",83],["J. J. López","MEI",84],["Beto Alonso","MEI",87],["Luque","ATA",85],["Ramón Díaz","ATA",83],["Pedro González","ATA",77]]},
+ {ano:1981,tier:"D",n:"Campeón del Nacional",jog:[["Fillol","GOL",87],["Saporiti","LAT",78],["Comelles","LAT",76],["Passarella","ZAG",89],["Héctor López","ZAG",76],["Gallego","VOL",84],["Merlo","VOL",82],["J. J. López","MEI",83],["Beto Alonso","MEI",86],["Kempes","ATA",88],["Ramón Díaz","ATA",84]]},
+ {ano:1986,tier:"D",n:"Campeón de América y del Mundo",jog:[["Pumpido","GOL",84],["Julián Camino","LAT",77],["Montenegro","ZAG",79],["Ruggeri","ZAG",87],["Gallego","VOL",84],["Héctor Enrique","VOL",83],["Beto Alonso","MEI",88],["Francescoli","MEI",93],["Alzamendi","ATA",84],["Funes","ATA",83],["Roque Alfaro","ATA",82]]},
+ {ano:1994,tier:"S",n:"El regreso de Francescoli",jog:[["Burgos","GOL",83],["Hernán Díaz","LAT",82],["Fabián Basualdo","ZAG",78],["Ayala","ZAG",84],["Zapata","VOL",80],["Astrada","VOL",83],["Berti","MEI",82],["Francescoli","MEI",91],["Ortega","MEI",87],["Crespo","ATA",84],["Medina Bello","ATA",83]]},
+ {ano:1996,tier:"D",n:"Campeón de la Libertadores",jog:[["Burgos","GOL",84],["Hernán Díaz","LAT",82],["Sorín","LAT",82],["Altamirano","ZAG",80],["Astrada","VOL",83],["Almeyda","VOL",83],["Berti","MEI",82],["Francescoli","MEI",90],["Ortega","MEI",89],["Crespo","ATA",87],["Marcelo Escudero","ATA",80]]},
+ {ano:1997,tier:"D",n:"Campeón del Torneo y la Supercopa",jog:[["Burgos","GOL",84],["Hernán Díaz","LAT",82],["Gustavo Lombardi","LAT",79],["Celso Ayala","ZAG",83],["Astrada","VOL",83],["Gallardo","MEI",85],["Ortega","MEI",88],["Francescoli","MEI",89],["Salas","ATA",88],["Julio Cruz","ATA",82],["Marcelo Escudero","ATA",79]]},
+ {ano:2000,tier:"S",n:"Campeón del Clausura",jog:[["Bonano","GOL",83],["Placente","LAT",80],["Gustavo Lombardi","LAT",79],["Yepes","ZAG",82],["Ameli","ZAG",79],["Husaín","VOL",81],["Aimar","MEI",88],["Ortega","MEI",88],["D'Alessandro","MEI",82],["Saviola","ATA",87],["Juan Pablo Ángel","ATA",85]]},
+ {ano:2008,tier:"R",n:"El Apertura del último puesto",jog:[["Juan Pablo Carrizo","GOL",82],["Paulo Ferrari","LAT",76],["Ariel Garcé","ZAG",77],["Danilo Gerlo","ZAG",77],["Nicolás Domingo","VOL",76],["Augusto Fernández","VOL",79],["Ortega","MEI",84],["Buonanotte","MEI",80],["Robert Flores","MEI",78],["Falcao","ATA",85],["Sebastián Abreu","ATA",82]]},
+ {ano:2011,tier:"R",n:"El año del descenso",jog:[["Juan Pablo Carrizo","GOL",80],["Paulo Ferrari","LAT",76],["Arano","LAT",76],["Maidana","ZAG",79],["Ferrero","ZAG",76],["Adalberto Román","ZAG",76],["Almeyda","VOL",82],["Lamela","MEI",80],["Lanzini","MEI",79],["Rogelio Funes Mori","ATA",78],["Pavone","ATA",78]]},
+ {ano:2014,tier:"D",n:"Campeón de la Sudamericana",jog:[["Barovero","GOL",85],["Mercado","LAT",82],["Vangioni","LAT",79],["Maidana","ZAG",82],["Germán Pezzella","ZAG",78],["Kranevitter","VOL",80],["Ponzio","VOL",82],["Pisculichi","MEI",81],["Teo Gutiérrez","ATA",84],["Mora","ATA",80],["Rogelio Funes Mori","ATA",80]]},
+ {ano:2015,tier:"D",n:"Campeón de la Libertadores",jog:[["Barovero","GOL",85],["Mercado","LAT",82],["Vangioni","LAT",79],["Maidana","ZAG",82],["Rogelio Funes Mori","ZAG",80],["Kranevitter","VOL",80],["Ponzio","VOL",82],["Pisculichi","MEI",81],["Carlos Sánchez","MEI",82],["Lucas Alario","ATA",81],["Cavenaghi","ATA",80]]},
+ {ano:2017,tier:"D",n:"Campeón de la Copa Argentina",jog:[["Germán Lux","GOL",80],["Montiel","LAT",78],["Casco","LAT",80],["Maidana","ZAG",81],["Pinola","ZAG",81],["Ponzio","VOL",82],["Enzo Pérez","VOL",84],["Nacho Fernández","MEI",85],["Palacios","MEI",79],["Scocco","ATA",83],["Mora","ATA",80]]},
+ {ano:2018,tier:"D",n:"Campeón de la Libertadores (Madrid)",jog:[["Armani","GOL",90],["Montiel","LAT",82],["Casco","LAT",81],["Pinola","ZAG",82],["Maidana","ZAG",82],["Enzo Pérez","VOL",84],["Palacios","MEI",84],["Quintero","MEI",88],["Pity Martínez","MEI",89],["Pratto","ATA",84],["Borré","ATA",83]]},
+ {ano:2019,tier:"R",n:"Subcampeón de la Libertadores (Lima)",jog:[["Armani","GOL",89],["Montiel","LAT",82],["Casco","LAT",81],["Pinola","ZAG",81],["Martínez Quarta","ZAG",81],["Enzo Pérez","VOL",84],["Palacios","MEI",84],["Nacho Fernández","MEI",85],["De la Cruz","MEI",84],["Matías Suárez","ATA",82],["Borré","ATA",84]]},
+ {ano:2021,tier:"D",n:"Campeón de la Liga Profesional",jog:[["Armani","GOL",89],["Montiel","LAT",81],["Casco","LAT",80],["Paulo Díaz","ZAG",82],["Maidana","ZAG",79],["Enzo Pérez","VOL",83],["Palavecino","MEI",78],["De la Cruz","MEI",85],["Julián Álvarez","ATA",86],["Braian Romero","ATA",79],["Matías Suárez","ATA",81]]},
+ {ano:2023,tier:"D",n:"Campeón de la Liga",jog:[["Armani","GOL",88],["Milton Casco","LAT",79],["Paulo Díaz","ZAG",82],["González Pírez","ZAG",80],["Enzo Pérez","VOL",82],["Nacho Fernández","MEI",84],["De la Cruz","MEI",85],["Barco","MEI",81],["Borja","ATA",83],["Beltrán","ATA",81],["Solari","ATA",79]]},
+],
+};
+const TIER_PESOS=[["D",.55],["S",.35],["R",.10]];
+/* ---- setup: modo, clube do coração e nome do time ---- */
+function abrirSetup(ctx){S.setupCtx=ctx;
+  S.setupSel=S.setupSel||{modo:S.profile.timeCoracao?"cora":"cont",cora:S.profile.timeCoracao||null};
+  S.screen="setup";render()}
+function setSetupModo(m,cora){S.setupSel.modo=m;if(m==="cora")S.setupSel.cora=cora;render()}
+function renderSetup(){
+  const sel=S.setupSel;
+  el().innerHTML=header(`<button class="pill" onclick="irHome()">${t("voltar")}</button>`)+`
+  <div class="panel"><div class="eyebrow">${t("setup_eb")} · ${S.setupCtx==="duelo"?t("duelo_eb"):t("modo_livre")}</div>
+    <h2 style="margin:2px 0 10px">${t("setup_modo")}</h2>
+    <button class="clubchip ${sel.modo==="cont"?"on":""}" onclick="setSetupModo('cont')"><span class="cor" style="background:linear-gradient(180deg,var(--ouro),#7a5c15)"></span><span>${t("modo_cont")}<small>${t("modo_cont_d")}</small></span></button>
+    <div class="eyebrow" style="margin-top:14px">❤️ ${t("modo_cora")} — ${t("escolha_clube")}</div>
+    ${CORA_CLUBES.map(([c,cor])=>`<button class="clubchip ${sel.modo==="cora"&&sel.cora===c?"on":""}" onclick="setSetupModo('cora','${c}')"><span class="cor" style="background:${cor}"></span><span>${flagClube(c)} ${c}<small>${t("modo_cora_d")}</small></span></button>`).join("")}
+    <div class="eyebrow" style="margin-top:16px">${t("setup_nome")}</div>
+    <input type="text" id="nomeTime" maxlength="26" placeholder="${t("setup_nome_ph")}" value="${esc(S.profile.clubeNome||"")}">
+    <button class="btn gold" onclick="confirmarSetup()">${S.setupCtx==="duelo"?t("b_criarsala"):t("b_comecar")}</button>
+  </div>`;
+}
+function confirmarSetup(){
+  const sel=S.setupSel;
+  const nome=(document.getElementById("nomeTime").value||"").trim();
+  S.profile.clubeNome=nome;if(sel.modo==="cora")S.profile.timeCoracao=sel.cora;saveProfile();
+  const opts={modo:sel.modo,cora:sel.modo==="cora"?sel.cora:null,nome};
+  if(S.setupCtx==="duelo")criarSala(opts);
+  else startCampaign("livre",null,null,opts);
+}
+/* ---- núcleo redefinido: modo coração ---- */
+function startCampaign(mode,seedStr,roomCode,opts){
+  opts=opts||{modo:"cont",nome:S.profile&&S.profile.clubeNome||""};
+  const seed=seedStr||("livre-"+Date.now()+"-"+Math.floor(MR()*1e6));
+  const rM=mulberry32(hashStr(seed+"::mercado")), rO=mulberry32(hashStr(seed+"::copa")), rB=mulberry32(hashStr(seed+"::base"));
+  const cora=opts.modo==="cora"?opts.cora:null;
+  const pool=cora?OPPS.filter(o=>!o[0].startsWith(cora+" ")):OPPS;
+  const usados=new Set(), opps=[];
+  for(let r=0;r<7;r++){const[lo,hi]=FAIXA_OPP[r];const cands=pool.filter(o=>o[1]>=lo&&o[1]<=hi&&!usados.has(o[0]));
+    const c=cands.length?pick(rO,cands):pick(rO,pool);usados.add(c[0]);opps.push({n:c[0],f:c[1]})}
+  const form=FORMACOES["4-3-3"];
+  S.camp={mode,seed,roomCode:roomCode||null,modo:opts.modo||"cont",cora,
+    clube:(opts.nome&&opts.nome.trim())||nomeClube(rO),
+    caixa:170,gasto:0,vendas:0,formacao:"4-3-3",estilo:"eq",
+    slots:form.roles.map(r=>({role:r,p:null})),banco:[],base:gerarBase(rB),
+    rodada:0,opps,resultados:[],gf:0,gs:0,cs:0,moral:0,golSofrencia:false,
+    rM,rolls:0,rollGratis:true,mercado:null,evento:null,
+    eliminado:false,campeao:false,fim:false,contratados:0};
+  refreshMercado();
+  autoEscalar();
+  S.screen="janela";S.sel=null;S.pend=null;render();
+}
+function jogadorDeEra(club,ei,era,d,i){
+  return{id:"e:"+club+":"+ei+":"+i,n:d[0],pos:d[1],f:d[2],clube:club,ano:era.ano,preco:preco(d[2]),lenda:d[2]>=91,tier:era.tier,gols:0,amar:0,fora:0};
+}
+function refreshMercado(){
+  const c=S.camp;
+  if(c.modo==="cora"){
+    const eras=ERAS[c.cora],atual=c.mercado?c.mercado.eraIdx:-1;
+    let ei=-1,g=0;
+    do{
+      const r=c.rM();let tier="D",acc=0;
+      for(const[tk,w]of TIER_PESOS){acc+=w;if(r<acc){tier=tk;break}}
+      const cands=eras.map((e,i)=>e.tier===tier?i:-1).filter(i=>i>=0);
+      ei=cands.length?cands[Math.floor(c.rM()*cands.length)]:Math.floor(c.rM()*eras.length);
+    }while(ei===atual&&eras.length>1&&g++<12);
+    const era=eras[ei];
+    const jog=era.jog.map((d,i)=>jogadorDeEra(c.cora,ei,era,d,i));
+    c.mercado={key:c.cora+" "+era.ano,clube:c.cora,eraNome:era.n,ano:era.ano,tier:era.tier,eraIdx:ei,jog};
+    c.rolls++;return;
+  }
+  const atual=c.mercado?c.mercado.key:null;
+  let k=pick(c.rM,SQUAD_KEYS),g=0;
+  while(k===atual&&g++<20)k=pick(c.rM,SQUAD_KEYS);
+  c.mercado={key:k,clube:k.slice(0,k.lastIndexOf(" ")),ano:k.slice(k.lastIndexOf(" ")+1),eraNome:null,tier:null,jog:SQUADS[k].map(novoJogador)};
+  c.rolls++;
+}
+/* diário é sempre Continental (seed justa pra todo mundo); nome do time é o seu */
+function startDaily(){
+  if(S.profile.dailyFeito===hojeStr()&&!confirm(t("daily_replay")))return;
+  startCampaign("diario","dia-"+hojeStr(),null,{modo:"cont",nome:S.profile.clubeNome||""});
+}
+function criarSala(opts){
+  const abc="ABCDEFGHJKMNPQRSTUVWXYZ";let code="";for(let i=0;i<5;i++)code+=abc[Math.floor(MR()*abc.length)];
+  stSet("choque:sala:"+code,{criador:S.profile.nick,ts:Date.now(),entries:[],modo:opts&&opts.modo||"cont",cora:opts&&opts.cora||null},true);
+  toast(t("toast_sala",{c:code}));
+  startCampaign("duelo","sala-"+code,code,opts);
+}
+/* quem entra numa sala herda o modo e o clube dela */
+async function entrarSala(jogar){
+  const code=(document.getElementById("codigo").value||"").trim().toUpperCase();
+  if(code.length!==5){toast(t("toast_cod5"));return}
+  if(jogar){
+    const rec=await stGet("choque:sala:"+code,true);
+    const opts=rec?{modo:rec.modo||"cont",cora:rec.cora||null,nome:S.profile.clubeNome||""}:{modo:"cont",nome:S.profile.clubeNome||""};
+    startCampaign("duelo","sala-"+code,code,opts);
+  }else{S.salaCode=code;S.screen="sala";render();carregarSala(code)}
+}
+function jogarDeNovo(){const c=S.camp,opts={modo:c.modo,cora:c.cora,nome:c.clube};
+  if(c.mode==="duelo"&&c.roomCode)startCampaign("duelo","sala-"+c.roomCode,c.roomCode,opts);
+  else if(c.mode==="diario")startDaily();
+  else startCampaign("livre",null,null,opts);}
+function shareText(){
+  const c=S.camp,sc=c.score;
+  const em=c.resultados.map(r=>r.res==="V0"?"🟩":r.res==="V"?"🟨":r.res==="E"?"⬜":"🟥").join("");
+  const st=sc.perfeito?t("sh_perf"):c.campeao?t("sh_camp"):c.eliminado?t("sh_elim",{f:t("fase_"+c.resultados[c.resultados.length-1].fase)}):"";
+  let modo=c.mode==="diario"?t("modo_dia",{d:hojeStr()}):c.mode==="duelo"?t("modo_duelo",{c:c.roomCode}):t("modo_livre");
+  if(c.modo==="cora")modo=t("modo_cora")+" "+c.cora+" · "+modo;
+  const nome="CHOQUE DE ERAS";
+  return nome+" ⚽ "+modo+"\n"+t("share",{modo:"",clube:c.clube,st,em,pts:sc.total,m:sc.media,z:sc.zebra}).split("\n").slice(1).join("\n");
+}
+
+Object.assign(I18N.pt,{tag:"QUEM ESCALA A HISTÓRIA, ALCANÇA A GLÓRIA.",footer:"CHOQUE DE ERAS · protótipo",
+ hero_eb:"seu clube · todas as eras · 7 jogos",
+ hero_h:'Rasgue as páginas do tempo.<br><span style="color:var(--ouro)">Escreva sua dinastia.</span>',
+ hero_p:"Já imaginou o craque de 98 cruzando a bola pro artilheiro de 2012? Escolha o clube da sua vida, deixe o dado sortear eras inteiras da história dele — mais de 20 por clube — e monte o esquadrão imbatível através das décadas. Gerencie legados, administre o ego das lendas e persiga a <b>Campanha Imortal</b> contra os gigantes da América: 7 vitórias, nenhum gol sofrido.",
+ loading:["Calculando o impacto tático de gerações…","Reunindo os deuses do gramado…","Ajustando o relógio para a era dourada…","Convocando lendas de todas as décadas…","Preparando a prancheta…"]});
+Object.assign(I18N.es,{tag:"QUIEN ALINEA LA HISTORIA, ALCANZA LA GLORIA.",footer:"CHOQUE DE ERAS · prototipo",
+ hero_eb:"tu club · todas las eras · 7 partidos",
+ hero_h:'Rasgá las páginas del tiempo.<br><span style="color:var(--ouro)">Escribí tu dinastía.</span>',
+ hero_p:"¿Te imaginás al crack del 98 tirando el centro para el goleador de 2012? Elegí el club de tu vida, dejá que el dado sortee eras enteras de su historia — más de 20 por club — y armá el equipo imbatible a través de las décadas. Gestioná legados, administrá el ego de las leyendas y perseguí la <b>Campaña Inmortal</b> contra los gigantes de América: 7 victorias, ningún gol en contra.",
+ loading:["Calculando el impacto táctico de generaciones…","Reuniendo a los dioses de la cancha…","Ajustando el reloj a la era dorada…","Convocando leyendas de todas las décadas…","Preparando la pizarra…"]});
+/* ---------- TELA DE CARREGAMENTO ---------- */
+function renderLoading(){
+  const frases=I18N[S.lang].loading;
+  const frase=frases[Math.floor(Math.random()*frases.length)];
+  el().innerHTML=`<div class="loadscreen">${LOGO_MARK}<div class="loadwm">CHOQUE DE <b>ERAS</b></div>
+    <div class="loadtag">${t("tag")}</div><div class="loadbar"><i></i></div><div class="loadfrase">${esc(frase)}</div></div>`;
+}
+/* ---------- INIT ---------- */
+(async function init(){
+  renderLoading();
+  const t0=Date.now();
+  await loadProfile();
+  const rest=900-(Date.now()-t0);
+  if(rest>0)await new Promise(r=>setTimeout(r,rest));
+  render();
+})();
+</script>
+</body>
+</html>
