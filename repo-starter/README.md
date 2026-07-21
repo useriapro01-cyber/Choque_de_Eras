@@ -75,4 +75,4 @@ O build emite uma PWA instalável: `manifest.webmanifest`, `sw.js` (cache-first 
 Feito o import, todo push em `main` publica sozinho. Regenerar ícones (se o logo mudar): `npm i -D @resvg/resvg-js && node scripts/gerar-icones.mjs && npm remove @resvg/resvg-js`.
 
 ## Status
-Fase 2 — Produto core. Marca definida (Choque de Eras). TDMV-3 (estrutura) e TDMV-4 (PWA + deploy) concluídos; falta o import único do repo na Vercel. Backlog em `CLAUDE.md`.
+Fase 2 — Produto core. Marca definida (Choque de Eras). TDMV-3 (estrutura) e TDMV-4 (PWA + deploy) concluídos — **no ar em [choquedeeras.com.br](https://choquedeeras.com.br)** (deploy automático da Vercel a partir de `main`). Backlog em `CLAUDE.md`.
