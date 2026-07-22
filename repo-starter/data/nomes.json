@@ -1,0 +1,20 @@
+{
+  "base": {
+    "pt": ["Lucas","Gabriel","Matheus","João Pedro","Vitor Hugo","Kaique","Ryan","Wesley","Igor","Davi","Caio","Pedro Henrique","Luan","Yago","Talles","Erick","Samuel","Breno","Enzo","Miguel","Arthur","Heitor","Murilo","Nicolas","Rafael","Gustavo"],
+    "es": ["Santiago","Mateo","Thiago","Benjamín","Joaquín","Lautaro","Franco","Nicolás","Agustín","Bruno","Facundo","Ramiro","Tomás","Ignacio","Emiliano","Valentín","Bautista","Gonzalo","Maximiliano","Julián","Felipe","Alan","Brian","Kevin","Axel","Dylan"]
+  },
+  "sobrenomes": {
+    "pt": ["Silva","Santos","Oliveira","Souza","Pereira","Costa","Rodrigues","Almeida","Nascimento","Lima","Araújo","Ribeiro","Carvalho","Gomes","Martins","Rocha","Barbosa","Moura","Teixeira","Farias","Cardoso","Correia","Dias","Vieira"],
+    "es": ["González","Rodríguez","Fernández","López","Martínez","García","Pérez","Sánchez","Romero","Torres","Flores","Acosta","Medina","Herrera","Aguirre","Sosa","Benítez","Cabrera","Ríos","Molina","Ledesma","Villalba","Quiroga","Paredes"]
+  },
+  "clube": {
+    "pt": {
+      "a": ["Esporte Clube","Grêmio Recreativo","Associação Atlética","Sociedade Esportiva","União","Real","Operário","Ferroviário","Nacional de","Independente"],
+      "b": ["da Várzea","do Bairro","Estrela do Norte","Vila Alegria","Beira-Rio","do Sertão","Pé Quente","Boa Vontade","Coração Valente","Futuro Campeão"]
+    },
+    "es": {
+      "a": ["Deportivo","Atlético","Club Social","Sportivo","Defensores de","Unión","Racing de","Juventud","Estrella de","Real"],
+      "b": ["del Barrio","La Loma","El Porvenir","Villa Esperanza","La Ribera","del Cerro","Corazón Valiente","La Cantera","Los Andes","San Cayetano"]
+    }
+  }
+}

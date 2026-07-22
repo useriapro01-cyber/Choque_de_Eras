@@ -22,20 +22,25 @@ data/                     ← FONTE DA VERDADE (nunca editar elenco em código)
 src/
   index.html              shell: marcadores /*@STYLES@*/ /*@DATA@*/ /*@APP@*/ + tags PWA
   styles.css              estilos extraídos
-  app.js                  motor + i18n + render (os dados entram via build)
+  engine.js               MOTOR puro (browser+Node): RNG semeado, mercado, partida,
+                          pontuação. Sem DOM/i18n; recebe dados, emite eventos crus.
+  app.js                  UI: estado, render, i18n, narração — chama Engine.*
   pwa/                    fontes da PWA (copiadas/carimbadas pelo build)
     manifest.webmanifest
     sw.js                 service worker (cache-first offline; versão via /*@VERSION@*/)
     icons/                icon.svg + PNGs 192/512/maskable/apple-touch (commitados)
+data/nomes.json           pools de nome da cantera (fonte única p/ browser+Node)
 scripts/
   validar-eras.mjs        o PORTEIRO: 11 jog / 6 posições / sem duplicata / tier / subtítulo
-  build.mjs               valida → injeta dados → dist/ (index.html + PWA)
+  carregar-dados.mjs      fonte ÚNICA de reconstrução de dados (build + Node + testes)
+  build.mjs               valida → monta Engine+dados+app → dist/ (index.html + PWA)
   gerar-icones.mjs        regenera os PNGs a partir dos SVGs (dev: npm i -D @resvg/resvg-js)
 tests/
   dados.test.mjs          afirma os invariantes de dados via porteiro
   bot-regressao.test.mjs  ≥150 campanhas Continental + ≥30/clube contra o dist
   sweep-i18n.test.mjs     varredura das 11 telas em PT+ES sem undefined/NaN
   pwa.test.mjs            valida manifest/sw/ícones e o wiring no index.html
+  paridade.test.mjs       motor no dist == motor standalone Node (mesma seed+decisões)
   harness/carregar-motor.mjs  carrega o motor do dist num sandbox headless
 vercel.json               build/saída/headers para o deploy na Vercel
 dist/                     ARTEFATO gerado (no .gitignore)
@@ -60,6 +65,7 @@ npm run dev        # build e aponta o arquivo para abrir
 - **`bot-regressao.test.mjs`** — dirige ≥150 campanhas Continental + ≥30 por clube e afere, contra o dist: 0 erros de runtime, 0 violações de suspensão/lesão (jogador com `fora>0` nunca vai a campo), adversário nunca é o clube do coração, mercado do Meu Clube só traz o próprio clube, distribuição de tiers 55/35/10 (±4 p.p.).
 - **`sweep-i18n.test.mjs`** — ativa o render real e varre as 11 telas (com variantes: home com/sem apelido, setup cont/cora/duelo, janela com pendência/seleção, jogo início/meio/fim, pós-jogo com/sem evento de escolha, fim eliminado/campeão/imortal) em PT e ES, checando ausência de `undefined`/`NaN`/`[object Object]`/placeholder `{x}` não resolvido.
 - **`dados.test.mjs`** — afirma os invariantes de dados via porteiro.
+- **`paridade.test.mjs`** — prova que, para a mesma seed + mesma lista de decisões, o motor rodando standalone no Node (`import src/engine.js`) produz resultado idêntico (score, gf/gs, campeão/eliminado, conquistas) ao motor embutido no `dist`. Base da validação de ranking por replay (TDMV-5).
 
 - **`pwa.test.mjs`** — valida o `dist` montado: manifest instalável (name/start_url/standalone/ícones 192/512+maskable), service worker carimbado com versão e com precache do shell, PNGs válidos nas dimensões certas, e o `index.html` referenciando manifest/ícones + registrando o SW.
 
@@ -75,4 +81,4 @@ O build emite uma PWA instalável: `manifest.webmanifest`, `sw.js` (cache-first 
 Feito o import, todo push em `main` publica sozinho. Regenerar ícones (se o logo mudar): `npm i -D @resvg/resvg-js && node scripts/gerar-icones.mjs && npm remove @resvg/resvg-js`.
 
 ## Status
-Fase 2 — Produto core. Marca definida (Choque de Eras). TDMV-3 (estrutura) e TDMV-4 (PWA + deploy) concluídos — **no ar em [choquedeeras.com.br](https://choquedeeras.com.br)** (deploy automático da Vercel a partir de `main`). Backlog em `CLAUDE.md`.
+Fase 2 — Produto core. Marca definida (Choque de Eras). TDMV-3 (estrutura) e TDMV-4 (PWA + deploy) concluídos — **no ar em [choquedeeras.com.br](https://choquedeeras.com.br)** (deploy automático da Vercel a partir de `main`). TDMV-5 Fase A (motor compartilhado + paridade) concluída; Fases B/C (replay server-side no Supabase) a seguir. Backlog em `CLAUDE.md`.

@@ -5,6 +5,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { validarTudo } from './validar-eras.mjs';
+import { carregarBruto } from './carregar-dados.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dataDir = path.join(ROOT, 'data');
@@ -22,22 +23,8 @@ if (erros.length) {
   process.exit(1);
 }
 
-// 2. reconstruir o bloco de dados exatamente como o motor espera
-const clubesDoc = lerJson(path.join(dataDir, 'clubes.json'));
-const cont = lerJson(path.join(dataDir, 'continental.json'));
-const adv = lerJson(path.join(dataDir, 'adversarios.json'));
-
-const eraFiles = fs.readdirSync(path.join(dataDir, 'eras'))
-  .filter(f => f.endsWith('.json'))
-  .map(f => lerJson(path.join(dataDir, 'eras', f)))
-  .sort((a, b) => a.ordem - b.ordem);
-
-const CLUBE_PAIS = Object.fromEntries(clubesDoc.clubes.map(c => [c.nome, c.pais]));
-const FLAG_PAIS = clubesDoc.paises;
-const DB = cont.squads;
-const OPPS = adv.adversarios.map(a => [a.rotulo, a.forca]);
-const CORA_CLUBES = eraFiles.map(e => [e.clube, e.cor]);
-const ERAS = Object.fromEntries(eraFiles.map(e => [e.clube, e.eras]));
+// 2. reconstruir o bloco de dados (fonte única: carregar-dados.mjs)
+const { DB, CLUBE_PAIS, FLAG_PAIS, OPPS, CORA_CLUBES, ERAS, nomes } = carregarBruto(dataDir);
 
 const j = v => JSON.stringify(v);
 const dataBlock = [
@@ -48,14 +35,32 @@ const dataBlock = [
   `const OPPS=${j(OPPS)};`,
   `const CORA_CLUBES=${j(CORA_CLUBES)};`,
   `const ERAS=${j(ERAS)};`,
+  `const NOMES_BASE=${j(nomes.base)};`,
+  `const SOBRENOMES_BASE=${j(nomes.sobrenomes)};`,
+  `const NOMES_CLUBE=${j(nomes.clube)};`,
 ].join('\n');
 
-// 3. injetar em src/index.html
+// 2b. motor: engine.js é ESM (export) para o Node; no bundle clássico do browser
+// removemos os `export` e embrulhamos num namespace global `Engine`.
+const engineSrc = fs.readFileSync(path.join(srcDir, 'engine.js'), 'utf8');
+const engineNames = [...new Set(
+  [...engineSrc.matchAll(/^export\s+(?:async\s+)?(?:function|const|let)\s+([A-Za-z_$][\w$]*)/gm)].map(m => m[1])
+)];
+if (!engineNames.length) { console.error('✗ nenhum export encontrado em engine.js'); process.exit(1); }
+const engineBlock = [
+  '/* ===== MOTOR (src/engine.js) — gerado; não editar aqui ===== */',
+  'const Engine=(function(){',
+  engineSrc.replace(/^export\s+/gm, ''),
+  `return {${engineNames.join(',')}};`,
+  '})();',
+].join('\n');
+
+// 3. injetar em src/index.html (ordem: motor → dados → app)
 const css = fs.readFileSync(path.join(srcDir, 'styles.css'), 'utf8');
 const app = fs.readFileSync(path.join(srcDir, 'app.js'), 'utf8');
 let out = fs.readFileSync(path.join(srcDir, 'index.html'), 'utf8')
   .replace('/*@STYLES@*/', () => css.trimEnd())
-  .replace('/*@DATA@*/', () => dataBlock)
+  .replace('/*@DATA@*/', () => engineBlock + '\n' + dataBlock)
   .replace('/*@APP@*/', () => app.trimEnd());
 
 for (const m of ['/*@STYLES@*/', '/*@DATA@*/', '/*@APP@*/'])

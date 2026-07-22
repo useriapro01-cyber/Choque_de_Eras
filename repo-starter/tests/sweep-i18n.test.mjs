@@ -88,9 +88,9 @@ test('sweep bilíngue de telas (PT+ES) sem undefined/NaN/template quebrado', () 
   // campeão
   const fc = api.S.camp;
   fc.campeao = true; fc.eliminado = false; fc.fim = true; fc.notaGrupo = null;
-  fc.score = api.calcScore(); varrer('fim-campeao');
+  fc.score = api.Engine.calcScore(fc); varrer('fim-campeao');
   // imortal (campanha perfeita)
-  fc.score = Object.assign(api.calcScore(), { perfeito: true }); varrer('fim-imortal');
+  fc.score = Object.assign(api.Engine.calcScore(fc), { perfeito: true }); varrer('fim-imortal');
 
   // ---- campanha Continental (mercado sem tier, chave clube+ano) ----
   api.startCampaign('livre', 'sweep-cont', null, { modo: 'cont', cora: null, nome: 'Continental FC' });
@@ -113,7 +113,8 @@ test('sweep bilíngue de telas (PT+ES) sem undefined/NaN/template quebrado', () 
 // sorteia eventos até achar um que satisfaça o filtro (efeitos colaterais aceitáveis no sweep)
 function acharEvento(api, filtro) {
   for (let i = 0; i < 200; i++) {
-    const ev = api.sortearEvento();
+    const rng = api.Engine.mulberry32(api.Engine.hashStr('sweep-ev' + i));
+    const ev = api.Engine.sortearEvento(api.S.camp, api.dadosAtuais(), rng);
     if (filtro(ev)) return ev;
   }
   return null;
