@@ -196,42 +196,22 @@ function t(k,v){let s=(I18N[S.lang]&&I18N[S.lang][k])||I18N.pt[k]||k;if(v)for(co
 function flagClube(nome){return FLAG_PAIS[CLUBE_PAIS[nome]]||"🏳️"}
 /* Adversários históricos (nem todos precisam de elenco no mercado) */
 /* @DATA: OPPS injetado no build */
-/* La cantera: nomes reais por idioma */
-const NOMES_BASE={
-pt:["Lucas","Gabriel","Matheus","João Pedro","Vitor Hugo","Kaique","Ryan","Wesley","Igor","Davi","Caio","Pedro Henrique","Luan","Yago","Talles","Erick","Samuel","Breno","Enzo","Miguel","Arthur","Heitor","Murilo","Nicolas","Rafael","Gustavo"],
-es:["Santiago","Mateo","Thiago","Benjamín","Joaquín","Lautaro","Franco","Nicolás","Agustín","Bruno","Facundo","Ramiro","Tomás","Ignacio","Emiliano","Valentín","Bautista","Gonzalo","Maximiliano","Julián","Felipe","Alan","Brian","Kevin","Axel","Dylan"]};
-const SOBRENOMES_BASE={
-pt:["Silva","Santos","Oliveira","Souza","Pereira","Costa","Rodrigues","Almeida","Nascimento","Lima","Araújo","Ribeiro","Carvalho","Gomes","Martins","Rocha","Barbosa","Moura","Teixeira","Farias","Cardoso","Correia","Dias","Vieira"],
-es:["González","Rodríguez","Fernández","López","Martínez","García","Pérez","Sánchez","Romero","Torres","Flores","Acosta","Medina","Herrera","Aguirre","Sosa","Benítez","Cabrera","Ríos","Molina","Ledesma","Villalba","Quiroga","Paredes"]};
-const NOMES_CLUBE={
-pt:{a:["Esporte Clube","Grêmio Recreativo","Associação Atlética","Sociedade Esportiva","União","Real","Operário","Ferroviário","Nacional de","Independente"],
-    b:["da Várzea","do Bairro","Estrela do Norte","Vila Alegria","Beira-Rio","do Sertão","Pé Quente","Boa Vontade","Coração Valente","Futuro Campeão"]},
-es:{a:["Deportivo","Atlético","Club Social","Sportivo","Defensores de","Unión","Racing de","Juventud","Estrella de","Real"],
-    b:["del Barrio","La Loma","El Porvenir","Villa Esperanza","La Ribera","del Cerro","Corazón Valiente","La Cantera","Los Andes","San Cayetano"]}};
-/* ================= NÚCLEO ================= */
-function hashStr(s){let h=1779033703^s.length;for(let i=0;i<s.length;i++){h=Math.imul(h^s.charCodeAt(i),3432918353);h=h<<13|h>>>19}return(h>>>0)||1}
-function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
-const rnd=(rng,min,max)=>Math.floor(rng()*(max-min+1))+min;
-const pick=(rng,arr)=>arr[Math.floor(rng()*arr.length)];
+/* La cantera: pools de nome (NOMES_BASE/SOBRENOMES_BASE/NOMES_CLUBE) vêm do bloco de dados injetado no build (fonte: data/nomes.json) */
+/* ================= MOTOR — a lógica pura vive em src/engine.js ================= */
 const MR=Math.random;
-/* preço: curva normal + luva de lenda */
-function preco(f){let p=0.035*Math.pow(f-52,2);if(f>=92)p*=1+(f-91)*0.15;return Math.max(2,Math.round(p))}
 function fmtM(v){return "$"+Math.round(v)+"M"}
-const TORCIDA=1;
-const FORMACOES={
- "4-3-3":{roles:["GOL","LAT","ZAG","ZAG","LAT","VOL","MEI","MEI","ATA","ATA","ATA"],atk:3,def:-2},
- "4-4-2":{roles:["GOL","LAT","ZAG","ZAG","LAT","VOL","VOL","MEI","MEI","ATA","ATA"],atk:0,def:0},
- "3-5-2":{roles:["GOL","ZAG","ZAG","ZAG","LAT","VOL","MEI","MEI","LAT","ATA","ATA"],atk:2,def:-2},
- "5-3-2":{roles:["GOL","LAT","ZAG","ZAG","ZAG","LAT","VOL","VOL","MEI","ATA","ATA"],atk:-4,def:4}
-};
-const ESTILOS={of:{atk:5,def:-5},eq:{atk:0,def:0},re:{atk:-5,def:6}};
-const ADJ={GOL:[],LAT:["ZAG"],ZAG:["LAT","VOL"],VOL:["ZAG","MEI"],MEI:["VOL","ATA"],ATA:["MEI"]};
-function penalPos(pos,role){if(pos===role)return 0;if(pos==="GOL"||role==="GOL")return -20;if(ADJ[role].includes(pos))return -7;return -13}
-const FAIXA_OPP=[[66,72],[69,75],[72,78],[76,82],[80,85],[83,88],[86,93]];
-const PREMIO_V=[26,26,26,36,46,56,70], PREMIO_E=[10,10,10,0,0,0,0];
-const SQUADS={};
-DB.forEach((p,i)=>{const k=p[3]+" "+p[4];(SQUADS[k]=SQUADS[k]||[]).push(i)});
-const SQUAD_KEYS=Object.keys(SQUADS).filter(k=>SQUADS[k].length>=5);
+/* dados para o motor (DB/ERAS/OPPS vêm do bloco injetado no build) */
+const NOMES_POOLS=lang=>({base:NOMES_BASE[lang],sobrenomes:SOBRENOMES_BASE[lang],clubeA:NOMES_CLUBE[lang].a,clubeB:NOMES_CLUBE[lang].b});
+const DADOS=Engine.montarDados({DB,ERAS,OPPS});
+function dadosAtuais(){DADOS.nomes=NOMES_POOLS(S.lang);return DADOS}
+function geraSeed(){return "livre-"+Date.now()+"-"+Math.floor(MR()*1e6)}
+/* reexpõe helpers do motor com os nomes que a UI usa */
+const {FORMACOES,ESTILOS,ADJ,CONQ_IDS,preco,penalPos,forcaEfetiva}=Engine;
+function mediaXI(){return Engine.mediaXI(S.camp)}
+function ratingTime(){return Engine.ratingTime(S.camp)}
+function escaladosSet(){return Engine.escaladosSet(S.camp)}
+function baseDisponivel(){return Engine.baseDisponivel(S.camp)}
+function noElenco(id){return Engine.noElenco(S.camp,id)}
 /* ---------- storage / estado ---------- */
 async function stGet(k,shared){try{const r=await window.storage.get(k,!!shared);return r?JSON.parse(r.value):null}catch(e){return null}}
 async function stSet(k,v,shared){try{await window.storage.set(k,JSON.stringify(v),!!shared)}catch(e){}}
@@ -247,71 +227,12 @@ function toggleLang(){S.lang=S.lang==="pt"?"es":"pt";saveProfile();render()}
 function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");clearTimeout(el._to);el._to=setTimeout(()=>el.classList.remove("show"),2600)}
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
 function pl(p){return t("p_"+p)}
-/* ---------- elenco / cantera ---------- */
-function novoJogador(i){const d=DB[i];return{id:"d"+i,n:d[0],pos:d[1],f:d[2],clube:d[3],ano:d[4],preco:preco(d[2]),lenda:d[2]>=91,gols:0,amar:0,fora:0}}
-function gerarBase(rng){
-  const roles=["GOL","LAT","LAT","ZAG","ZAG","VOL","VOL","MEI","MEI","ATA","ATA"];
-  const joia=rnd(rng,0,10),usados=new Set(),base=[],ln=S.lang;
-  roles.forEach((pos,i)=>{
-    let n;do{n=pick(rng,NOMES_BASE[ln])+" "+pick(rng,SOBRENOMES_BASE[ln])}while(usados.has(n));usados.add(n);
-    const f=i===joia?rnd(rng,69,73):rnd(rng,56,67);
-    base.push({id:"b"+i+"_"+Math.floor(rng()*1e6),n,pos,f,clube:"",ano:"",preco:0,lenda:false,base:true,gols:0,amar:0,fora:0});
-  });
-  return base;
-}
-function nomeClube(rng){const g=NOMES_CLUBE[S.lang];return pick(rng,g.a)+" "+pick(rng,g.b)}
-function startCampaign(mode,seedStr,roomCode){
-  const seed=seedStr||("livre-"+Date.now()+"-"+Math.floor(MR()*1e6));
-  const rM=mulberry32(hashStr(seed+"::mercado")), rO=mulberry32(hashStr(seed+"::copa")), rB=mulberry32(hashStr(seed+"::base"));
-  const usados=new Set(), opps=[];
-  for(let r=0;r<7;r++){const[lo,hi]=FAIXA_OPP[r];const cands=OPPS.filter(o=>o[1]>=lo&&o[1]<=hi&&!usados.has(o[0]));
-    const c=cands.length?pick(rO,cands):pick(rO,OPPS);usados.add(c[0]);opps.push({n:c[0],f:c[1]})}
-  const form=FORMACOES["4-3-3"];
-  S.camp={mode,seed,roomCode:roomCode||null,clube:nomeClube(rO),
-    caixa:170,gasto:0,vendas:0,formacao:"4-3-3",estilo:"eq",
-    slots:form.roles.map(r=>({role:r,p:null})),banco:[],base:gerarBase(rB),
-    rodada:0,opps,resultados:[],gf:0,gs:0,cs:0,moral:0,
-    rM,rolls:0,rollGratis:true,mercado:null,evento:null,
-    eliminado:false,campeao:false,fim:false,contratados:0};
-  refreshMercado();
-  autoEscalar();
-  S.screen="janela";S.sel=null;S.pend=null;render();
-}
-/* 🎰 clube de referência: um por vez; cada contratação sorteia outro */
-function refreshMercado(){
-  const c=S.camp,atual=c.mercado?c.mercado.key:null;
-  let k=pick(c.rM,SQUAD_KEYS),g=0;
-  while(k===atual&&g++<20)k=pick(c.rM,SQUAD_KEYS);
-  c.mercado={key:k,jog:SQUADS[k].map(novoJogador)};
-  c.rolls++;
-}
+/* ---------- mercado (rolar manual) ---------- */
 function rolarMercado(){
-  const c=S.camp;
-  if(c.rollGratis){c.rollGratis=false}
-  else{if(c.caixa<8){toast(t("t_rolar_caixa"));return}c.caixa-=8}
-  refreshMercado();render();
+  const r=Engine.rolarMercado(S.camp,dadosAtuais());
+  if(!r.ok){toast(t("t_rolar_caixa"));return}
+  render();
 }
-function escaladosSet(){const s=new Set();S.camp.slots.forEach(x=>{if(x.p)s.add(x.p.id)});return s}
-function baseDisponivel(){const e=escaladosSet();return S.camp.base.filter(b=>!e.has(b.id)&&b.fora<=0)}
-function noElenco(id){return escaladosSet().has(id)||S.camp.banco.some(p=>p.id===id)}
-/* o time se completa sozinho com a cantera */
-function autoEscalar(msgs){
-  const c=S.camp;
-  c.slots.forEach(s=>{if(s.p&&s.p.fora>0){
-    if(msgs)msgs.push(t("desfalque",{n:s.p.n,k:s.p.fora,s:s.p.fora>1?"s":""}));
-    if(!s.p.base)c.banco.push(s.p);s.p=null}});
-  c.slots.forEach(s=>{if(s.p)return;const cand=baseDisponivel().filter(b=>b.pos===s.role).sort((a,b)=>b.f-a.f);
-    if(cand[0]){s.p=cand[0];if(msgs)msgs.push(t("entra_base",{n:cand[0].n,pos:pl(cand[0].pos)}))}});
-  c.slots.forEach(s=>{if(s.p)return;let best=null,bf=-1;
-    baseDisponivel().forEach(b=>{const f=b.f+penalPos(b.pos,s.role);if(f>bf){bf=f;best=b}});
-    if(best){s.p=best;if(msgs)msgs.push(t("improvisa",{n:best.n,pos:pl(best.pos),r:pl(s.role)}))}});
-}
-function forcaEfetiva(slot,moral){
-  if(!slot.p||slot.p.fora>0)return 50;
-  const f=slot.p.f+penalPos(slot.p.pos,slot.role);
-  return Math.max(45,f+(moral||0)*2);
-}
-function mediaXI(){const c=S.camp;return c.slots.reduce((a,s)=>a+forcaEfetiva(s,0),0)/11}
 /* ---------- escolher onde o jogador vai jogar ---------- */
 function iniciarContratacao(pi){
   const c=S.camp,p=c.mercado.jog[pi];
@@ -329,304 +250,99 @@ function iniciarEscalarBase(id){const p=S.camp.base.find(b=>b.id===id);if(!p)ret
 function iniciarMover(i){S.pend={tipo:"mover",from:i,p:S.camp.slots[i].p};S.sel=null;render();window.scrollTo(0,0)}
 function cancelarPend(){S.pend=null;render()}
 function colocarEm(i){
-  const c=S.camp,pd=S.pend;if(!pd)return;
-  const slot=c.slots[i];
-  if(pd.tipo==="mover"){
-    if(i!==pd.from){const a=c.slots[pd.from].p;c.slots[pd.from].p=slot.p;slot.p=a}
-    S.pend=null;autoEscalar();render();return;
+  const pd=S.pend;if(!pd)return;
+  if(pd.tipo==="mover"){Engine.mover(S.camp,pd.from,i);}
+  else if(pd.tipo==="mercado"){
+    const r=Engine.contratar(S.camp,dadosAtuais(),pd.pi,i);
+    if(r.ok)toast(t("t_contratado",{n:r.nome,r:pl(r.role)})+(r.improviso?t("t_improv"):""));
   }
-  if(pd.p.fora>0){S.pend=null;render();return}
-  const desloc=slot.p;
-  if(pd.tipo==="mercado"){
-    if(pd.p.preco>c.caixa){S.pend=null;render();return}
-    const novo=Object.assign({},pd.p);
-    c.caixa-=novo.preco;c.gasto+=novo.preco;c.contratados++;
-    if(desloc&&!desloc.base)c.banco.push(desloc);
-    slot.p=novo;
-    toast(t("t_contratado",{n:novo.n,r:pl(slot.role)})+(penalPos(novo.pos,slot.role)<0?t("t_improv"):""));
-    refreshMercado(); // 🎰 o clube de referência muda
-  }else{
-    if(desloc&&!desloc.base)c.banco.push(desloc);
-    slot.p=pd.p;
-    if(pd.tipo==="banco"){const ix=c.banco.findIndex(x=>x.id===pd.p.id);if(ix>=0)c.banco.splice(ix,1)}
-  }
-  S.pend=null;S.sel=null;autoEscalar();render();
+  else if(pd.tipo==="banco"){Engine.escalarBanco(S.camp,pd.idx,i);}
+  else if(pd.tipo==="base"){Engine.escalarBase(S.camp,pd.p.id,i);}
+  S.pend=null;S.sel=null;render();
 }
 function selSlot(i){if(S.pend){colocarEm(i);return}S.sel=(S.sel===i?null:i);render()}
 function mandarBanco(i){
-  const c=S.camp,s=c.slots[i];if(!s.p)return;
-  if(s.p.base){toast(t("t_jovem"));return}
-  c.banco.push(s.p);s.p=null;S.sel=null;autoEscalar();render();
+  const r=Engine.mandarBanco(S.camp,i);
+  if(!r.ok&&r.erro==="jovem"){toast(t("t_jovem"));return}
+  S.sel=null;render();
 }
 function venderSlot(i){
-  const c=S.camp,s=c.slots[i];if(!s.p)return;
-  if(s.p.base){toast(t("t_base_nv"));return}
-  const v=Math.round(s.p.preco*0.7);
-  c.caixa+=v;c.vendas++;toast(t("t_vendido",{n:s.p.n,v:fmtM(v)}));
-  s.p=null;S.sel=null;autoEscalar();render();
+  const r=Engine.vender(S.camp,i);
+  if(!r.ok){if(r.erro==="base_nv")toast(t("t_base_nv"));return}
+  toast(t("t_vendido",{n:r.nome,v:fmtM(r.valor)}));S.sel=null;render();
 }
-function venderBanco(i){const c=S.camp,p=c.banco[i];if(!p)return;const v=Math.round(p.preco*0.7);c.caixa+=v;c.vendas++;c.banco.splice(i,1);toast(t("t_vendido",{n:p.n,v:fmtM(v)}));render()}
+function venderBanco(i){
+  const r=Engine.venderBanco(S.camp,i);
+  if(r.ok)toast(t("t_vendido",{n:r.nome,v:fmtM(r.valor)}));
+  render();
+}
 function setFormacao(f){
-  const c=S.camp;if(f===c.formacao)return;S.pend=null;
-  const atuais=c.slots.filter(s=>s.p).map(s=>s.p);
-  c.formacao=f;c.slots=FORMACOES[f].roles.map(r=>({role:r,p:null}));
-  const conts=atuais.filter(p=>!p.base).sort((a,b)=>b.f-a.f);
-  conts.forEach(p=>{let i=c.slots.findIndex(s=>!s.p&&s.role===p.pos);
-    if(i<0)i=c.slots.findIndex(s=>!s.p&&ADJ[s.role].includes(p.pos));
-    if(i<0)i=c.slots.findIndex(s=>!s.p&&s.role!=="GOL");
-    if(i>=0)c.slots[i].p=p;else c.banco.push(p)});
-  autoEscalar();S.sel=null;render();
+  const r=Engine.setFormacao(S.camp,f);
+  if(!r.ok)return;
+  S.pend=null;S.sel=null;render();
 }
-function setEstilo(e){S.camp.estilo=e;render()}
-/* ================= SIMULAÇÃO ================= */
-function ratingTime(){
-  const c=S.camp,WD={GOL:1.4,ZAG:1.25,LAT:1.0,VOL:.85,MEI:.35,ATA:.1},WA={GOL:0,ZAG:.15,LAT:.55,VOL:.7,MEI:1.15,ATA:1.35};
-  let da=0,dw=0,aa=0,aw=0;
-  c.slots.forEach(s=>{const f=forcaEfetiva(s,c.moral);da+=f*WD[s.role];dw+=WD[s.role];aa+=f*WA[s.role];aw+=WA[s.role]});
-  const fm=FORMACOES[c.formacao],es=ESTILOS[c.estilo];
-  return{atk:aa/aw+fm.atk+es.atk+TORCIDA,def:da/dw+fm.def+es.def+TORCIDA};
-}
-function lambdaGols(atk,def,sup){let l=1.28*Math.pow(1.7,(atk-def)/15);if(sup)l*=Math.pow(0.86,Math.max(0,def-atk)/4);return Math.min(5.2,Math.max(.06,l))}
-function recalcLambdas(){
-  const sim=S.sim,r=ratingTime();
-  sim.lambF=lambdaGols(r.atk,sim.oDef)/94;
-  sim.lambC=lambdaGols(sim.oAtk,r.def,true)/94;
-}
-function sorteiaAutor(){
-  const c=S.camp,cand=[];
-  c.slots.forEach((s,i)=>{if(!s.p||s.p.fora>0)return;const w=s.role==="ATA"?6:s.role==="MEI"?3:s.role==="VOL"?1:s.role==="GOL"?0:.6;
-    for(let k=0;k<w*10;k++)cand.push(i)});
-  if(!cand.length)return -1;
-  return cand[Math.floor(MR()*cand.length)];
-}
-function sorteiaCartao(){
-  const c=S.camp,cand=[];
-  c.slots.forEach((s,i)=>{if(!s.p||s.p.fora>0)return;const w={ZAG:3,VOL:3,LAT:2,MEI:1.5,ATA:1,GOL:.2}[s.role];
-    for(let k=0;k<w*10;k++)cand.push(i)});
-  if(!cand.length)return -1;
-  return cand[Math.floor(MR()*cand.length)];
-}
+function setEstilo(e){Engine.setEstilo(S.camp,e);render()}
+/* ================= PARTIDA (UI sobre o motor) ================= */
 function startMatch(){
-  const c=S.camp,opp=c.opps[c.rodada];
-  S.pend=null;S.sel=null;
-  const msgs=[];autoEscalar(msgs);
-  [...c.slots.filter(s2=>s2.p).map(s2=>s2.p),...c.banco,...c.base].forEach(p=>p.amarJogo=0);
-  const rSeed=mulberry32(hashStr(c.seed+"o"+c.rodada));
-  const oAtk=opp.f+rnd(rSeed,-2,2),oDef=opp.f;
-  S.sim={min:0,gf:0,gs:0,feed:[],oAtk,oDef,speed:1,timer:null,fim:false,penaltis:null,prorroga:false,gols:[],subs:0,opp};
-  recalcLambdas();
-  msgs.forEach(m=>feed("📋 "+esc(m)));
+  const {sim,escalacao}=Engine.iniciarPartida(S.camp);
+  S.sim=sim;S.pend=null;S.sel=null;
+  S.sim.escalacaoMsgs=escalacao.map(narrarEscalacao);
   S.screen="jogo";render();
   runTicker();
 }
 function runTicker(){
   const sim=S.sim;clearInterval(sim.timer);
-  if(sim.speed>=99){while(!sim.fim)tickMin(true);render();return}
-  sim.timer=setInterval(()=>{tickMin(false);renderPlacarVivo();if(sim.fim){clearInterval(sim.timer);setTimeout(render,650)}},sim.speed===1?520:180);
+  if(sim.speed>=99){Engine.simularPartida(S.camp,sim);render();return}
+  sim.timer=setInterval(()=>{Engine.simularMinuto(S.camp,sim);renderPlacarVivo();if(sim.fim){clearInterval(sim.timer);setTimeout(render,650)}},sim.speed===1?520:180);
 }
-function feed(txt,cls){S.sim.feed.unshift({t:txt,c:cls||""})}
-function substituir(slotIdx){
-  const c=S.camp,slot=c.slots[slotIdx],e=escaladosSet();
-  const cands=[];
-  c.banco.forEach(p=>{if(p.fora<=0)cands.push(p)});
-  c.base.forEach(b=>{if(b.fora<=0&&!e.has(b.id))cands.push(b)});
-  let best=null,bf=-1;
-  cands.forEach(p=>{const f=p.f+penalPos(p.pos,slot.role);if(f>bf){bf=f;best=p}});
-  if(!best){slot.p=null;return null}
-  const ix=c.banco.findIndex(x=>x.id===best.id);if(ix>=0)c.banco.splice(ix,1);
-  slot.p=best;return best;
-}
-function tickMin(mudo){
-  const sim=S.sim,c=S.camp;if(sim.fim)return;
-  sim.min++;
-  const lim=sim.prorroga?120:90;
-  const N=NARR[S.lang]||NARR.pt;
-  if(MR()<sim.lambF*(sim.prorroga?.4:1)){
-    const i=sorteiaAutor(),a=i>=0?c.slots[i].p:null;
-    sim.gf++;sim.gols.push({m:sim.min,p:a?a.n:"—",nosso:true});
-    if(a){a.gols++;if(a.tier==="R")c.golSofrencia=true}
-    feed(sim.min+"' — "+pick(MR,N.gol).replace("{p}","<b>"+esc(a?a.n:"#9")+"</b>")+"! <b>"+sim.gf+"×"+sim.gs+"</b>","gol");
-  }else if(MR()<sim.lambC*(sim.prorroga?.4:1)){
-    sim.gs++;sim.gols.push({m:sim.min,p:sim.opp.n,nosso:false});
-    feed(sim.min+"' — "+t("gol_deles",{o:esc(sim.opp.n),a:sim.gf,b:sim.gs}),"contra");
-  }else if(MR()<.035){
-    const i=sorteiaAutor(),a=i>=0?c.slots[i].p:null;
-    if(a)feed(sim.min+"' — "+pick(MR,N.chance).replace("{p}",esc(a.n)));
-  }else if(MR()<.02){
-    feed(sim.min+"' — "+pick(MR,N.def));
-  }
-  if(MR()<.012){
-    const i=sorteiaCartao(),a=i>=0?c.slots[i].p:null;
-    if(a){
-      a.amarJogo=(a.amarJogo||0)+1;a.amar++;
-      if(a.amarJogo>=2){
-        /* 🟥 2 amarelos no MESMO jogo = vermelho: fora do restante + próximo, sem substituição */
-        a.amar=0;a.amarJogo=0;a.fora=1;a._nl=true;
-        if(!a.base)c.banco.push(a);
-        c.slots[i].p=null;
-        recalcLambdas();
-        feed(sim.min+"' — "+t("expulso",{n:esc(a.n)}),"contra");
-      }else if(a.amar>=2){
-        /* acúmulo em jogos diferentes: segue em campo, cumpre só o próximo (aplicado no fim) */
-        feed(sim.min+"' — "+t("pendurado",{n:esc(a.n)}));
-      }else{
-        feed(sim.min+"' — "+t("amarelo",{n:esc(a.n)}));
-      }
-    }
-  }
-  if(MR()<.0004){
-    /* 🟥 vermelho direto (raro): fora do restante + 1-2 jogos, sem substituição */
-    const i=sorteiaCartao(),a=i>=0?c.slots[i].p:null;
-    if(a){
-      a.fora=rnd(MR,1,2);a._nl=true;a.amarJogo=0;
-      if(!a.base)c.banco.push(a);
-      c.slots[i].p=null;
-      recalcLambdas();
-      feed(sim.min+"' — "+t("verm_direto",{n:esc(a.n),k:a.fora}),"contra");
-    }
-  }
-  if(sim.subs<5&&MR()<.006){ /* 🩹 lesão: sai de campo, entra do banco, perde o próximo */
-    const i=sorteiaAutor();
-    if(i>=0&&c.slots[i].p){
-      const a=c.slots[i].p;a.fora=rnd(MR,1,2);a._nl=true;
-      if(!a.base)c.banco.push(a);
-      c.slots[i].p=null;
-      const sub=substituir(i);sim.subs++;
-      recalcLambdas();
-      if(sub)feed(sim.min+"' — "+t("sub_les",{n:esc(a.n),k:a.fora,s:esc(sub.n),im:sub.pos!==c.slots[i].role?t("sub_im"):""}),"contra");
-      else feed(sim.min+"' — "+t("sub_sem",{n:esc(a.n)}),"contra");
-    }
-  }
-  if(sim.min>=lim){
-    const ko=c.rodada>=3;
-    if(ko&&sim.gf===sim.gs&&!sim.prorroga){sim.prorroga=true;feed(t("prorrog_msg"),"fim");return}
-    if(ko&&sim.gf===sim.gs&&sim.prorroga){disputaPenaltis();return}
-    sim.fim=true;feed(t("fimjogo",{a:sim.gf,b:sim.gs}),"fim");
-  }
-}
-function disputaPenaltis(){
-  const sim=S.sim,c=S.camp;
-  const gol=c.slots.find(s=>s.role==="GOL");
-  const minhaDef=forcaEfetiva(gol,0), kickers=c.slots.filter(s=>s.p).map(s=>s.p).sort((a,b)=>b.f-a.f);
-  let pf=0,pc=0;
-  for(let i=0;i<5||pf===pc;i++){
-    if(i>10)break;
-    const k=kickers[i%Math.max(1,kickers.length)];
-    if(MR()<.76+((k?k.f:60)-sim.opp.f)/200)pf++;
-    if(MR()<.76+(sim.opp.f-minhaDef)/200)pc++;
-    if(i>=4&&pf!==pc)break;
-    if(i<4){const rest=4-i;if(pf>pc+rest||pc>pf+rest)break}
-  }
-  if(pf===pc)MR()<.5?pf++:pc++;
-  sim.penaltis={pf,pc};sim.fim=true;
-  feed(t(pf>pc?"pen_win":"pen_lose",{a:pf,b:pc}),"fim");
-}
+function tickMin(){return Engine.simularMinuto(S.camp,S.sim)}
 function setSpeed(v){S.sim.speed=v;if(!S.sim.fim)runTicker();else render()}
-/* ---------- pós-jogo ---------- */
-function encerrarPartida(){
-  const c=S.camp,sim=S.sim,ko=c.rodada>=3;
-  let res, venceu=sim.gf>sim.gs||(sim.penaltis&&sim.penaltis.pf>sim.penaltis.pc);
-  const empatou=sim.gf===sim.gs&&!sim.penaltis;
-  c.gf+=sim.gf;c.gs+=sim.gs;if(sim.gs===0)c.cs++;
-  let premio=0;
-  if(venceu){premio+=PREMIO_V[c.rodada];c.moral=Math.min(3,c.moral+1);res=sim.gs===0?"V0":"V"}
-  else if(empatou&&!ko){premio+=PREMIO_E[c.rodada];res="E"}
-  else{c.moral=Math.max(-3,c.moral-1);res="D"}
-  premio+=sim.gf*3+(sim.gs===0?10:0);
-  c.caixa+=premio;
-  c.resultados.push({fase:c.rodada,opp:sim.opp.n,gf:sim.gf,gs:sim.gs,res,pen:sim.penaltis,premio});
-  /* recuperação: quem já estava fora cumpriu este jogo (baixas da própria partida não contam) */
-  const todos=[...c.slots.filter(s=>s.p).map(s=>s.p),...c.banco,...c.base];
-  todos.forEach(p=>{if(p.fora>0&&!p._nl)p.fora--});
-  todos.forEach(p=>{delete p._nl});
-  /* acúmulo de amarelos em jogos diferentes: suspenso do próximo (não saiu do atual) */
-  todos.forEach(p=>{if(p.amar>=2){p.amar=0;p.fora=Math.max(p.fora,1)}});
-  if(ko&&!venceu){c.eliminado=true;c.fim=true}
-  if(!ko&&c.rodada===2){
-    const pts=c.resultados.slice(0,3).reduce((a,r)=>a+(r.res[0]==="V"?3:r.res==="E"?1:0),0);
-    if(pts<4){c.eliminado=true;c.fim=true;c.notaGrupo=pts}
+/* narração: eventos estruturados do motor -> texto localizado */
+function narrarEscalacao(m){
+  if(m.tipo==="desfalque")return "📋 "+esc(t("desfalque",{n:m.nome,k:m.jogos,s:m.jogos>1?"s":""}));
+  if(m.tipo==="entra_base")return "📋 "+esc(t("entra_base",{n:m.nome,pos:pl(m.pos)}));
+  return "📋 "+esc(t("improvisa",{n:m.nome,pos:pl(m.pos),r:pl(m.role)}));
+}
+function narrarEvento(e){
+  const N=NARR[S.lang]||NARR.pt, m=e.min;
+  switch(e.tipo){
+    case"gol":return{c:"gol",t:m+"' — "+N.gol[Math.floor(e.flavor*N.gol.length)].replace("{p}","<b>"+esc(e.nome||"#9")+"</b>")+"! <b>"+e.gf+"×"+e.gs+"</b>"};
+    case"golContra":return{c:"contra",t:m+"' — "+t("gol_deles",{o:esc(e.opp),a:e.gf,b:e.gs})};
+    case"chance":return{c:"",t:m+"' — "+N.chance[Math.floor(e.flavor*N.chance.length)].replace("{p}",esc(e.nome))};
+    case"defesa":return{c:"",t:m+"' — "+N.def[Math.floor(e.flavor*N.def.length)]};
+    case"amarelo":return{c:"",t:m+"' — "+t("amarelo",{n:esc(e.nome)})};
+    case"pendurado":return{c:"",t:m+"' — "+t("pendurado",{n:esc(e.nome)})};
+    case"expulsao":return{c:"contra",t:m+"' — "+t("expulso",{n:esc(e.nome)})};
+    case"vermDireto":return{c:"contra",t:m+"' — "+t("verm_direto",{n:esc(e.nome),k:e.jogos})};
+    case"subLesao":return e.subNome?{c:"contra",t:m+"' — "+t("sub_les",{n:esc(e.nome),k:e.jogos,s:esc(e.subNome),im:e.improviso?t("sub_im"):""})}:{c:"contra",t:m+"' — "+t("sub_sem",{n:esc(e.nome)})};
+    case"prorrogacao":return{c:"fim",t:t("prorrog_msg")};
+    case"penaltis":return{c:"fim",t:t(e.pf>e.pc?"pen_win":"pen_lose",{a:e.pf,b:e.pc})};
+    case"fim":return{c:"fim",t:t("fimjogo",{a:e.gf,b:e.gs})};
   }
-  if(c.rodada===6&&venceu){c.campeao=true;c.fim=true}
-  c.rodada++;
-  if(c.fim){finalizarCampanha();return}
-  c.evento=sortearEvento();
-  c.rollGratis=true;
-  autoEscalar();
-  refreshMercado();
+  return{c:"",t:""};
+}
+/* ---------- pós-jogo (UI sobre o motor) ---------- */
+function encerrarPartida(){
+  Engine.encerrarPartida(S.camp,S.sim,dadosAtuais());
+  if(S.camp.fim){finalizarCampanha();return}
   S.screen="posjogo";render();
 }
-function melhorContratado(){
-  const c=S.camp,pool=[...c.slots.filter(s=>s.p&&!s.p.base).map(s=>s.p),...c.banco.filter(p=>!p.base)];
-  pool.sort((a,b)=>b.f-a.f);return pool[0]||null;
-}
-function sortearEvento(){
-  const c=S.camp,r=MR();
-  if(r<.16){const v=rnd(MR,8,18);c.caixa+=v;return{k:"pat",vars:{c:c.clube,v:fmtM(v)}}}
-  if(r<.30){const alvo=melhorContratado();
-    if(alvo){const of=Math.round(alvo.preco*1.3);
-      return{k:"ass",vars:{v:fmtM(of),n:alvo.n,f:alvo.f},escolha:true,alvoId:alvo.id,oferta:of}}}
-  if(r<.42){const p=novoJogador(pick(MR,SQUADS[pick(MR,SQUAD_KEYS)]));p.preco=Math.round(p.preco*.6);
-    if(!noElenco(p.id))return{k:"emp",vars:{n:p.n,pos:pl(p.pos),f:p.f,cl:p.clube,ano:p.ano,v:fmtM(p.preco)},escolha:true,promo:p}}
-  if(r<.50){const alvos=c.slots.filter(s=>s.p);if(alvos.length){const s=pick(MR,alvos);s.p.fora=1;
-    return{k:"les",vars:{n:s.p.n}}}}
-  if(r<.58){c.moral=Math.min(3,c.moral+1);return{k:"chu",vars:{}}}
-  if(r<.64){const v=rnd(MR,3,6);c.caixa+=v;return{k:"rifa",vars:{v:fmtM(v)}}}
-  return null;
-}
 function eventoEscolha(aceita){
-  const c=S.camp,ev=c.evento;if(!ev)return;
-  if(ev.alvoId&&aceita){
-    const i=c.slots.findIndex(s=>s.p&&s.p.id===ev.alvoId);
-    let nome="";
-    if(i>=0){nome=c.slots[i].p.n;c.slots[i].p=null}
-    else{const j=c.banco.findIndex(p=>p.id===ev.alvoId);if(j>=0){nome=c.banco[j].n;c.banco.splice(j,1)}}
-    c.caixa+=ev.oferta;c.vendas++;toast(t("t_ass_ok",{n:nome,v:fmtM(ev.oferta)}));autoEscalar();
-  }else if(ev.alvoId){toast(t("t_ass_nao"))}
-  if(ev.promo&&aceita){
-    if(ev.promo.preco>c.caixa)toast(t("t_emp_caixa"));
-    else{c.caixa-=ev.promo.preco;c.gasto+=ev.promo.preco;c.contratados++;c.banco.push(ev.promo);toast(t("t_emp_ok",{n:ev.promo.n}))}
-  }
-  c.evento=null;render();
+  const r=Engine.aplicarEvento(S.camp,aceita);
+  if(r.venda)toast(t("t_ass_ok",{n:r.venda.nome,v:fmtM(r.venda.valor)}));
+  else if(r.recusouVenda)toast(t("t_ass_nao"));
+  if(r.empSemCaixa)toast(t("t_emp_caixa"));
+  else if(r.empContratado)toast(t("t_emp_ok",{n:r.empContratado.nome}));
+  render();
 }
-/* ---------- fim de campanha ---------- */
-function calcScore(){
-  const c=S.camp;
-  const wins=c.resultados.filter(r=>r.res[0]==="V").length;
-  const draws=c.resultados.filter(r=>r.res==="E").length;
-  const alcance=[0,0,0,50,100,160,230][Math.min(6,c.rodada-1)]+(c.campeao?320:0);
-  const media=mediaXI();
-  const zebra=1+Math.max(0,(85-media))*.06;
-  const perfeito=c.campeao&&wins===7&&c.gs===0;
-  let base=wins*100+draws*30+c.gf*8+c.cs*40+alcance+Math.floor(c.caixa/3);
-  let total=Math.round(base*zebra*(perfeito?2:c.campeao?1.3:1));
-  return{total,base,zebra:zebra.toFixed(2),perfeito,wins,draws,media:Math.round(media)};
-}
-const CONQ_IDS=["estreia","vitoria","campeao","perfeito","zebra","maodevaca","raiz","artilheiro","muralha","redencao","duelista","diario"];
-function checarConquistas(sc){
-  const c=S.camp,p=S.profile,novas=[];
-  const add=id=>{if(!p.conq.includes(id)){p.conq.push(id);novas.push(id)}};
-  add("estreia");
-  if(sc.wins>0)add("vitoria");
-  if(c.campeao)add("campeao");
-  if(sc.perfeito)add("perfeito");
-  if(c.campeao&&sc.media<78)add("zebra");
-  if(c.campeao&&c.gasto<100)add("maodevaca");
-  if(c.contratados===0&&c.resultados.length>=4)add("raiz");
-  const todos=[...c.slots.filter(s=>s.p).map(s=>s.p),...c.banco,...c.base];
-  if(Math.max(0,...todos.map(p2=>p2.gols))>=8)add("artilheiro");
-  if(c.cs>=5)add("muralha");
-  if(c.campeao&&c.golSofrencia)add("redencao");
-  if(c.mode==="duelo")add("duelista");
-  if(c.mode==="diario")add("diario");
-  return novas;
-}
+/* pontuação e conquistas vivem no motor (Engine.calcScore / Engine.checarConquistas) */
 async function finalizarCampanha(){
-  const c=S.camp,sc=calcScore();
+  const c=S.camp,sc=Engine.calcScore(c);
   c.score=sc;
   const p=S.profile;
   p.jogos++;if(c.campeao)p.titulos++;if(sc.perfeito)p.perfeitos++;
   p.recorde=Math.max(p.recorde,sc.total);p.legado+=sc.total;
-  c.novasConq=checarConquistas(sc);
+  c.novasConq=Engine.checarConquistas(c,p,sc);
   saveProfile();
   if(S.storageOk&&p.nick){
     if(c.mode==="diario"&&p.dailyFeito!==hojeStr()){
@@ -646,13 +362,6 @@ async function pushRank(key,sc,c){
   }catch(e){}
 }
 function hojeStr(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
-function shareText(){
-  const c=S.camp,sc=c.score;
-  const em=c.resultados.map(r=>r.res==="V0"?"🟩":r.res==="V"?"🟨":r.res==="E"?"⬜":"🟥").join("");
-  const st=sc.perfeito?t("sh_perf"):c.campeao?t("sh_camp"):c.eliminado?t("sh_elim",{f:t("fase_"+c.resultados[c.resultados.length-1].fase)}):"";
-  const modo=c.mode==="diario"?t("modo_dia",{d:hojeStr()}):c.mode==="duelo"?t("modo_duelo",{c:c.roomCode}):t("modo_livre");
-  return t("share",{modo,clube:c.clube,st,em,pts:sc.total,m:sc.media,z:sc.zebra});
-}
 async function copiarShare(){
   try{await navigator.clipboard.writeText(shareText());toast(t("t_copiado"))}
   catch(e){toast(t("t_nao_copiou"))}
@@ -714,10 +423,6 @@ function renderHome(){
 }
 function salvarNick(){const v=document.getElementById("nick").value.trim();if(!v){toast(t("toast_nick"));return}S.profile.nick=v;saveProfile();render()}
 function go(s){S.screen=s;render();if(s==="rankdia")carregarRankDia()}
-function startDaily(){
-  if(S.profile.dailyFeito===hojeStr()&&!confirm(t("daily_replay")))return;
-  startCampaign("diario","dia-"+hojeStr());
-}
 /* ---------- DUELO ---------- */
 function renderDuelo(){
   el().innerHTML=header(`<button class="pill" onclick="irHome()">${t("voltar")}</button>`)+`
@@ -731,18 +436,6 @@ function renderDuelo(){
       <button class="btn ghost" onclick="entrarSala(false)">${t("b_versala")}</button>
     </div>
   </div>`;
-}
-function criarSala(){
-  const abc="ABCDEFGHJKMNPQRSTUVWXYZ";let code="";for(let i=0;i<5;i++)code+=abc[Math.floor(MR()*abc.length)];
-  stSet("choque:sala:"+code,{criador:S.profile.nick,ts:Date.now(),entries:[]},true);
-  toast(t("toast_sala",{c:code}));
-  startCampaign("duelo","sala-"+code,code);
-}
-function entrarSala(jogar){
-  const code=(document.getElementById("codigo").value||"").trim().toUpperCase();
-  if(code.length!==5){toast(t("toast_cod5"));return}
-  if(jogar)startCampaign("duelo","sala-"+code,code);
-  else{S.salaCode=code;S.screen="sala";render();carregarSala(code)}
 }
 /* ---------- JANELA ---------- */
 function hud(){
@@ -845,7 +538,12 @@ function renderJogo(){
     </div>`}
   </div>`;
 }
-function feedHtml(){return S.sim.feed.slice(0,40).map(f=>`<p class="${f.c}">${f.t}</p>`).join("")||`<p class="muted pulse">${t("aguarda")}</p>`}
+function feedHtml(){
+  const eventos=S.sim.eventos.map(narrarEvento).reverse();
+  const msgs=(S.sim.escalacaoMsgs||[]).slice().reverse();
+  const html=eventos.map(f=>`<p class="${f.c}">${f.t}</p>`).concat(msgs.map(m=>`<p class="">${m}</p>`)).slice(0,40).join("");
+  return html||`<p class="muted pulse">${t("aguarda")}</p>`;
+}
 function renderPlacarVivo(){
   const sim=S.sim;
   const g=document.getElementById("pgols"),m=document.getElementById("pmin"),b=document.getElementById("pbar"),f=document.getElementById("pfeed");
@@ -856,11 +554,22 @@ function renderPlacarVivo(){
   f.innerHTML=feedHtml();
 }
 /* ---------- PÓS-JOGO ---------- */
+/* evento cru do motor -> vars localizados para o template */
+function eventoVars(ev){
+  switch(ev.k){
+    case"pat":return{c:ev.clube,v:fmtM(ev.valor)};
+    case"ass":return{v:fmtM(ev.oferta),n:ev.nome,f:ev.forca};
+    case"emp":return{n:ev.nome,pos:pl(ev.pos),f:ev.forca,cl:ev.clube,ano:ev.ano,v:fmtM(ev.valor)};
+    case"les":return{n:ev.nome};
+    case"rifa":return{v:fmtM(ev.valor)};
+    default:return{};
+  }
+}
 function renderPosjogo(){
   const c=S.camp,ult=c.resultados[c.resultados.length-1];
   const gols=S.sim.gols.filter(g=>g.nosso).map(g=>esc(g.p)+" "+g.m+"'").join(", ");
   const ev=c.evento;
-  const evHtml=ev?`<div class="evento"><h3>${t("ev_"+ev.k+"_t")}</h3><p>${esc(t("ev_"+ev.k+"_d",ev.vars))}</p>
+  const evHtml=ev?`<div class="evento"><h3>${t("ev_"+ev.k+"_t")}</h3><p>${esc(t("ev_"+ev.k+"_d",eventoVars(ev)))}</p>
     ${ev.escolha?`<div class="grid2" style="margin-top:10px"><button class="btn gold" style="margin:0" onclick="eventoEscolha(true)">${t("b_aceitar")}</button><button class="btn ghost" style="margin:0" onclick="eventoEscolha(false)">${t("b_recusar")}</button></div>`:
     `<button class="btn ghost" onclick="eventoEscolha(false)" style="margin-top:10px">${t("b_seguir")}</button>`}</div>`:"";
   el().innerHTML=header()+hud()+`
@@ -908,10 +617,6 @@ function renderFim(){
   </div>`;
   window.scrollTo(0,0);
 }
-function jogarDeNovo(){const m=S.camp.mode,code=S.camp.roomCode;
-  if(m==="duelo"&&code)startCampaign("duelo","sala-"+code,code);
-  else if(m==="diario")startDaily();
-  else startCampaign("livre");}
 function verSalaAtual(){S.salaCode=S.camp.roomCode;S.screen="sala";render();carregarSala(S.salaCode)}
 /* ---------- RANKINGS ---------- */
 function rankTable(entries){
@@ -1038,49 +743,9 @@ function confirmarSetup(){
 /* ---- núcleo redefinido: modo coração ---- */
 function startCampaign(mode,seedStr,roomCode,opts){
   opts=opts||{modo:"cont",nome:S.profile&&S.profile.clubeNome||""};
-  const seed=seedStr||("livre-"+Date.now()+"-"+Math.floor(MR()*1e6));
-  const rM=mulberry32(hashStr(seed+"::mercado")), rO=mulberry32(hashStr(seed+"::copa")), rB=mulberry32(hashStr(seed+"::base"));
-  const cora=opts.modo==="cora"?opts.cora:null;
-  const pool=cora?OPPS.filter(o=>!o[0].startsWith(cora+" ")):OPPS;
-  const usados=new Set(), opps=[];
-  for(let r=0;r<7;r++){const[lo,hi]=FAIXA_OPP[r];const cands=pool.filter(o=>o[1]>=lo&&o[1]<=hi&&!usados.has(o[0]));
-    const c=cands.length?pick(rO,cands):pick(rO,pool);usados.add(c[0]);opps.push({n:c[0],f:c[1]})}
-  const form=FORMACOES["4-3-3"];
-  S.camp={mode,seed,roomCode:roomCode||null,modo:opts.modo||"cont",cora,
-    clube:(opts.nome&&opts.nome.trim())||nomeClube(rO),
-    caixa:170,gasto:0,vendas:0,formacao:"4-3-3",estilo:"eq",
-    slots:form.roles.map(r=>({role:r,p:null})),banco:[],base:gerarBase(rB),
-    rodada:0,opps,resultados:[],gf:0,gs:0,cs:0,moral:0,golSofrencia:false,
-    rM,rolls:0,rollGratis:true,mercado:null,evento:null,
-    eliminado:false,campeao:false,fim:false,contratados:0};
-  refreshMercado();
-  autoEscalar();
+  const seed=seedStr||geraSeed();
+  S.camp=Engine.criarCampanha(mode,seed,roomCode,opts,dadosAtuais());
   S.screen="janela";S.sel=null;S.pend=null;render();
-}
-function jogadorDeEra(club,ei,era,d,i){
-  return{id:"e:"+club+":"+ei+":"+i,n:d[0],pos:d[1],f:d[2],clube:club,ano:era.ano,preco:preco(d[2]),lenda:d[2]>=91,tier:era.tier,gols:0,amar:0,fora:0};
-}
-function refreshMercado(){
-  const c=S.camp;
-  if(c.modo==="cora"){
-    const eras=ERAS[c.cora],atual=c.mercado?c.mercado.eraIdx:-1;
-    let ei=-1,g=0;
-    do{
-      const r=c.rM();let tier="D",acc=0;
-      for(const[tk,w]of TIER_PESOS){acc+=w;if(r<acc){tier=tk;break}}
-      const cands=eras.map((e,i)=>e.tier===tier?i:-1).filter(i=>i>=0);
-      ei=cands.length?cands[Math.floor(c.rM()*cands.length)]:Math.floor(c.rM()*eras.length);
-    }while(ei===atual&&eras.length>1&&g++<12);
-    const era=eras[ei];
-    const jog=era.jog.map((d,i)=>jogadorDeEra(c.cora,ei,era,d,i));
-    c.mercado={key:c.cora+" "+era.ano,clube:c.cora,eraNome:era.n,ano:era.ano,tier:era.tier,eraIdx:ei,jog};
-    c.rolls++;return;
-  }
-  const atual=c.mercado?c.mercado.key:null;
-  let k=pick(c.rM,SQUAD_KEYS),g=0;
-  while(k===atual&&g++<20)k=pick(c.rM,SQUAD_KEYS);
-  c.mercado={key:k,clube:k.slice(0,k.lastIndexOf(" ")),ano:k.slice(k.lastIndexOf(" ")+1),eraNome:null,tier:null,jog:SQUADS[k].map(novoJogador)};
-  c.rolls++;
 }
 /* diário é sempre Continental (seed justa pra todo mundo); nome do time é o seu */
 function startDaily(){

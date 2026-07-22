@@ -40,9 +40,10 @@ export function carregarMotor({ dist } = {}) {
   if (typeof carregarSala === 'function') carregarSala = function(){};
   globalThis.__api = {
     get S(){ return S; },
-    CORA_CLUBES, ERAS, OPPS, DB, SQUAD_KEYS,
-    startCampaign, refreshMercado, autoEscalar, startMatch, tickMin, encerrarPartida,
-    iniciarContratacao, colocarEm, baseDisponivel, calcScore, sortearEvento,
+    CORA_CLUBES, ERAS, OPPS, DB,
+    Engine, dadosAtuais,
+    startCampaign, startMatch, tickMin, encerrarPartida,
+    iniciarContratacao, colocarEm,
     render(){ return render(); },
     ativarRender(){ render = __render_real; },
     desativarRender(){ render = function(){}; },
