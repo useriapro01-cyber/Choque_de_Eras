@@ -47,16 +47,21 @@ export function novoJogador(dados,i){const d=dados.DB[i];return{id:"d"+i,n:d[0],
 export function jogadorDeEra(club,ei,era,d,i){
   return{id:"e:"+club+":"+ei+":"+i,n:d[0],pos:d[1],f:d[2],clube:club,ano:era.ano,preco:preco(d[2]),lenda:d[2]>=91,tier:era.tier,gols:0,amar:0,fora:0};
 }
-export function gerarBase(rng,dados){
+// ATRIBUTOS (joia, f) e estrutura vêm SEMPRE do RNG de jogo (`rng`): mesma seed
+// = mesmo XI, sempre, NEUTRO de idioma. O NOME é cosmético e sai de um RNG
+// SEPARADO (`rngNome`), para que o tamanho/idioma do pool de nomes jamais
+// perturbe os atributos (invariante #3). A UI resolve o rótulo; o motor só sorteia.
+export function gerarBase(rng,dados,rngNome){
   const roles=["GOL","LAT","LAT","ZAG","ZAG","VOL","VOL","MEI","MEI","ATA","ATA"];
   const nomes=dados.nomes, joia=rnd(rng,0,10),usados=new Set(),base=[];
   roles.forEach((pos,i)=>{
-    let n;do{n=pick(rng,nomes.base)+" "+pick(rng,nomes.sobrenomes)}while(usados.has(n));usados.add(n);
-    const f=i===joia?rnd(rng,69,73):rnd(rng,56,67);
-    base.push({id:"b"+i+"_"+Math.floor(rng()*1e6),n,pos,f,clube:"",ano:"",preco:0,lenda:false,base:true,gols:0,amar:0,fora:0});
+    const f=i===joia?rnd(rng,69,73):rnd(rng,56,67);            // atributo: RNG de jogo
+    let n;do{n=pick(rngNome,nomes.base)+" "+pick(rngNome,nomes.sobrenomes)}while(usados.has(n));usados.add(n); // rótulo: RNG cosmético isolado
+    base.push({id:"b"+i,n,pos,f,clube:"",ano:"",preco:0,lenda:false,base:true,gols:0,amar:0,fora:0});
   });
   return base;
 }
+// Cosmético: recebe um RNG isolado (nunca o de jogo). Não afeta pontuação.
 export function nomeClube(rng,dados){const g=dados.nomes;return pick(rng,g.clubeA)+" "+pick(rng,g.clubeB)}
 
 export function escaladosSet(camp){const s=new Set();camp.slots.forEach(x=>{if(x.p)s.add(x.p.id)});return s}
@@ -88,6 +93,8 @@ export function mediaXI(camp){return camp.slots.reduce((a,s)=>a+forcaEfetiva(s,0
 export function criarCampanha(mode,seed,roomCode,opts,dados){
   opts=opts||{modo:"cont",nome:""};
   const rM=mulberry32(hashStr(seed+"::mercado")), rO=mulberry32(hashStr(seed+"::copa")), rB=mulberry32(hashStr(seed+"::base"));
+  // RNGs COSMÉTICOS (nomes) — isolados do RNG de jogo p/ neutralidade de idioma:
+  const rNb=mulberry32(hashStr(seed+"::nomebase")), rNc=mulberry32(hashStr(seed+"::nomeclube"));
   const cora=opts.modo==="cora"?opts.cora:null;
   const pool=cora?dados.OPPS.filter(o=>!o[0].startsWith(cora+" ")):dados.OPPS;
   const usados=new Set(), opps=[];
@@ -95,9 +102,9 @@ export function criarCampanha(mode,seed,roomCode,opts,dados){
     const c=cands.length?pick(rO,cands):pick(rO,pool);usados.add(c[0]);opps.push({n:c[0],f:c[1]})}
   const form=FORMACOES["4-3-3"];
   const camp={mode,seed,roomCode:roomCode||null,modo:opts.modo||"cont",cora,
-    clube:(opts.nome&&opts.nome.trim())||nomeClube(rO,dados),
+    clube:(opts.nome&&opts.nome.trim())||nomeClube(rNc,dados),
     caixa:170,gasto:0,vendas:0,formacao:"4-3-3",estilo:"eq",
-    slots:form.roles.map(r=>({role:r,p:null})),banco:[],base:gerarBase(rB,dados),
+    slots:form.roles.map(r=>({role:r,p:null})),banco:[],base:gerarBase(rB,dados,rNb),
     rodada:0,opps,resultados:[],gf:0,gs:0,cs:0,moral:0,golSofrencia:false,
     rM,rolls:0,rollGratis:true,mercado:null,evento:null,
     eliminado:false,campeao:false,fim:false,contratados:0};

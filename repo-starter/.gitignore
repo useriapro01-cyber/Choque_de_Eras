@@ -1,3 +1,8 @@
 node_modules/
 dist/
 package-lock.json
+
+# Artefatos do servidor de replay (Fase C) — gerados por `npm run build`, nunca
+# editados à mão; regerados antes de cada deploy da Edge Function.
+supabase/functions/submit-daily/_dados.json
+supabase/functions/submit-daily/_versao.json
