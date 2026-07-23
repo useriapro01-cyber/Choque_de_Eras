@@ -47,6 +47,31 @@ const CENARIOS = [
   { nome: 'Meu Eterno', modo: 'cora', cora: bruto.CORA_CLUBES[3][0], lang: 'pt', seed: 'paridade-cora-2', decisoes: roteiro() },
 ];
 
+// NEUTRALIDADE DE IDIOMA (TDMV-5 Fase C): o nome do jogador é cosmético e sai de
+// um RNG isolado; os ATRIBUTOS vêm do RNG de jogo. Logo, a MESMA seed em PT e ES
+// tem de dar o MESMO XI (posições+forças da cantera) e o MESMO resultado — o
+// ranking é único e justo para BR e AR, sem canonizar idioma. Prova anti-regressão
+// (se alguém acoplar nome ao RNG de atributos de novo, este teste quebra).
+test('NEUTRO DE IDIOMA: mesma seed em PT e ES → XI e resultado idênticos', () => {
+  const seeds = ['neutro-1', 'neutro-2', 'neutro-3', 'diario-2026-07-22'];
+  for (const seed of seeds) {
+    const rodar = lang => {
+      const dados = dadosESM();
+      dados.nomes = poolsIdioma(bruto.nomes, lang);
+      const camp = EngineESM.criarCampanha('diario', seed, null, { modo: 'cont', cora: null, nome: '' }, dados);
+      const xi = camp.base.map(p => [p.pos, p.f]);   // cantera crua, antes de qualquer decisão
+      const nomes = camp.base.map(p => p.n);          // rótulos cosméticos
+      for (const d of roteiro()) { if (camp.fim) break; EngineESM.aplicarDecisao(camp, dados, d); }
+      return { xi, nomes, res: EngineESM.resultadoCampanha(camp, null) };
+    };
+    const pt = rodar('pt'), es = rodar('es');
+    assert.deepEqual(es.xi, pt.xi, `XI da cantera deve ser idêntico PT/ES (${seed})`);
+    assert.deepEqual(es.res, pt.res, `resultado deve ser idêntico PT/ES (${seed})`);
+    // sanidade: os RÓTULOS realmente diferem por idioma (senão o teste seria vazio)
+    assert.notDeepEqual(es.nomes, pt.nomes, `os nomes da cantera devem ser localizados (${seed})`);
+  }
+});
+
 test('motor standalone (Node) é determinístico: 2 execuções idênticas', () => {
   for (const cfg of CENARIOS) {
     const a = rodarCenario(EngineESM, dadosESM(), cfg);
