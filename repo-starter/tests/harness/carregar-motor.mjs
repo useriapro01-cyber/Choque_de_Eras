@@ -41,9 +41,10 @@ export function carregarMotor({ dist } = {}) {
   globalThis.__api = {
     get S(){ return S; },
     CORA_CLUBES, ERAS, OPPS, DB,
-    Engine, dadosAtuais,
+    Engine, Replay, dadosAtuais,
     startCampaign, startMatch, tickMin, encerrarPartida,
     iniciarContratacao, colocarEm,
+    rolarMercado, setFormacao, setEstilo, eventoEscolha,
     render(){ return render(); },
     ativarRender(){ render = __render_real; },
     desativarRender(){ render = function(){}; },

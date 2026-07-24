@@ -212,6 +212,13 @@ function ratingTime(){return Engine.ratingTime(S.camp)}
 function escaladosSet(){return Engine.escaladosSet(S.camp)}
 function baseDisponivel(){return Engine.baseDisponivel(S.camp)}
 function noElenco(id){return Engine.noElenco(S.camp,id)}
+/* ---------- log de decisões (Desafio do Dia / Fase D) ----------
+   Só o diário grava: cada ação bem-sucedida vira uma decisão atômica no formato
+   que aplicarDecisao/replay.js esperam, para o servidor re-simular. A partida
+   registra um único {t:"jogar"} (o RNG semeado por seed+rodada garante o mesmo
+   resultado, tique-a-tique ou instantâneo). Não logar ok:false (jogada inválida
+   nunca acontece no cliente honesto). */
+function logDecisao(d){if(S.camp&&S.camp.mode==="diario"&&S.camp.log)S.camp.log.push(d)}
 /* ---------- storage / estado ---------- */
 async function stGet(k,shared){try{const r=await window.storage.get(k,!!shared);return r?JSON.parse(r.value):null}catch(e){return null}}
 async function stSet(k,v,shared){try{await window.storage.set(k,JSON.stringify(v),!!shared)}catch(e){}}
@@ -231,6 +238,7 @@ function pl(p){return t("p_"+p)}
 function rolarMercado(){
   const r=Engine.rolarMercado(S.camp,dadosAtuais());
   if(!r.ok){toast(t("t_rolar_caixa"));return}
+  logDecisao({t:"rolar"});
   render();
 }
 /* ---------- escolher onde o jogador vai jogar ---------- */
@@ -251,39 +259,43 @@ function iniciarMover(i){S.pend={tipo:"mover",from:i,p:S.camp.slots[i].p};S.sel=
 function cancelarPend(){S.pend=null;render()}
 function colocarEm(i){
   const pd=S.pend;if(!pd)return;
-  if(pd.tipo==="mover"){Engine.mover(S.camp,pd.from,i);}
+  if(pd.tipo==="mover"){Engine.mover(S.camp,pd.from,i);logDecisao({t:"mover",from:pd.from,to:i});}
   else if(pd.tipo==="mercado"){
     const r=Engine.contratar(S.camp,dadosAtuais(),pd.pi,i);
-    if(r.ok)toast(t("t_contratado",{n:r.nome,r:pl(r.role)})+(r.improviso?t("t_improv"):""));
+    if(r.ok){toast(t("t_contratado",{n:r.nome,r:pl(r.role)})+(r.improviso?t("t_improv"):""));logDecisao({t:"contratar",mercadoIdx:pd.pi,slotIdx:i});}
   }
-  else if(pd.tipo==="banco"){Engine.escalarBanco(S.camp,pd.idx,i);}
-  else if(pd.tipo==="base"){Engine.escalarBase(S.camp,pd.p.id,i);}
+  else if(pd.tipo==="banco"){if(Engine.escalarBanco(S.camp,pd.idx,i).ok)logDecisao({t:"escalarBanco",bancoIdx:pd.idx,slotIdx:i});}
+  else if(pd.tipo==="base"){if(Engine.escalarBase(S.camp,pd.p.id,i).ok)logDecisao({t:"escalarBase",baseId:pd.p.id,slotIdx:i});}
   S.pend=null;S.sel=null;render();
 }
 function selSlot(i){if(S.pend){colocarEm(i);return}S.sel=(S.sel===i?null:i);render()}
 function mandarBanco(i){
   const r=Engine.mandarBanco(S.camp,i);
   if(!r.ok&&r.erro==="jovem"){toast(t("t_jovem"));return}
+  if(r.ok)logDecisao({t:"mandarBanco",slotIdx:i});
   S.sel=null;render();
 }
 function venderSlot(i){
   const r=Engine.vender(S.camp,i);
   if(!r.ok){if(r.erro==="base_nv")toast(t("t_base_nv"));return}
+  logDecisao({t:"vender",slotIdx:i});
   toast(t("t_vendido",{n:r.nome,v:fmtM(r.valor)}));S.sel=null;render();
 }
 function venderBanco(i){
   const r=Engine.venderBanco(S.camp,i);
-  if(r.ok)toast(t("t_vendido",{n:r.nome,v:fmtM(r.valor)}));
+  if(r.ok){logDecisao({t:"venderBanco",idx:i});toast(t("t_vendido",{n:r.nome,v:fmtM(r.valor)}));}
   render();
 }
 function setFormacao(f){
   const r=Engine.setFormacao(S.camp,f);
   if(!r.ok)return;
+  logDecisao({t:"formacao",f});
   S.pend=null;S.sel=null;render();
 }
-function setEstilo(e){Engine.setEstilo(S.camp,e);render()}
+function setEstilo(e){Engine.setEstilo(S.camp,e);logDecisao({t:"estilo",e});render()}
 /* ================= PARTIDA (UI sobre o motor) ================= */
 function startMatch(){
+  logDecisao({t:"jogar"});   // uma decisão por partida; o motor a re-simula no servidor
   const {sim,escalacao}=Engine.iniciarPartida(S.camp);
   S.sim=sim;S.pend=null;S.sel=null;
   S.sim.escalacaoMsgs=escalacao.map(narrarEscalacao);
@@ -328,6 +340,7 @@ function encerrarPartida(){
   S.screen="posjogo";render();
 }
 function eventoEscolha(aceita){
+  logDecisao({t:"evento",aceita});
   const r=Engine.aplicarEvento(S.camp,aceita);
   if(r.venda)toast(t("t_ass_ok",{n:r.venda.nome,v:fmtM(r.venda.valor)}));
   else if(r.recusouVenda)toast(t("t_ass_nao"));
@@ -336,9 +349,22 @@ function eventoEscolha(aceita){
   render();
 }
 /* pontuação e conquistas vivem no motor (Engine.calcScore / Engine.checarConquistas) */
+/* AUTO-VERIFICAÇÃO (Fase D): re-simula o log de decisões com o MESMO módulo que
+   o servidor usa (Replay) e confere que o score bate. Se divergir, o log está
+   bugado — marca replayOk=false para NÃO submeter (falha segura). */
+function autoVerificarReplay(c,sc){
+  try{
+    const r=Replay.replayCampanha({Engine,dados:dadosAtuais(),seed:c.seed,decisions:c.log||[]});
+    c.replayOk=!!(r.ok&&r.score===sc.total);
+    c.replayScore=r.ok?r.score:null;
+    if(!c.replayOk)console.error("[replay] log não reproduz o placar",{esperado:sc.total,replay:r});
+  }catch(e){c.replayOk=false;console.error("[replay] erro na auto-verificação",e)}
+  return c.replayOk;
+}
 async function finalizarCampanha(){
   const c=S.camp,sc=Engine.calcScore(c);
   c.score=sc;
+  if(c.mode==="diario")autoVerificarReplay(c,sc);
   const p=S.profile;
   p.jogos++;if(c.campeao)p.titulos++;if(sc.perfeito)p.perfeitos++;
   p.recorde=Math.max(p.recorde,sc.total);p.legado+=sc.total;
@@ -745,6 +771,7 @@ function startCampaign(mode,seedStr,roomCode,opts){
   opts=opts||{modo:"cont",nome:S.profile&&S.profile.clubeNome||""};
   const seed=seedStr||geraSeed();
   S.camp=Engine.criarCampanha(mode,seed,roomCode,opts,dadosAtuais());
+  if(mode==="diario")S.camp.log=[];   // grava as decisões p/ replay server-side
   S.screen="janela";S.sel=null;S.pend=null;render();
 }
 /* diário é sempre Continental (seed justa pra todo mundo); nome do time é o seu */
