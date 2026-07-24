@@ -44,11 +44,19 @@ supabase functions deploy submit-daily
 > ficam defasados do bundle publicado e o servidor rejeitará jogadores por
 > versão. O teste de paridade garante motor-no-dist == motor-standalone.
 
-## Pendente para depois (fora do escopo da Fase C)
-- Publicar o desafio do dia em `daily_challenges` (job/rotina) — sem isso todo
-  POST responde `404 seed_inexistente`.
-- Wiring do cliente (`src/app.js`) para autenticar e enviar as decisões +
-  `BUILD_VERSION` + `lang`.
+## Estado (TDMV-5)
+Fases **A** (motor determinístico), **B** (schema Supabase) e **C** (este replay
+anti-fraude) **concluídas**. Justiça PT/ES **resolvida no motor** (nome cosmético
+em RNG isolado). Esta Edge Function **ainda NÃO foi deployada**.
+
+## Pendente para a próxima sessão
+- **Deploy manual desta função** (`supabase functions deploy submit-daily`) — ver
+  seção Deploy acima; a integração automática não alcança a org nova.
+- **Publicar o Desafio do Dia** em `daily_challenges` (job/rotina, via
+  service_role) — sem isso todo POST responde `404 seed_inexistente`.
+- **Fase D — wiring do cliente** (`src/app.js`): autenticar (Supabase auth) e
+  enviar `{ date, decisions, clientVersion }`; ler o ranking pela view
+  `daily_ranking`. (Sem `lang`: o score independe do idioma.)
 - Endurecer o "melhor score" com um `upsert_daily_best` (SECURITY DEFINER),
   eliminando a corrida read-then-write.
 
