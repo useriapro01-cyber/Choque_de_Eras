@@ -51,6 +51,8 @@ pt:{
  rank_eb:"Ranking mundial · desafio de {d}",
  rank_p:"Todo mundo joga a mesma seed hoje: mesma base, mesmo mercado, mesmos adversários. Só a primeira campanha finalizada do dia pontua. O ranking é público entre jogadores.",
  rank_vazio:"Ninguém pontuou ainda. Seja o primeiro nome da súmula!",b_jogar_hoje:"Jogar o desafio de hoje",carregando:"Carregando súmula...",
+ dia_fechado:"O desafio de hoje ainda não abriu.",b_enviar_rank:"🏅 Enviar ao ranking",env_enviando:"Enviando ao ranking...",env_ok:"✅ Pontuação enviada! Você está no ranking.",env_erro:"Não deu para enviar agora. Tente de novo.",env_versao:"Nova versão do jogo — recarregue a página.",env_local:"Ranking salvo neste aparelho.",
+ vinc_titulo:"Entrar no ranking",vinc_sub:"Grátis. É só para valer no ranking — seu progresso é preservado.",vinc_email_ph:"seu@email.com",vinc_apelido_ph:"seu apelido no ranking",vinc_enviar_otp:"Enviar código",vinc_otp_ph:"código de 6 dígitos",vinc_confirmar:"Confirmar e enviar",vinc_otp_enviado:"Enviamos um código de 6 dígitos para {e}.",vinc_conflito:"Esse e-mail já tem conta. Vamos entrar nela — o progresso desta sessão anônima NÃO será mesclado.",vinc_apelido_uso:"Esse apelido já está em uso. Escolha outro.",vinc_email_inv:"Digite um e-mail válido.",vinc_apelido_inv:"Apelido de 2 a 20 caracteres.",vinc_otp_inv:"Código inválido. Confira e tente de novo.",b_entrar_rank:"🏅 Entrar no ranking",
  sala_eb:"Duelo · sala",sala_p:"Compartilhe o código <b>{c}</b> com a galera. Mesma seed, placares públicos na sala.",
  sala_nao:"Sala não encontrada — confere o código ou crie uma nova.",b_jogar_sala:"Jogar nesta sala",buscando:"Buscando placar...",
  perfil_eb:"Carteirinha de técnico(a)",sem_nome:"Sem nome",p_camp:"Campanhas",p_tit:"Títulos da América",p_imort:"Campanhas imortais",p_rec:"Recorde de pontos",p_leg:"Legado (pontos acumulados)",trofeus:"Sala de troféus",
@@ -141,6 +143,8 @@ es:{
  rank_eb:"Ranking mundial · desafío del {d}",
  rank_p:"Todos juegan la misma seed hoy: misma cantera, mismo mercado, mismos rivales. Solo la primera campaña terminada del día puntúa. El ranking es público entre jugadores.",
  rank_vazio:"Nadie puntuó todavía. ¡Sé el primer nombre de la planilla!",b_jogar_hoje:"Jugar el desafío de hoy",carregando:"Cargando planilla...",
+ dia_fechado:"El desafío de hoy aún no abrió.",b_enviar_rank:"🏅 Enviar al ranking",env_enviando:"Enviando al ranking...",env_ok:"✅ ¡Puntuación enviada! Estás en el ranking.",env_erro:"No se pudo enviar ahora. Probá de nuevo.",env_versao:"Nueva versión del juego — recargá la página.",env_local:"Ranking guardado en este dispositivo.",
+ vinc_titulo:"Entrar al ranking",vinc_sub:"Gratis. Es solo para valer en el ranking — tu progreso se preserva.",vinc_email_ph:"tu@email.com",vinc_apelido_ph:"tu apodo en el ranking",vinc_enviar_otp:"Enviar código",vinc_otp_ph:"código de 6 dígitos",vinc_confirmar:"Confirmar y enviar",vinc_otp_enviado:"Enviamos un código de 6 dígitos a {e}.",vinc_conflito:"Ese e-mail ya tiene cuenta. Vamos a entrar en ella — el progreso de esta sesión anónima NO se fusiona.",vinc_apelido_uso:"Ese apodo ya está en uso. Elegí otro.",vinc_email_inv:"Escribí un e-mail válido.",vinc_apelido_inv:"Apodo de 2 a 20 caracteres.",vinc_otp_inv:"Código inválido. Revisá y probá de nuevo.",b_entrar_rank:"🏅 Entrar al ranking",
  sala_eb:"Duelo · sala",sala_p:"Compartí el código <b>{c}</b> con la banda. Misma seed, marcadores públicos en la sala.",
  sala_nao:"Sala no encontrada — revisá el código o creá una nueva.",b_jogar_sala:"Jugar en esta sala",buscando:"Buscando marcador...",
  perfil_eb:"Carnet de DT",sem_nome:"Sin nombre",p_camp:"Campañas",p_tit:"Títulos de América",p_imort:"Campañas inmortales",p_rec:"Récord de puntos",p_leg:"Legado (puntos acumulados)",trofeus:"Sala de trofeos",
@@ -222,6 +226,15 @@ function logDecisao(d){if(S.camp&&S.camp.mode==="diario"&&S.camp.log)S.camp.log.
 /* ---------- storage / estado ---------- */
 async function stGet(k,shared){try{const r=await window.storage.get(k,!!shared);return r?JSON.parse(r.value):null}catch(e){return null}}
 async function stSet(k,v,shared){try{await window.storage.set(k,JSON.stringify(v),!!shared)}catch(e){}}
+/* ---------- Supabase (ranking do dia) ----------
+   Cliente por fetch cru (namespace SB, bundle). Store em localStorage (síncrono,
+   universal) p/ a sessão sobreviver a reloads. Sem anon key (SB_ANON vazia) o
+   cliente fica desabilitado e TUDO cai no fallback local — o jogo nunca quebra. */
+const sbStore={get:async k=>{try{return localStorage.getItem(k)}catch(e){return null}},
+  set:async(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},
+  del:async k=>{try{localStorage.removeItem(k)}catch(e){}}};
+let _sb=null;
+function sb(){if(!_sb)_sb=SB.criarSB({fetchImpl:(u,o)=>fetch(u,o),store:sbStore,url:SB_URL,anon:SB_ANON});return _sb}
 const PROFILE_KEY="choque:perfil";
 let S={screen:"home",lang:"pt",profile:null,camp:null,sim:null,sel:null,pend:null,salaCode:null,storageOk:(typeof window!=="undefined"&&!!window.storage)};
 async function loadProfile(){
@@ -370,13 +383,10 @@ async function finalizarCampanha(){
   p.recorde=Math.max(p.recorde,sc.total);p.legado+=sc.total;
   c.novasConq=Engine.checarConquistas(c,p,sc);
   saveProfile();
-  if(S.storageOk&&p.nick){
-    if(c.mode==="diario"&&p.dailyFeito!==hojeStr()){
-      p.dailyFeito=hojeStr();saveProfile();
-      await pushRank("choque:dia:"+hojeStr(),sc,c);
-    }
-    if(c.mode==="duelo"&&c.roomCode)await pushRank("choque:sala:"+c.roomCode,sc,c);
-  }
+  // diário: envio é EXPLÍCITO na tela de fim (botão), pois pode exigir vínculo
+  // de e-mail e re-simulação no servidor. Aqui só zeramos o estado de envio.
+  if(c.mode==="diario")S.envio=null;
+  if(S.storageOk&&p.nick&&c.mode==="duelo"&&c.roomCode)await pushRank("choque:sala:"+c.roomCode,sc,c);
   S.screen="fim";render();
 }
 async function pushRank(key,sc,c){
@@ -416,6 +426,7 @@ function render(){
   if(scr==="jogo")return renderJogo();
   if(scr==="posjogo")return renderPosjogo();
   if(scr==="fim")return renderFim();
+  if(scr==="vincular")return renderVincular();
   if(scr==="rankdia")return renderRankDia();
   if(scr==="sala")return renderSala();
   if(scr==="perfil")return renderPerfil();
@@ -619,7 +630,7 @@ function renderFim(){
   const linhas=c.resultados.map(r=>`<tr><td>${t("fase_"+r.fase)}</td><td>${esc(r.opp)}</td><td><b>${r.gf}×${r.gs}</b>${r.pen?" <span class='muted'>p"+r.pen.pf+"-"+r.pen.pc+"</span>":""}</td></tr>`).join("");
   const nc=c.novasConq||[];
   const conq=nc.length?`<div class="evento"><h3>${t("cq_novas",{s:nc.length>1?"s":""})}</h3><p>${nc.map(id=>t("cq_"+id)).join(" · ")}</p></div>`:"";
-  const rk=c.mode==="diario"?`<button class="btn green" onclick="go('rankdia')">${t("b_rankdia2")}</button>`:
+  const rk=c.mode==="diario"?painelDia(c):
     c.mode==="duelo"?`<button class="btn green" onclick="verSalaAtual()">${t("b_sala2",{c:c.roomCode})}</button>`:"";
   el().innerHTML=header()+`
   <div class="pane center">
@@ -644,6 +655,78 @@ function renderFim(){
   window.scrollTo(0,0);
 }
 function verSalaAtual(){S.salaCode=S.camp.roomCode;S.screen="sala";render();carregarSala(S.salaCode)}
+/* ---------- Desafio do Dia: submissão ao ranking (Fase D) ---------- */
+// Painel de envio na tela de fim (só diário). Estado em S.envio.
+function painelDia(c){
+  const e=S.envio;
+  const status=!e?"":
+    e.fase==="enviando"?`<p class="muted pulse">${t("env_enviando")}</p>`:
+    e.fase==="ok"?`<p class="muted">${t("env_ok")}</p>`:
+    e.fase==="local"?`<p class="muted">${t("env_local")}</p>`:
+    e.fase==="erro"?`<p class="muted">${esc(e.msg||t("env_erro"))}</p>`:"";
+  const enviado=e&&(e.fase==="ok"||e.fase==="local");
+  const btn=enviado?`<button class="btn green" onclick="go('rankdia')">${t("b_rankdia2")}</button>`:
+    `<button class="btn green" onclick="submeterDiario()">${t("b_enviar_rank")}</button>`;
+  return status+btn;
+}
+// Submete o log ao servidor (que RE-SIMULA e pontua). Anônimo -> tela de vínculo.
+async function submeterDiario(){
+  const c=S.camp; if(!c||c.mode!=="diario")return;
+  if(!c.replayOk){toast(t("env_erro"));return}          // auto-verificação falhou: não envia
+  if(!sb().habilitado){                                  // sem backend: ranking local (fallback)
+    if(S.storageOk&&S.profile.nick){await pushRank("choque:dia:"+hojeStr(),c.score,c);}
+    S.profile.dailyFeito=hojeStr();saveProfile();S.envio={fase:"local"};render();return;
+  }
+  S.envio={fase:"enviando"};render();
+  const r=await sb().submeterDia({date:hojeStr(),decisions:c.log,clientVersion:BUILD_VERSION});
+  const cod=r.data&&r.data.erro;
+  if(r.ok){S.profile.dailyFeito=hojeStr();saveProfile();S.envio={fase:"ok",best:r.data&&r.data.best};render();return}
+  if(r.status===403&&cod==="email_necessario"){irVincular();return}   // muro do ranking
+  if(r.status===409){S.envio={fase:"erro",msg:t("env_versao")};render();return}
+  if(r.status===404){toast(t("dia_fechado"));S.envio=null;render();return}
+  S.envio={fase:"erro",msg:t("env_erro")};render();
+}
+// Fluxo de vínculo de e-mail por OTP (anônimo -> permanente).
+function irVincular(){S.vinc={passo:"dados",email:"",apelido:S.profile.nick||S.profile.clubeNome||"",conflito:false,msg:""};S.screen="vincular";render()}
+function renderVincular(){
+  const v=S.vinc||{passo:"dados"};
+  const form=v.passo==="dados"?
+    `<input id="vEmail" type="email" placeholder="${t("vinc_email_ph")}" value="${esc(v.email||"")}">
+     <input id="vApelido" type="text" maxlength="20" placeholder="${t("vinc_apelido_ph")}" value="${esc(v.apelido||"")}">
+     <button class="btn gold" onclick="vincEnviarOTP()">${t("vinc_enviar_otp")}</button>`:
+    `<p class="muted">${t("vinc_otp_enviado",{e:esc(v.email)})}</p>
+     ${v.conflito?`<p class="muted">⚠️ ${t("vinc_conflito")}</p>`:""}
+     <input id="vOtp" type="text" inputmode="numeric" maxlength="6" placeholder="${t("vinc_otp_ph")}">
+     <button class="btn gold" onclick="vincConfirmar()">${t("vinc_confirmar")}</button>`;
+  el().innerHTML=header(`<button class="pill" onclick="go('fim')">${t("voltar")}</button>`)+`
+  <div class="panel"><div class="eyebrow">${t("vinc_titulo")}</div>
+  <p class="muted" style="margin-bottom:10px">${t("vinc_sub")}</p>
+  ${v.msg?`<p class="muted">${esc(v.msg)}</p>`:""}
+  ${form}</div>`;
+}
+async function vincEnviarOTP(){
+  const email=(document.getElementById("vEmail").value||"").trim();
+  const apelido=(document.getElementById("vApelido").value||"").trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){S.vinc.msg=t("vinc_email_inv");render();return}
+  if(apelido.length<2||apelido.length>20){S.vinc.msg=t("vinc_apelido_inv");render();return}
+  S.vinc.email=email;S.vinc.apelido=apelido;S.vinc.msg="";
+  try{await sb().vincularEmail(email);S.vinc.passo="otp";S.vinc.conflito=false;}
+  catch(e){
+    if(e.codigo==="email_em_uso"){try{await sb().loginOtp(email);S.vinc.passo="otp";S.vinc.conflito=true;}catch(_){S.vinc.msg=t("env_erro");}}
+    else S.vinc.msg=t("env_erro");
+  }
+  render();
+}
+async function vincConfirmar(){
+  const otp=(document.getElementById("vOtp").value||"").trim();
+  const {email,apelido,conflito}=S.vinc;
+  try{if(conflito)await sb().confirmarLogin(email,otp);else await sb().confirmarEmail(email,otp);}
+  catch(e){S.vinc.msg=t("vinc_otp_inv");render();return}
+  try{await sb().salvarPerfil({apelido,email,clube_coracao:S.profile.timeCoracao||null});}
+  catch(e){if(e.codigo==="apelido_em_uso"){S.vinc.passo="dados";S.vinc.msg=t("vinc_apelido_uso");render();return}}
+  S.profile.nick=apelido;saveProfile();
+  S.screen="fim";await submeterDiario();   // agora permanente: submete de fato
+}
 /* ---------- RANKINGS ---------- */
 function rankTable(entries){
   if(!entries||!entries.length)return `<p class="muted">${t("rank_vazio")}</p>`;
@@ -658,8 +741,14 @@ function renderRankDia(){
   <button class="btn gold" onclick="startDaily()">${t("b_jogar_hoje")}</button></div>`;
 }
 async function carregarRankDia(){
-  const d=await stGet("choque:dia:"+hojeStr(),true);
-  const box=document.getElementById("rk");if(box)box.innerHTML=rankTable(d?d.entries:null);
+  const box=document.getElementById("rk");
+  if(sb().habilitado){                       // ranking oficial pela view daily_ranking
+    const rows=await sb().ranking(hojeStr());
+    if(box)box.innerHTML=rankTable(rows.map(r=>({nick:r.apelido,pts:r.score})));
+    return;
+  }
+  const d=await stGet("choque:dia:"+hojeStr(),true);   // fallback local
+  if(box)box.innerHTML=rankTable(d?d.entries:null);
 }
 function renderSala(){
   el().innerHTML=header(`<button class="pill" onclick="irHome()">${t("voltar")}</button>`)+`
@@ -775,9 +864,16 @@ function startCampaign(mode,seedStr,roomCode,opts){
   S.screen="janela";S.sel=null;S.pend=null;render();
 }
 /* diário é sempre Continental (seed justa pra todo mundo); nome do time é o seu */
-function startDaily(){
+async function startDaily(){
   if(S.profile.dailyFeito===hojeStr()&&!confirm(t("daily_replay")))return;
-  startCampaign("diario","dia-"+hojeStr(),null,{modo:"cont",nome:S.profile.clubeNome||""});
+  // seed OFICIAL do dia vem do servidor (mesma p/ todos; o replay usa a mesma).
+  let seed="dia-"+hojeStr();
+  if(sb().habilitado){
+    const s=await sb().seedDoDia(hojeStr());
+    if(!s){toast(t("dia_fechado"));return}   // desafio ainda não publicado
+    seed=s;
+  }
+  startCampaign("diario",seed,null,{modo:"cont",nome:S.profile.clubeNome||""});
 }
 function criarSala(opts){
   const abc="ABCDEFGHJKMNPQRSTUVWXYZ";let code="";for(let i=0;i<5;i++)code+=abc[Math.floor(MR()*abc.length)];
@@ -834,4 +930,6 @@ function renderLoading(){
   const rest=900-(Date.now()-t0);
   if(rest>0)await new Promise(r=>setTimeout(r,rest));
   render();
+  // sessão anônima no fundo, sem fricção (o muro é o ranking, não a porta).
+  if(sb().habilitado)sb().garantirSessao().catch(()=>{});
 })();
