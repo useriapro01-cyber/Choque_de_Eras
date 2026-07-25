@@ -75,6 +75,11 @@ Deno.serve(async (req) => {
   if (userErr || !userData?.user) return json(401, { ok: false, erro: 'unauthorized' });
   const profileId = userData.user.id;
 
+  // 2a. o muro do ranking: anônimo joga e vê, mas NÃO pontua. O cliente usa este
+  // erro para pedir o vínculo de e-mail (escada freemium). is_anonymous vira false
+  // só após o OTP confirmar o e-mail — então isto também exige e-mail confirmado.
+  if (userData.user.is_anonymous) return json(403, { ok: false, erro: 'email_necessario' });
+
   // cliente privilegiado (service_role): só para leitura de seed, rate limit e gravação
   const admin = createClient(SUPABASE_URL, SERVICE_ROLE, { auth: { persistSession: false } });
 
