@@ -52,7 +52,7 @@ pt:{
  rank_p:"Todo mundo joga a mesma seed hoje: mesma base, mesmo mercado, mesmos adversários. Só a primeira campanha finalizada do dia pontua. O ranking é público entre jogadores.",
  rank_vazio:"Ninguém pontuou ainda. Seja o primeiro nome da súmula!",b_jogar_hoje:"Jogar o desafio de hoje",carregando:"Carregando súmula...",
  dia_fechado:"O desafio de hoje ainda não abriu.",b_enviar_rank:"🏅 Enviar ao ranking",env_enviando:"Enviando ao ranking...",env_ok:"✅ Pontuação enviada! Você está no ranking.",env_erro:"Não deu para enviar agora. Tente de novo.",env_versao:"Nova versão do jogo — recarregue a página.",env_local:"Ranking salvo neste aparelho.",
- vinc_titulo:"Entrar no ranking",vinc_sub:"Grátis. É só para valer no ranking — seu progresso é preservado.",vinc_email_ph:"seu@email.com",vinc_apelido_ph:"seu apelido no ranking",vinc_enviar_otp:"Enviar código",vinc_otp_ph:"código de 6 dígitos",vinc_confirmar:"Confirmar e enviar",vinc_otp_enviado:"Enviamos um código de 6 dígitos para {e}.",vinc_conflito:"Esse e-mail já tem conta. Vamos entrar nela — o progresso desta sessão anônima NÃO será mesclado.",vinc_apelido_uso:"Esse apelido já está em uso. Escolha outro.",vinc_email_inv:"Digite um e-mail válido.",vinc_apelido_inv:"Apelido de 2 a 20 caracteres.",vinc_otp_inv:"Código inválido. Confira e tente de novo.",b_entrar_rank:"🏅 Entrar no ranking",
+ vinc_titulo:"Entrar no ranking",vinc_sub:"Grátis. É só para valer no ranking — seu progresso é preservado.",vinc_email_ph:"seu@email.com",vinc_apelido_ph:"seu apelido no ranking",vinc_enviar_link:"Enviar link de confirmação",vinc_link_enviado:"📧 Enviamos um link de confirmação para {e}. Abra o e-mail, clique no link e volte ao jogo — você entra no ranking automaticamente.",vinc_link_erro:"Não deu para confirmar o e-mail. Tente vincular de novo.",vinc_conflito:"Esse e-mail já tem conta. Vamos entrar nela — o progresso desta sessão anônima NÃO será mesclado.",vinc_apelido_uso:"Esse apelido já está em uso. Escolha outro.",vinc_email_inv:"Digite um e-mail válido.",vinc_apelido_inv:"Apelido de 2 a 20 caracteres.",b_entrar_rank:"🏅 Entrar no ranking",
  sala_eb:"Duelo · sala",sala_p:"Compartilhe o código <b>{c}</b> com a galera. Mesma seed, placares públicos na sala.",
  sala_nao:"Sala não encontrada — confere o código ou crie uma nova.",b_jogar_sala:"Jogar nesta sala",buscando:"Buscando placar...",
  perfil_eb:"Carteirinha de técnico(a)",sem_nome:"Sem nome",p_camp:"Campanhas",p_tit:"Títulos da América",p_imort:"Campanhas imortais",p_rec:"Recorde de pontos",p_leg:"Legado (pontos acumulados)",trofeus:"Sala de troféus",
@@ -144,7 +144,7 @@ es:{
  rank_p:"Todos juegan la misma seed hoy: misma cantera, mismo mercado, mismos rivales. Solo la primera campaña terminada del día puntúa. El ranking es público entre jugadores.",
  rank_vazio:"Nadie puntuó todavía. ¡Sé el primer nombre de la planilla!",b_jogar_hoje:"Jugar el desafío de hoy",carregando:"Cargando planilla...",
  dia_fechado:"El desafío de hoy aún no abrió.",b_enviar_rank:"🏅 Enviar al ranking",env_enviando:"Enviando al ranking...",env_ok:"✅ ¡Puntuación enviada! Estás en el ranking.",env_erro:"No se pudo enviar ahora. Probá de nuevo.",env_versao:"Nueva versión del juego — recargá la página.",env_local:"Ranking guardado en este dispositivo.",
- vinc_titulo:"Entrar al ranking",vinc_sub:"Gratis. Es solo para valer en el ranking — tu progreso se preserva.",vinc_email_ph:"tu@email.com",vinc_apelido_ph:"tu apodo en el ranking",vinc_enviar_otp:"Enviar código",vinc_otp_ph:"código de 6 dígitos",vinc_confirmar:"Confirmar y enviar",vinc_otp_enviado:"Enviamos un código de 6 dígitos a {e}.",vinc_conflito:"Ese e-mail ya tiene cuenta. Vamos a entrar en ella — el progreso de esta sesión anónima NO se fusiona.",vinc_apelido_uso:"Ese apodo ya está en uso. Elegí otro.",vinc_email_inv:"Escribí un e-mail válido.",vinc_apelido_inv:"Apodo de 2 a 20 caracteres.",vinc_otp_inv:"Código inválido. Revisá y probá de nuevo.",b_entrar_rank:"🏅 Entrar al ranking",
+ vinc_titulo:"Entrar al ranking",vinc_sub:"Gratis. Es solo para valer en el ranking — tu progreso se preserva.",vinc_email_ph:"tu@email.com",vinc_apelido_ph:"tu apodo en el ranking",vinc_enviar_link:"Enviar enlace de confirmación",vinc_link_enviado:"📧 Enviamos un enlace de confirmación a {e}. Abrí el e-mail, hacé clic en el enlace y volvé al juego — entrás al ranking automáticamente.",vinc_link_erro:"No se pudo confirmar el e-mail. Probá vincular de nuevo.",vinc_conflito:"Ese e-mail ya tiene cuenta. Vamos a entrar en ella — el progreso de esta sesión anónima NO se fusiona.",vinc_apelido_uso:"Ese apodo ya está en uso. Elegí otro.",vinc_email_inv:"Escribí un e-mail válido.",vinc_apelido_inv:"Apodo de 2 a 20 caracteres.",b_entrar_rank:"🏅 Entrar al ranking",
  sala_eb:"Duelo · sala",sala_p:"Compartí el código <b>{c}</b> con la banda. Misma seed, marcadores públicos en la sala.",
  sala_nao:"Sala no encontrada — revisá el código o creá una nueva.",b_jogar_sala:"Jugar en esta sala",buscando:"Buscando marcador...",
  perfil_eb:"Carnet de DT",sem_nome:"Sin nombre",p_camp:"Campañas",p_tit:"Títulos de América",p_imort:"Campañas inmortales",p_rec:"Récord de puntos",p_leg:"Legado (puntos acumulados)",trofeus:"Sala de trofeos",
@@ -687,45 +687,80 @@ async function submeterDiario(){
   S.envio={fase:"erro",msg:t("env_erro")};render();
 }
 // Fluxo de vínculo de e-mail por OTP (anônimo -> permanente).
+// Submissão pendente (persistida): o clique no link de confirmação RECARREGA o
+// app, então guardamos o log + payload p/ retomar no boot já como permanente.
+const PENDENTE_KEY="choque:dia:pendente";
+function guardarPendente(o){try{localStorage.setItem(PENDENTE_KEY,JSON.stringify(o))}catch(e){}}
+function lerPendente(){try{const r=localStorage.getItem(PENDENTE_KEY);return r?JSON.parse(r):null}catch(e){return null}}
+function limparPendente(){try{localStorage.removeItem(PENDENTE_KEY)}catch(e){}}
+
 function irVincular(){S.vinc={passo:"dados",email:"",apelido:S.profile.nick||S.profile.clubeNome||"",conflito:false,msg:""};S.screen="vincular";render()}
 function renderVincular(){
   const v=S.vinc||{passo:"dados"};
   const form=v.passo==="dados"?
     `<input id="vEmail" type="email" placeholder="${t("vinc_email_ph")}" value="${esc(v.email||"")}">
      <input id="vApelido" type="text" maxlength="20" placeholder="${t("vinc_apelido_ph")}" value="${esc(v.apelido||"")}">
-     <button class="btn gold" onclick="vincEnviarOTP()">${t("vinc_enviar_otp")}</button>`:
-    `<p class="muted">${t("vinc_otp_enviado",{e:esc(v.email)})}</p>
-     ${v.conflito?`<p class="muted">⚠️ ${t("vinc_conflito")}</p>`:""}
-     <input id="vOtp" type="text" inputmode="numeric" maxlength="6" placeholder="${t("vinc_otp_ph")}">
-     <button class="btn gold" onclick="vincConfirmar()">${t("vinc_confirmar")}</button>`;
+     <button class="btn gold" onclick="vincEnviarLink()">${t("vinc_enviar_link")}</button>`:
+    `<p class="muted">${t("vinc_link_enviado",{e:esc(v.email)})}</p>
+     ${v.conflito?`<p class="muted">⚠️ ${t("vinc_conflito")}</p>`:""}`;
   el().innerHTML=header(`<button class="pill" onclick="go('fim')">${t("voltar")}</button>`)+`
   <div class="panel"><div class="eyebrow">${t("vinc_titulo")}</div>
   <p class="muted" style="margin-bottom:10px">${t("vinc_sub")}</p>
   ${v.msg?`<p class="muted">${esc(v.msg)}</p>`:""}
   ${form}</div>`;
 }
-async function vincEnviarOTP(){
+// Envia o LINK de confirmação e guarda a submissão pendente. (Caminho ATIVO.)
+async function vincEnviarLink(){
   const email=(document.getElementById("vEmail").value||"").trim();
   const apelido=(document.getElementById("vApelido").value||"").trim();
   if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){S.vinc.msg=t("vinc_email_inv");render();return}
   if(apelido.length<2||apelido.length>20){S.vinc.msg=t("vinc_apelido_inv");render();return}
   S.vinc.email=email;S.vinc.apelido=apelido;S.vinc.msg="";
-  try{await sb().vincularEmail(email);S.vinc.passo="otp";S.vinc.conflito=false;}
+  const c=S.camp;
+  guardarPendente({date:hojeStr(),decisions:c.log,clientVersion:BUILD_VERSION,apelido,email,pts:c.score&&c.score.total});
+  try{await sb().vincularEmail(email);S.vinc.passo="enviado";S.vinc.conflito=false;}
   catch(e){
-    if(e.codigo==="email_em_uso"){try{await sb().loginOtp(email);S.vinc.passo="otp";S.vinc.conflito=true;}catch(_){S.vinc.msg=t("env_erro");}}
+    if(e.codigo==="email_em_uso"){try{await sb().loginLink(email);S.vinc.passo="enviado";S.vinc.conflito=true;}catch(_){S.vinc.msg=t("env_erro");}}
     else S.vinc.msg=t("env_erro");
   }
   render();
 }
-async function vincConfirmar(){
-  const otp=(document.getElementById("vOtp").value||"").trim();
-  const {email,apelido,conflito}=S.vinc;
-  try{if(conflito)await sb().confirmarLogin(email,otp);else await sb().confirmarEmail(email,otp);}
-  catch(e){S.vinc.msg=t("vinc_otp_inv");render();return}
-  try{await sb().salvarPerfil({apelido,email,clube_coracao:S.profile.timeCoracao||null});}
-  catch(e){if(e.codigo==="apelido_em_uso"){S.vinc.passo="dados";S.vinc.msg=t("vinc_apelido_uso");render();return}}
-  S.profile.nick=apelido;saveProfile();
-  S.screen="fim";await submeterDiario();   // agora permanente: submete de fato
+// (OTP DORMENTE: quando houver SMTP + template com {{ .Token }}, trocar o passo
+//  "enviado" por um input de 6 dígitos e chamar sb().confirmarEmailOTP /
+//  confirmarLoginOTP no submit, dispensando a retomada por reload.)
+
+// Retoma no boot a submissão pendente depois que o link confirmou (já permanente).
+async function retomarPendente(){
+  const pend=lerPendente();
+  if(!pend)return;
+  if(pend.date!==hojeStr()){limparPendente();return}           // pendência de outro dia: descarta
+  if(!sb().habilitado||await sb().ehAnonimo())return;          // link ainda não confirmou: mantém
+  let apel=pend.apelido,ok=false;
+  for(let i=0;i<3&&!ok;i++){
+    try{await sb().salvarPerfil({apelido:apel,email:pend.email,clube_coracao:S.profile.timeCoracao||null});ok=true;}
+    catch(e){
+      if(e.codigo==="apelido_em_uso"){apel=pend.apelido.slice(0,17)+Math.floor(Math.random()*90+10);}  // apelido de UI (não é RNG de campanha)
+      else{toast(t("env_erro"));return}
+    }
+  }
+  if(!ok){toast(t("vinc_apelido_uso"));return}
+  S.profile.nick=apel;saveProfile();
+  const r=await sb().submeterDia({date:pend.date,decisions:pend.decisions,clientVersion:pend.clientVersion});
+  if(r.ok){limparPendente();S.profile.dailyFeito=hojeStr();saveProfile();toast(t("env_ok"));S.screen="rankdia";render();carregarRankDia();return}
+  if(r.status===409){toast(t("env_versao"));return}
+  toast(t("env_erro"));
+}
+// Boot da sessão: adota a sessão do link (tokens no hash) e retoma o pendente;
+// senão garante uma sessão anônima para jogar sem fricção.
+async function bootSessao(){
+  if(!sb().habilitado)return;
+  const tok=SB.parseHashTokens(typeof location!=="undefined"?location.hash:"");
+  if(tok){
+    try{history.replaceState(null,"",location.pathname+location.search);}catch(e){}
+    if(tok.erro){toast(t("vinc_link_erro"));}
+    else{await sb().adotarTokens(tok).catch(()=>{});await retomarPendente();}
+  }
+  await sb().garantirSessao().catch(()=>{});
 }
 /* ---------- RANKINGS ---------- */
 function rankTable(entries){
@@ -866,6 +901,7 @@ function startCampaign(mode,seedStr,roomCode,opts){
 /* diário é sempre Continental (seed justa pra todo mundo); nome do time é o seu */
 async function startDaily(){
   if(S.profile.dailyFeito===hojeStr()&&!confirm(t("daily_replay")))return;
+  limparPendente();   // começa fresco: descarta qualquer vínculo pendente do dia
   // seed OFICIAL do dia vem do servidor (mesma p/ todos; o replay usa a mesma).
   let seed="dia-"+hojeStr();
   if(sb().habilitado){
@@ -930,6 +966,7 @@ function renderLoading(){
   const rest=900-(Date.now()-t0);
   if(rest>0)await new Promise(r=>setTimeout(r,rest));
   render();
-  // sessão anônima no fundo, sem fricção (o muro é o ranking, não a porta).
-  if(sb().habilitado)sb().garantirSessao().catch(()=>{});
+  // adota sessão do link (volta do e-mail) e retoma o envio; senão sessão
+  // anônima no fundo, sem fricção (o muro é o ranking, não a porta).
+  await bootSessao();
 })();

@@ -4,7 +4,7 @@
 // refresh morto (limpa, não reusa), conflito de e-mail e submissão autenticada.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { criarSB, SB_STORE_KEY } from '../src/sb.js';
+import { criarSB, SB_STORE_KEY, parseHashTokens } from '../src/sb.js';
 
 const resp = (status, body) => ({ ok: status >= 200 && status < 300, status, json: async () => body });
 function memStore() {
@@ -69,6 +69,31 @@ test('vínculo: e-mail já usado sinaliza email_em_uso (dispara fluxo de conflit
   const sb = criarSB({ fetchImpl, store, url: 'https://x.supabase.co', anon: 'k', now: () => clock.t });
   await sb.garantirSessao();
   await assert.rejects(() => sb.vincularEmail('taken@x.com'), e => e.codigo === 'email_em_uso');
+});
+
+test('link: parseHashTokens extrai tokens do redirect e detecta erro', () => {
+  const t = parseHashTokens('#access_token=AT&refresh_token=RT&expires_in=3600&type=email_change');
+  assert.equal(t.access_token, 'AT'); assert.equal(t.refresh_token, 'RT'); assert.equal(t.type, 'email_change');
+  assert.equal(parseHashTokens(''), null, 'hash vazio → null');
+  assert.equal(parseHashTokens('#foo=1'), null, 'sem access_token → null');
+  assert.ok(parseHashTokens('#error=access_denied&error_description=expired').erro, 'hash de erro → {erro}');
+});
+
+test('link: adotarTokens busca o usuário e persiste sessão PERMANENTE', async () => {
+  const clock = { t: 1_700_000_000_000 }; const store = memStore();
+  const fetchImpl = async (url, opts) => {
+    if (url.includes('/auth/v1/user') && (!opts.method || opts.method === 'GET')) {
+      assert.equal(opts.headers.Authorization, 'Bearer AT');
+      return resp(200, { id: 'u9', is_anonymous: false, email: 'a@b.com' });
+    }
+    return resp(404, {});
+  };
+  const sb = criarSB({ fetchImpl, store, url: 'https://x.supabase.co', anon: 'k', now: () => clock.t });
+  const s = await sb.adotarTokens({ access_token: 'AT', refresh_token: 'RT', expires_in: 3600 });
+  assert.ok(s, 'adotou a sessão');
+  assert.equal(await sb.tokenValido(), 'AT');
+  assert.equal(await sb.ehAnonimo(), false, 'sessão do link é PERMANENTE');
+  assert.ok((await store.get(SB_STORE_KEY)).includes('u9'), 'persistiu com o usuário');
 });
 
 test('submissão: envia Bearer do token válido e REPASSA a resposta da Edge Function', async () => {

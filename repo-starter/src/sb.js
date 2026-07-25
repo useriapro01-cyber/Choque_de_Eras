@@ -15,6 +15,27 @@
 export const SB_STORE_KEY = 'choque:sb:session'; // {access_token, refresh_token, expires_at, user}
 const MARGEM_S = 60; // renova o token 60s ANTES de expirar (evita corrida na borda)
 
+// Fluxo por LINK (sem SMTP p/ OTP): o e-mail de confirmação redireciona para o
+// app com os tokens no HASH da URL (#access_token=...&refresh_token=...). Isto
+// extrai esses tokens (ou um erro) do hash. Puro/testável.
+export function parseHashTokens(hash) {
+  const h = (hash || '').replace(/^#/, '');
+  if (!h) return null;
+  const p = new URLSearchParams(h);
+  if (p.get('error') || p.get('error_description')) {
+    return { erro: p.get('error_description') || p.get('error') };
+  }
+  const access_token = p.get('access_token');
+  if (!access_token) return null;
+  return {
+    access_token,
+    refresh_token: p.get('refresh_token') || null,
+    expires_at: p.get('expires_at') ? Number(p.get('expires_at')) : null,
+    expires_in: p.get('expires_in') ? Number(p.get('expires_in')) : null,
+    type: p.get('type') || null,
+  };
+}
+
 // store: { get(k)->Promise<string|null>, set(k,v)->Promise, del(k)->Promise }
 export function criarSB({ fetchImpl, store, url, anon, now = () => Date.now() }) {
   if (!url || !anon) return { habilitado: false }; // sem config: ranking desligado, jogo segue local
@@ -84,7 +105,9 @@ export function criarSB({ fetchImpl, store, url, anon, now = () => Date.now() })
   async function usuario() { const s = await carregar(); return s ? s.user : null; }
   async function ehAnonimo() { const u = await usuario(); return !u || u.is_anonymous === true; }
 
-  // vincula e-mail ao usuário atual (anônimo -> permanente): dispara OTP de troca.
+  // vincula e-mail ao usuário atual (anônimo -> permanente). Com "Confirm email"
+  // ON e sem SMTP p/ OTP, o GoTrue envia um LINK de confirmação; ao clicar, o app
+  // volta com os tokens no hash (ver adotarTokens). is_anonymous vira false.
   async function vincularEmail(email) {
     const token = await tokenValido();
     if (!token) throw erro('sem_sessao');
@@ -92,20 +115,38 @@ export function criarSB({ fetchImpl, store, url, anon, now = () => Date.now() })
     if (!r.ok) throw erro(conflitoEmail(r) ? 'email_em_uso' : 'vinculo_falhou', r);
     return true;
   }
-  // confirma o OTP de troca de e-mail: sessão vira permanente (is_anonymous=false).
-  async function confirmarEmail(email, otp) {
+
+  // conflito (item 4): e-mail já é de outra conta -> manda LINK de login (magic
+  // link) para a conta existente; o clique redireciona com tokens no hash.
+  async function loginLink(email) {
+    const r = await req('/auth/v1/otp', { method: 'POST', body: { email, create_user: false } });
+    if (!r.ok) throw erro('login_envio_falhou', r);
+    return true;
+  }
+
+  // adota a sessão vinda do LINK (tokens no hash do redirect): busca o usuário
+  // com o access_token e persiste a sessão permanente. Núcleo do "volta e pontua".
+  async function adotarTokens(tok) {
+    if (!tok || !tok.access_token) return null;
+    const s = {
+      access_token: tok.access_token,
+      refresh_token: tok.refresh_token || null,
+      expires_at: tok.expires_at || (tok.expires_in ? nowS() + tok.expires_in : nowS() + 3600),
+    };
+    const r = await req('/auth/v1/user', { token: s.access_token });
+    if (!r.ok || !r.data || !r.data.id) return null;
+    s.user = r.data;
+    return salvar(s);
+  }
+
+  // --- CAMINHO OTP (DORMENTE): reativar quando houver SMTP e template com
+  //     {{ .Token }}. Troca o link de confirmação por código de 6 dígitos. ---
+  async function confirmarEmailOTP(email, otp) { // vínculo anônimo -> permanente
     const r = await req('/auth/v1/verify', { method: 'POST', body: { type: 'email_change', email, token: otp } });
     if (!r.ok || !r.data || !r.data.access_token) throw erro('otp_invalido', r);
     return salvar(r.data);
   }
-
-  // conflito (item 4): e-mail já é de outra conta -> ENTRA na existente por OTP.
-  async function loginOtp(email) {
-    const r = await req('/auth/v1/otp', { method: 'POST', body: { email, create_user: false } });
-    if (!r.ok) throw erro('otp_envio_falhou', r);
-    return true;
-  }
-  async function confirmarLogin(email, otp) {
+  async function confirmarLoginOTP(email, otp) { // login na conta existente
     const r = await req('/auth/v1/verify', { method: 'POST', body: { type: 'email', email, token: otp } });
     if (!r.ok || !r.data || !r.data.access_token) throw erro('otp_invalido', r);
     return salvar(r.data); // abandona a sessão anônima (progresso NÃO é mesclado)
@@ -148,7 +189,8 @@ export function criarSB({ fetchImpl, store, url, anon, now = () => Date.now() })
   return {
     habilitado: true,
     garantirSessao, usuario, ehAnonimo, tokenValido,
-    vincularEmail, confirmarEmail, loginOtp, confirmarLogin,
+    vincularEmail, loginLink, adotarTokens,          // fluxo por LINK (ativo)
+    confirmarEmailOTP, confirmarLoginOTP,             // fluxo por OTP (dormente)
     salvarPerfil, seedDoDia, ranking, submeterDia,
     _limpar: limpar, // testes/logout
   };
