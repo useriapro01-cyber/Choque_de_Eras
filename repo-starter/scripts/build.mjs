@@ -43,20 +43,37 @@ const dataBlock = [
   `const NOMES_CLUBE=${j(nomes.clube)};`,
 ].join('\n');
 
-// 2b. motor: engine.js é ESM (export) para o Node; no bundle clássico do browser
-// removemos os `export` e embrulhamos num namespace global `Engine`.
+// 2b. módulos ESM (export) para o Node; no bundle clássico do browser removemos
+// os `export` e embrulhamos cada um num namespace global (script single-file).
 const engineSrc = fs.readFileSync(path.join(srcDir, 'engine.js'), 'utf8');
-const engineNames = [...new Set(
-  [...engineSrc.matchAll(/^export\s+(?:async\s+)?(?:function|const|let)\s+([A-Za-z_$][\w$]*)/gm)].map(m => m[1])
-)];
-if (!engineNames.length) { console.error('✗ nenhum export encontrado em engine.js'); process.exit(1); }
-const engineBlock = [
-  '/* ===== MOTOR (src/engine.js) — gerado; não editar aqui ===== */',
-  'const Engine=(function(){',
-  engineSrc.replace(/^export\s+/gm, ''),
-  `return {${engineNames.join(',')}};`,
-  '})();',
-].join('\n');
+function embrulhar(rotulo, arquivo, src) {
+  const nomes = [...new Set(
+    [...src.matchAll(/^export\s+(?:async\s+)?(?:function|const|let)\s+([A-Za-z_$][\w$]*)/gm)].map(m => m[1])
+  )];
+  if (!nomes.length) { console.error(`✗ nenhum export encontrado em ${arquivo}`); process.exit(1); }
+  return [
+    `/* ===== ${rotulo} (src/${arquivo}) — gerado; não editar aqui ===== */`,
+    `const ${rotulo}=(function(){`,
+    src.replace(/^export\s+/gm, ''),
+    `return {${nomes.join(',')}};`,
+    '})();',
+  ].join('\n');
+}
+const engineBlock = embrulhar('Engine', 'engine.js', engineSrc);
+// replay.js (validação anti-fraude pura) — no browser serve à AUTO-VERIFICAÇÃO:
+// o cliente re-simula o próprio log de decisões e confere o score antes de
+// submeter (o mesmo módulo que a Edge Function usa no servidor).
+const replayBlock = embrulhar('Replay', 'replay.js', fs.readFileSync(path.join(srcDir, 'replay.js'), 'utf8'));
+// sb.js (cliente Supabase por fetch cru) — sessão/OTP/submissão/ranking.
+const sbBlock = embrulhar('SB', 'sb.js', fs.readFileSync(path.join(srcDir, 'sb.js'), 'utf8'));
+
+// Config PÚBLICA do Supabase (URL + anon key): env tem precedência (Vercel);
+// senão config.public.json. anon key é pública por design. Vazia => ranking off.
+const cfgPub = fs.existsSync(path.join(ROOT, 'config.public.json'))
+  ? lerJson(path.join(ROOT, 'config.public.json')) : {};
+const sbUrl = process.env.SUPABASE_URL || cfgPub.supabaseUrl || '';
+const sbAnon = process.env.SUPABASE_ANON_KEY || cfgPub.supabaseAnonKey || '';
+const configBlock = `const SB_URL=${j(sbUrl)};\nconst SB_ANON=${j(sbAnon)};`;
 
 // 2c. VERSÃO do artefato (motor + dados): carimba o bundle do browser (BUILD_VERSION)
 // e o artefato do servidor com o MESMO valor, gerados neste build. O cliente
@@ -70,7 +87,7 @@ const css = fs.readFileSync(path.join(srcDir, 'styles.css'), 'utf8');
 const app = fs.readFileSync(path.join(srcDir, 'app.js'), 'utf8');
 let out = fs.readFileSync(path.join(srcDir, 'index.html'), 'utf8')
   .replace('/*@STYLES@*/', () => css.trimEnd())
-  .replace('/*@DATA@*/', () => engineBlock + '\n' + versaoBlock + '\n' + dataBlock)
+  .replace('/*@DATA@*/', () => [engineBlock, replayBlock, sbBlock, configBlock, versaoBlock, dataBlock].join('\n'))
   .replace('/*@APP@*/', () => app.trimEnd());
 
 for (const m of ['/*@STYLES@*/', '/*@DATA@*/', '/*@APP@*/'])

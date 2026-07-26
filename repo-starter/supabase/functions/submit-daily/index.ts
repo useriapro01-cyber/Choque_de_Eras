@@ -63,8 +63,11 @@ Deno.serve(async (req) => {
   // 1. corpo — nunca contém score, seed nem profile_id
   let body: any;
   try { body = await req.json(); } catch { return json(400, { ok: false, erro: 'json_invalido' }); }
-  const { date, decisions, clientVersion } = body ?? {};
-  if (typeof date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return json(400, { ok: false, erro: 'date_invalida' });
+  // O DIA é decidido pelo banco (America/Sao_Paulo), nunca pelo cliente. `date` é
+  // OPCIONAL e serve só de guarda de virada de dia (o cliente ecoa o dia que jogou).
+  const { date: bodyDate, decisions, clientVersion } = body ?? {};
+  if (bodyDate !== undefined && (typeof bodyDate !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(bodyDate)))
+    return json(400, { ok: false, erro: 'date_invalida' });
 
   // 2. autenticação — profile_id := uid do JWT verificado (nunca do corpo)
   const authHeader = req.headers.get('Authorization') ?? '';
@@ -74,6 +77,11 @@ Deno.serve(async (req) => {
   const { data: userData, error: userErr } = await userClient.auth.getUser();
   if (userErr || !userData?.user) return json(401, { ok: false, erro: 'unauthorized' });
   const profileId = userData.user.id;
+
+  // 2a. o muro do ranking: anônimo joga e vê, mas NÃO pontua. O cliente usa este
+  // erro para pedir o vínculo de e-mail (escada freemium). is_anonymous vira false
+  // só após o OTP confirmar o e-mail — então isto também exige e-mail confirmado.
+  if (userData.user.is_anonymous) return json(403, { ok: false, erro: 'email_necessario' });
 
   // cliente privilegiado (service_role): só para leitura de seed, rate limit e gravação
   const admin = createClient(SUPABASE_URL, SERVICE_ROLE, { auth: { persistSession: false } });
@@ -92,9 +100,14 @@ Deno.serve(async (req) => {
     return json(500, { ok: false, erro: 'erro_interno' });
   }
 
-  // 5. seed OFICIAL do dia (nunca a do cliente)
-  const { data: desafio } = await admin.from('daily_challenges').select('seed').eq('date', date).maybeSingle();
+  // 5. desafio CORRENTE — o BANCO decide o dia (America/Sao_Paulo) e a seed pela
+  //    view current_daily. NUNCA o cliente, NUNCA o relógio do servidor (UTC).
+  const { data: desafio } = await admin.from('current_daily').select('challenge_date, seed').maybeSingle();
   if (!desafio) return json(404, { ok: false, erro: 'seed_inexistente' });
+  const date = desafio.challenge_date as string;
+  // guarda de virada de dia: o cliente jogou um dia que já virou em SP → não pontua no dia errado
+  if (bodyDate && bodyDate !== date)
+    return json(409, { ok: false, erro: 'dia_virou', mensagem: 'O desafio do dia virou. Recarregue para jogar o de hoje.' });
 
   // 6. re-simular + validar legalidade + versão (tudo em src/replay.js, puro)
   let resultado: any;

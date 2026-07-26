@@ -51,6 +51,8 @@ pt:{
  rank_eb:"Ranking mundial · desafio de {d}",
  rank_p:"Todo mundo joga a mesma seed hoje: mesma base, mesmo mercado, mesmos adversários. Só a primeira campanha finalizada do dia pontua. O ranking é público entre jogadores.",
  rank_vazio:"Ninguém pontuou ainda. Seja o primeiro nome da súmula!",b_jogar_hoje:"Jogar o desafio de hoje",carregando:"Carregando súmula...",
+ dia_fechado:"O desafio de hoje ainda não abriu.",b_enviar_rank:"🏅 Enviar ao ranking",env_enviando:"Enviando ao ranking...",env_ok:"✅ Pontuação enviada! Você está no ranking.",env_erro:"Não deu para enviar agora. Tente de novo.",env_versao:"Nova versão do jogo — recarregue a página.",env_dia_virou:"O desafio do dia virou (meia-noite de Brasília). Recarregue para jogar o de hoje.",env_local:"Ranking salvo neste aparelho.",
+ vinc_titulo:"Entrar no ranking",vinc_sub:"Grátis. É só para valer no ranking — seu progresso é preservado.",vinc_email_ph:"seu@email.com",vinc_apelido_ph:"seu apelido no ranking",vinc_enviar_link:"Enviar link de confirmação",vinc_link_enviado:"📧 Enviamos um link de confirmação para {e}. Abra o e-mail, clique no link e volte ao jogo — você entra no ranking automaticamente.",vinc_link_erro:"Não deu para confirmar o e-mail. Tente vincular de novo.",vinc_conflito:"Esse e-mail já tem conta. Vamos entrar nela — o progresso desta sessão anônima NÃO será mesclado.",vinc_apelido_uso:"Esse apelido já está em uso. Escolha outro.",vinc_email_inv:"Digite um e-mail válido.",vinc_apelido_inv:"Apelido de 2 a 20 caracteres.",b_entrar_rank:"🏅 Entrar no ranking",
  sala_eb:"Duelo · sala",sala_p:"Compartilhe o código <b>{c}</b> com a galera. Mesma seed, placares públicos na sala.",
  sala_nao:"Sala não encontrada — confere o código ou crie uma nova.",b_jogar_sala:"Jogar nesta sala",buscando:"Buscando placar...",
  perfil_eb:"Carteirinha de técnico(a)",sem_nome:"Sem nome",p_camp:"Campanhas",p_tit:"Títulos da América",p_imort:"Campanhas imortais",p_rec:"Recorde de pontos",p_leg:"Legado (pontos acumulados)",trofeus:"Sala de troféus",
@@ -141,6 +143,8 @@ es:{
  rank_eb:"Ranking mundial · desafío del {d}",
  rank_p:"Todos juegan la misma seed hoy: misma cantera, mismo mercado, mismos rivales. Solo la primera campaña terminada del día puntúa. El ranking es público entre jugadores.",
  rank_vazio:"Nadie puntuó todavía. ¡Sé el primer nombre de la planilla!",b_jogar_hoje:"Jugar el desafío de hoy",carregando:"Cargando planilla...",
+ dia_fechado:"El desafío de hoy aún no abrió.",b_enviar_rank:"🏅 Enviar al ranking",env_enviando:"Enviando al ranking...",env_ok:"✅ ¡Puntuación enviada! Estás en el ranking.",env_erro:"No se pudo enviar ahora. Probá de nuevo.",env_versao:"Nueva versión del juego — recargá la página.",env_dia_virou:"El desafío del día cambió (medianoche de Brasilia). Recargá para jugar el de hoy.",env_local:"Ranking guardado en este dispositivo.",
+ vinc_titulo:"Entrar al ranking",vinc_sub:"Gratis. Es solo para valer en el ranking — tu progreso se preserva.",vinc_email_ph:"tu@email.com",vinc_apelido_ph:"tu apodo en el ranking",vinc_enviar_link:"Enviar enlace de confirmación",vinc_link_enviado:"📧 Enviamos un enlace de confirmación a {e}. Abrí el e-mail, hacé clic en el enlace y volvé al juego — entrás al ranking automáticamente.",vinc_link_erro:"No se pudo confirmar el e-mail. Probá vincular de nuevo.",vinc_conflito:"Ese e-mail ya tiene cuenta. Vamos a entrar en ella — el progreso de esta sesión anónima NO se fusiona.",vinc_apelido_uso:"Ese apodo ya está en uso. Elegí otro.",vinc_email_inv:"Escribí un e-mail válido.",vinc_apelido_inv:"Apodo de 2 a 20 caracteres.",b_entrar_rank:"🏅 Entrar al ranking",
  sala_eb:"Duelo · sala",sala_p:"Compartí el código <b>{c}</b> con la banda. Misma seed, marcadores públicos en la sala.",
  sala_nao:"Sala no encontrada — revisá el código o creá una nueva.",b_jogar_sala:"Jugar en esta sala",buscando:"Buscando marcador...",
  perfil_eb:"Carnet de DT",sem_nome:"Sin nombre",p_camp:"Campañas",p_tit:"Títulos de América",p_imort:"Campañas inmortales",p_rec:"Récord de puntos",p_leg:"Legado (puntos acumulados)",trofeus:"Sala de trofeos",
@@ -212,9 +216,25 @@ function ratingTime(){return Engine.ratingTime(S.camp)}
 function escaladosSet(){return Engine.escaladosSet(S.camp)}
 function baseDisponivel(){return Engine.baseDisponivel(S.camp)}
 function noElenco(id){return Engine.noElenco(S.camp,id)}
+/* ---------- log de decisões (Desafio do Dia / Fase D) ----------
+   Só o diário grava: cada ação bem-sucedida vira uma decisão atômica no formato
+   que aplicarDecisao/replay.js esperam, para o servidor re-simular. A partida
+   registra um único {t:"jogar"} (o RNG semeado por seed+rodada garante o mesmo
+   resultado, tique-a-tique ou instantâneo). Não logar ok:false (jogada inválida
+   nunca acontece no cliente honesto). */
+function logDecisao(d){if(S.camp&&S.camp.mode==="diario"&&S.camp.log)S.camp.log.push(d)}
 /* ---------- storage / estado ---------- */
 async function stGet(k,shared){try{const r=await window.storage.get(k,!!shared);return r?JSON.parse(r.value):null}catch(e){return null}}
 async function stSet(k,v,shared){try{await window.storage.set(k,JSON.stringify(v),!!shared)}catch(e){}}
+/* ---------- Supabase (ranking do dia) ----------
+   Cliente por fetch cru (namespace SB, bundle). Store em localStorage (síncrono,
+   universal) p/ a sessão sobreviver a reloads. Sem anon key (SB_ANON vazia) o
+   cliente fica desabilitado e TUDO cai no fallback local — o jogo nunca quebra. */
+const sbStore={get:async k=>{try{return localStorage.getItem(k)}catch(e){return null}},
+  set:async(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},
+  del:async k=>{try{localStorage.removeItem(k)}catch(e){}}};
+let _sb=null;
+function sb(){if(!_sb)_sb=SB.criarSB({fetchImpl:(u,o)=>fetch(u,o),store:sbStore,url:SB_URL,anon:SB_ANON});return _sb}
 const PROFILE_KEY="choque:perfil";
 let S={screen:"home",lang:"pt",profile:null,camp:null,sim:null,sel:null,pend:null,salaCode:null,storageOk:(typeof window!=="undefined"&&!!window.storage)};
 async function loadProfile(){
@@ -231,6 +251,7 @@ function pl(p){return t("p_"+p)}
 function rolarMercado(){
   const r=Engine.rolarMercado(S.camp,dadosAtuais());
   if(!r.ok){toast(t("t_rolar_caixa"));return}
+  logDecisao({t:"rolar"});
   render();
 }
 /* ---------- escolher onde o jogador vai jogar ---------- */
@@ -251,39 +272,43 @@ function iniciarMover(i){S.pend={tipo:"mover",from:i,p:S.camp.slots[i].p};S.sel=
 function cancelarPend(){S.pend=null;render()}
 function colocarEm(i){
   const pd=S.pend;if(!pd)return;
-  if(pd.tipo==="mover"){Engine.mover(S.camp,pd.from,i);}
+  if(pd.tipo==="mover"){Engine.mover(S.camp,pd.from,i);logDecisao({t:"mover",from:pd.from,to:i});}
   else if(pd.tipo==="mercado"){
     const r=Engine.contratar(S.camp,dadosAtuais(),pd.pi,i);
-    if(r.ok)toast(t("t_contratado",{n:r.nome,r:pl(r.role)})+(r.improviso?t("t_improv"):""));
+    if(r.ok){toast(t("t_contratado",{n:r.nome,r:pl(r.role)})+(r.improviso?t("t_improv"):""));logDecisao({t:"contratar",mercadoIdx:pd.pi,slotIdx:i});}
   }
-  else if(pd.tipo==="banco"){Engine.escalarBanco(S.camp,pd.idx,i);}
-  else if(pd.tipo==="base"){Engine.escalarBase(S.camp,pd.p.id,i);}
+  else if(pd.tipo==="banco"){if(Engine.escalarBanco(S.camp,pd.idx,i).ok)logDecisao({t:"escalarBanco",bancoIdx:pd.idx,slotIdx:i});}
+  else if(pd.tipo==="base"){if(Engine.escalarBase(S.camp,pd.p.id,i).ok)logDecisao({t:"escalarBase",baseId:pd.p.id,slotIdx:i});}
   S.pend=null;S.sel=null;render();
 }
 function selSlot(i){if(S.pend){colocarEm(i);return}S.sel=(S.sel===i?null:i);render()}
 function mandarBanco(i){
   const r=Engine.mandarBanco(S.camp,i);
   if(!r.ok&&r.erro==="jovem"){toast(t("t_jovem"));return}
+  if(r.ok)logDecisao({t:"mandarBanco",slotIdx:i});
   S.sel=null;render();
 }
 function venderSlot(i){
   const r=Engine.vender(S.camp,i);
   if(!r.ok){if(r.erro==="base_nv")toast(t("t_base_nv"));return}
+  logDecisao({t:"vender",slotIdx:i});
   toast(t("t_vendido",{n:r.nome,v:fmtM(r.valor)}));S.sel=null;render();
 }
 function venderBanco(i){
   const r=Engine.venderBanco(S.camp,i);
-  if(r.ok)toast(t("t_vendido",{n:r.nome,v:fmtM(r.valor)}));
+  if(r.ok){logDecisao({t:"venderBanco",idx:i});toast(t("t_vendido",{n:r.nome,v:fmtM(r.valor)}));}
   render();
 }
 function setFormacao(f){
   const r=Engine.setFormacao(S.camp,f);
   if(!r.ok)return;
+  logDecisao({t:"formacao",f});
   S.pend=null;S.sel=null;render();
 }
-function setEstilo(e){Engine.setEstilo(S.camp,e);render()}
+function setEstilo(e){Engine.setEstilo(S.camp,e);logDecisao({t:"estilo",e});render()}
 /* ================= PARTIDA (UI sobre o motor) ================= */
 function startMatch(){
+  logDecisao({t:"jogar"});   // uma decisão por partida; o motor a re-simula no servidor
   const {sim,escalacao}=Engine.iniciarPartida(S.camp);
   S.sim=sim;S.pend=null;S.sel=null;
   S.sim.escalacaoMsgs=escalacao.map(narrarEscalacao);
@@ -328,6 +353,7 @@ function encerrarPartida(){
   S.screen="posjogo";render();
 }
 function eventoEscolha(aceita){
+  logDecisao({t:"evento",aceita});
   const r=Engine.aplicarEvento(S.camp,aceita);
   if(r.venda)toast(t("t_ass_ok",{n:r.venda.nome,v:fmtM(r.venda.valor)}));
   else if(r.recusouVenda)toast(t("t_ass_nao"));
@@ -336,21 +362,31 @@ function eventoEscolha(aceita){
   render();
 }
 /* pontuação e conquistas vivem no motor (Engine.calcScore / Engine.checarConquistas) */
+/* AUTO-VERIFICAÇÃO (Fase D): re-simula o log de decisões com o MESMO módulo que
+   o servidor usa (Replay) e confere que o score bate. Se divergir, o log está
+   bugado — marca replayOk=false para NÃO submeter (falha segura). */
+function autoVerificarReplay(c,sc){
+  try{
+    const r=Replay.replayCampanha({Engine,dados:dadosAtuais(),seed:c.seed,decisions:c.log||[]});
+    c.replayOk=!!(r.ok&&r.score===sc.total);
+    c.replayScore=r.ok?r.score:null;
+    if(!c.replayOk)console.error("[replay] log não reproduz o placar",{esperado:sc.total,replay:r});
+  }catch(e){c.replayOk=false;console.error("[replay] erro na auto-verificação",e)}
+  return c.replayOk;
+}
 async function finalizarCampanha(){
   const c=S.camp,sc=Engine.calcScore(c);
   c.score=sc;
+  if(c.mode==="diario")autoVerificarReplay(c,sc);
   const p=S.profile;
   p.jogos++;if(c.campeao)p.titulos++;if(sc.perfeito)p.perfeitos++;
   p.recorde=Math.max(p.recorde,sc.total);p.legado+=sc.total;
   c.novasConq=Engine.checarConquistas(c,p,sc);
   saveProfile();
-  if(S.storageOk&&p.nick){
-    if(c.mode==="diario"&&p.dailyFeito!==hojeStr()){
-      p.dailyFeito=hojeStr();saveProfile();
-      await pushRank("choque:dia:"+hojeStr(),sc,c);
-    }
-    if(c.mode==="duelo"&&c.roomCode)await pushRank("choque:sala:"+c.roomCode,sc,c);
-  }
+  // diário: envio é EXPLÍCITO na tela de fim (botão), pois pode exigir vínculo
+  // de e-mail e re-simulação no servidor. Aqui só zeramos o estado de envio.
+  if(c.mode==="diario")S.envio=null;
+  if(S.storageOk&&p.nick&&c.mode==="duelo"&&c.roomCode)await pushRank("choque:sala:"+c.roomCode,sc,c);
   S.screen="fim";render();
 }
 async function pushRank(key,sc,c){
@@ -361,7 +397,19 @@ async function pushRank(key,sc,c){
     await stSet(key,cur,true);
   }catch(e){}
 }
+// Relógio LOCAL do aparelho — só para o modo 100% local (sem backend/ranking).
+// O Desafio do Dia oficial NUNCA usa isto: o dia sai do servidor via diaAtual().
 function hojeStr(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")}
+// Dia OFICIAL do Desafio (America/Sao_Paulo), decidido pelo banco (view
+// current_daily) — nunca pelo relógio do aparelho. Cacheia em S.dia. Devolve a
+// data (YYYY-MM-DD) ou null se o desafio do dia ainda não abriu. Sem backend,
+// cai no relógio local (modo local não tem ranking compartilhado).
+async function diaAtual(){
+  if(!sb().habilitado)return hojeStr();
+  if(S.dia&&S.dia.date)return S.dia.date;
+  try{const d=await sb().desafioAtual();if(d){S.dia=d;return d.date}}catch(e){}
+  return null;
+}
 async function copiarShare(){
   try{await navigator.clipboard.writeText(shareText());toast(t("t_copiado"))}
   catch(e){toast(t("t_nao_copiou"))}
@@ -390,6 +438,7 @@ function render(){
   if(scr==="jogo")return renderJogo();
   if(scr==="posjogo")return renderPosjogo();
   if(scr==="fim")return renderFim();
+  if(scr==="vincular")return renderVincular();
   if(scr==="rankdia")return renderRankDia();
   if(scr==="sala")return renderSala();
   if(scr==="perfil")return renderPerfil();
@@ -404,7 +453,7 @@ function renderHome(){
      <p class="muted" style="margin-bottom:8px">${t("comoChamar")}</p>
      <input type="text" id="nick" maxlength="16" placeholder="${t("nickPh")}">
      <button class="btn gold" onclick="salvarNick()">${t("assinar")}</button></div>`;
-  const jaFez=p.dailyFeito===hojeStr();
+  const jaFez=p.dailyFeito===((S.dia&&S.dia.date)||hojeStr());   // rótulo cosmético; o dia oficial vem do servidor
   el().innerHTML=header()+nickBox+`
   <div class="panel hero">
     <div class="eyebrow">${t("hero_eb")}</div>
@@ -593,7 +642,7 @@ function renderFim(){
   const linhas=c.resultados.map(r=>`<tr><td>${t("fase_"+r.fase)}</td><td>${esc(r.opp)}</td><td><b>${r.gf}×${r.gs}</b>${r.pen?" <span class='muted'>p"+r.pen.pf+"-"+r.pen.pc+"</span>":""}</td></tr>`).join("");
   const nc=c.novasConq||[];
   const conq=nc.length?`<div class="evento"><h3>${t("cq_novas",{s:nc.length>1?"s":""})}</h3><p>${nc.map(id=>t("cq_"+id)).join(" · ")}</p></div>`:"";
-  const rk=c.mode==="diario"?`<button class="btn green" onclick="go('rankdia')">${t("b_rankdia2")}</button>`:
+  const rk=c.mode==="diario"?painelDia(c):
     c.mode==="duelo"?`<button class="btn green" onclick="verSalaAtual()">${t("b_sala2",{c:c.roomCode})}</button>`:"";
   el().innerHTML=header()+`
   <div class="pane center">
@@ -618,6 +667,117 @@ function renderFim(){
   window.scrollTo(0,0);
 }
 function verSalaAtual(){S.salaCode=S.camp.roomCode;S.screen="sala";render();carregarSala(S.salaCode)}
+/* ---------- Desafio do Dia: submissão ao ranking (Fase D) ---------- */
+// Painel de envio na tela de fim (só diário). Estado em S.envio.
+function painelDia(c){
+  const e=S.envio;
+  const status=!e?"":
+    e.fase==="enviando"?`<p class="muted pulse">${t("env_enviando")}</p>`:
+    e.fase==="ok"?`<p class="muted">${t("env_ok")}</p>`:
+    e.fase==="local"?`<p class="muted">${t("env_local")}</p>`:
+    e.fase==="erro"?`<p class="muted">${esc(e.msg||t("env_erro"))}</p>`:"";
+  const enviado=e&&(e.fase==="ok"||e.fase==="local");
+  const btn=enviado?`<button class="btn green" onclick="go('rankdia')">${t("b_rankdia2")}</button>`:
+    `<button class="btn green" onclick="submeterDiario()">${t("b_enviar_rank")}</button>`;
+  return status+btn;
+}
+// Submete o log ao servidor (que RE-SIMULA e pontua). Anônimo -> tela de vínculo.
+async function submeterDiario(){
+  const c=S.camp; if(!c||c.mode!=="diario")return;
+  if(!c.replayOk){toast(t("env_erro"));return}          // auto-verificação falhou: não envia
+  if(!sb().habilitado){                                  // sem backend: ranking local (fallback)
+    if(S.storageOk&&S.profile.nick){await pushRank("choque:dia:"+hojeStr(),c.score,c);}
+    S.profile.dailyFeito=hojeStr();saveProfile();S.envio={fase:"local"};render();return;
+  }
+  S.envio={fase:"enviando"};render();
+  // date := o dia que o servidor entregou (não o relógio local). Serve de guarda
+  // de virada: se já virou o dia em SP, o servidor responde 409 dia_virou.
+  const r=await sb().submeterDia({date:c.dia,decisions:c.log,clientVersion:BUILD_VERSION});
+  const cod=r.data&&r.data.erro;
+  if(r.ok){S.profile.dailyFeito=c.dia;saveProfile();S.envio={fase:"ok",best:r.data&&r.data.best};render();return}
+  if(r.status===403&&cod==="email_necessario"){irVincular();return}   // muro do ranking
+  if(r.status===409&&cod==="dia_virou"){S.envio={fase:"erro",msg:t("env_dia_virou")};render();return}
+  if(r.status===409){S.envio={fase:"erro",msg:t("env_versao")};render();return}
+  if(r.status===404){toast(t("dia_fechado"));S.envio=null;render();return}
+  S.envio={fase:"erro",msg:t("env_erro")};render();
+}
+// Fluxo de vínculo de e-mail por OTP (anônimo -> permanente).
+// Submissão pendente (persistida): o clique no link de confirmação RECARREGA o
+// app, então guardamos o log + payload p/ retomar no boot já como permanente.
+const PENDENTE_KEY="choque:dia:pendente";
+function guardarPendente(o){try{localStorage.setItem(PENDENTE_KEY,JSON.stringify(o))}catch(e){}}
+function lerPendente(){try{const r=localStorage.getItem(PENDENTE_KEY);return r?JSON.parse(r):null}catch(e){return null}}
+function limparPendente(){try{localStorage.removeItem(PENDENTE_KEY)}catch(e){}}
+
+function irVincular(){S.vinc={passo:"dados",email:"",apelido:S.profile.nick||S.profile.clubeNome||"",conflito:false,msg:""};S.screen="vincular";render()}
+function renderVincular(){
+  const v=S.vinc||{passo:"dados"};
+  const form=v.passo==="dados"?
+    `<input id="vEmail" type="email" placeholder="${t("vinc_email_ph")}" value="${esc(v.email||"")}">
+     <input id="vApelido" type="text" maxlength="20" placeholder="${t("vinc_apelido_ph")}" value="${esc(v.apelido||"")}">
+     <button class="btn gold" onclick="vincEnviarLink()">${t("vinc_enviar_link")}</button>`:
+    `<p class="muted">${t("vinc_link_enviado",{e:esc(v.email)})}</p>
+     ${v.conflito?`<p class="muted">⚠️ ${t("vinc_conflito")}</p>`:""}`;
+  el().innerHTML=header(`<button class="pill" onclick="go('fim')">${t("voltar")}</button>`)+`
+  <div class="panel"><div class="eyebrow">${t("vinc_titulo")}</div>
+  <p class="muted" style="margin-bottom:10px">${t("vinc_sub")}</p>
+  ${v.msg?`<p class="muted">${esc(v.msg)}</p>`:""}
+  ${form}</div>`;
+}
+// Envia o LINK de confirmação e guarda a submissão pendente. (Caminho ATIVO.)
+async function vincEnviarLink(){
+  const email=(document.getElementById("vEmail").value||"").trim();
+  const apelido=(document.getElementById("vApelido").value||"").trim();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){S.vinc.msg=t("vinc_email_inv");render();return}
+  if(apelido.length<2||apelido.length>20){S.vinc.msg=t("vinc_apelido_inv");render();return}
+  S.vinc.email=email;S.vinc.apelido=apelido;S.vinc.msg="";
+  const c=S.camp;
+  guardarPendente({date:c.dia,decisions:c.log,clientVersion:BUILD_VERSION,apelido,email,pts:c.score&&c.score.total});
+  try{await sb().vincularEmail(email);S.vinc.passo="enviado";S.vinc.conflito=false;}
+  catch(e){
+    if(e.codigo==="email_em_uso"){try{await sb().loginLink(email);S.vinc.passo="enviado";S.vinc.conflito=true;}catch(_){S.vinc.msg=t("env_erro");}}
+    else S.vinc.msg=t("env_erro");
+  }
+  render();
+}
+// (OTP DORMENTE: quando houver SMTP + template com {{ .Token }}, trocar o passo
+//  "enviado" por um input de 6 dígitos e chamar sb().confirmarEmailOTP /
+//  confirmarLoginOTP no submit, dispensando a retomada por reload.)
+
+// Retoma no boot a submissão pendente depois que o link confirmou (já permanente).
+async function retomarPendente(){
+  const pend=lerPendente();
+  if(!pend)return;
+  if(!sb().habilitado||await sb().ehAnonimo())return;          // link ainda não confirmou: mantém
+  const diaAgora=await diaAtual();                              // dia oficial (America/Sao_Paulo)
+  if(!diaAgora||pend.date!==diaAgora){limparPendente();return} // pendência de outro dia: descarta
+  let apel=pend.apelido,ok=false;
+  for(let i=0;i<3&&!ok;i++){
+    try{await sb().salvarPerfil({apelido:apel,email:pend.email,clube_coracao:S.profile.timeCoracao||null});ok=true;}
+    catch(e){
+      if(e.codigo==="apelido_em_uso"){apel=pend.apelido.slice(0,17)+Math.floor(Math.random()*90+10);}  // apelido de UI (não é RNG de campanha)
+      else{toast(t("env_erro"));return}
+    }
+  }
+  if(!ok){toast(t("vinc_apelido_uso"));return}
+  S.profile.nick=apel;saveProfile();
+  const r=await sb().submeterDia({date:pend.date,decisions:pend.decisions,clientVersion:pend.clientVersion});
+  if(r.ok){limparPendente();S.profile.dailyFeito=hojeStr();saveProfile();toast(t("env_ok"));S.screen="rankdia";render();carregarRankDia();return}
+  if(r.status===409){toast(t("env_versao"));return}
+  toast(t("env_erro"));
+}
+// Boot da sessão: adota a sessão do link (tokens no hash) e retoma o pendente;
+// senão garante uma sessão anônima para jogar sem fricção.
+async function bootSessao(){
+  if(!sb().habilitado)return;
+  const tok=SB.parseHashTokens(typeof location!=="undefined"?location.hash:"");
+  if(tok){
+    try{history.replaceState(null,"",location.pathname+location.search);}catch(e){}
+    if(tok.erro){toast(t("vinc_link_erro"));}
+    else{await sb().adotarTokens(tok).catch(()=>{});await retomarPendente();}
+  }
+  await sb().garantirSessao().catch(()=>{});
+}
 /* ---------- RANKINGS ---------- */
 function rankTable(entries){
   if(!entries||!entries.length)return `<p class="muted">${t("rank_vazio")}</p>`;
@@ -625,15 +785,25 @@ function rankTable(entries){
     `<tr class="${e.nick===S.profile.nick?'eu':''}"><td>${i+1}</td><td>${esc(e.nick)}</td><td><b>${e.pts}</b></td><td>${e.perf?"👑":e.campeao?"🏆":""}</td></tr>`).join("")}</table>`;
 }
 function renderRankDia(){
+  const d=(S.dia&&S.dia.date)||"…";   // o dia oficial chega via carregarRankDia (diaAtual)
   el().innerHTML=header(`<button class="pill" onclick="irHome()">${t("voltar")}</button>`)+`
-  <div class="panel"><div class="eyebrow">${t("rank_eb",{d:hojeStr()})}</div>
+  <div class="panel"><div class="eyebrow" id="rkEb">${t("rank_eb",{d})}</div>
   <p class="muted" style="margin-bottom:10px">${t("rank_p")}</p>
   <div id="rk"><p class="muted pulse">${t("carregando")}</p></div>
   <button class="btn gold" onclick="startDaily()">${t("b_jogar_hoje")}</button></div>`;
 }
 async function carregarRankDia(){
-  const d=await stGet("choque:dia:"+hojeStr(),true);
-  const box=document.getElementById("rk");if(box)box.innerHTML=rankTable(d?d.entries:null);
+  const box=document.getElementById("rk");
+  if(sb().habilitado){                       // ranking oficial pela view daily_ranking
+    const dia=await diaAtual();              // dia oficial (America/Sao_Paulo)
+    const eb=document.getElementById("rkEb");if(eb&&dia)eb.textContent=t("rank_eb",{d:dia});
+    if(!dia){if(box)box.innerHTML=`<p class="muted">${t("dia_fechado")}</p>`;return}
+    const rows=await sb().ranking(dia);
+    if(box)box.innerHTML=rankTable(rows.map(r=>({nick:r.apelido,pts:r.score})));
+    return;
+  }
+  const d=await stGet("choque:dia:"+hojeStr(),true);   // fallback local
+  if(box)box.innerHTML=rankTable(d?d.entries:null);
 }
 function renderSala(){
   el().innerHTML=header(`<button class="pill" onclick="irHome()">${t("voltar")}</button>`)+`
@@ -745,12 +915,23 @@ function startCampaign(mode,seedStr,roomCode,opts){
   opts=opts||{modo:"cont",nome:S.profile&&S.profile.clubeNome||""};
   const seed=seedStr||geraSeed();
   S.camp=Engine.criarCampanha(mode,seed,roomCode,opts,dadosAtuais());
+  if(mode==="diario")S.camp.log=[];   // grava as decisões p/ replay server-side
   S.screen="janela";S.sel=null;S.pend=null;render();
 }
 /* diário é sempre Continental (seed justa pra todo mundo); nome do time é o seu */
-function startDaily(){
-  if(S.profile.dailyFeito===hojeStr()&&!confirm(t("daily_replay")))return;
-  startCampaign("diario","dia-"+hojeStr(),null,{modo:"cont",nome:S.profile.clubeNome||""});
+async function startDaily(){
+  // O DIA e a seed vêm do servidor (banco decide em America/Sao_Paulo). O cliente
+  // NUNCA usa o relógio do aparelho para o Desafio do Dia (invariante do fuso).
+  let dia,seed;
+  if(sb().habilitado){
+    const d=await sb().desafioAtual();
+    if(!d){toast(t("dia_fechado"));return}   // desafio ainda não publicado (ou dia não abriu)
+    S.dia=d;dia=d.date;seed=d.seed;
+  }else{dia=hojeStr();seed="dia-"+dia}       // fallback 100% local (sem ranking): relógio local ok
+  if(S.profile.dailyFeito===dia&&!confirm(t("daily_replay")))return;
+  limparPendente();   // começa fresco: descarta qualquer vínculo pendente do dia
+  startCampaign("diario",seed,null,{modo:"cont",nome:S.profile.clubeNome||""});
+  if(S.camp)S.camp.dia=dia;   // carimba o dia jogado (usado na submissão e no pendente)
 }
 function criarSala(opts){
   const abc="ABCDEFGHJKMNPQRSTUVWXYZ";let code="";for(let i=0;i<5;i++)code+=abc[Math.floor(MR()*abc.length)];
@@ -776,7 +957,7 @@ function shareText(){
   const c=S.camp,sc=c.score;
   const em=c.resultados.map(r=>r.res==="V0"?"🟩":r.res==="V"?"🟨":r.res==="E"?"⬜":"🟥").join("");
   const st=sc.perfeito?t("sh_perf"):c.campeao?t("sh_camp"):c.eliminado?t("sh_elim",{f:t("fase_"+c.resultados[c.resultados.length-1].fase)}):"";
-  let modo=c.mode==="diario"?t("modo_dia",{d:hojeStr()}):c.mode==="duelo"?t("modo_duelo",{c:c.roomCode}):t("modo_livre");
+  let modo=c.mode==="diario"?t("modo_dia",{d:c.dia||hojeStr()}):c.mode==="duelo"?t("modo_duelo",{c:c.roomCode}):t("modo_livre");
   if(c.modo==="cora")modo=t("modo_cora")+" "+c.cora+" · "+modo;
   const nome="CHOQUE DE ERAS";
   return nome+" ⚽ "+modo+"\n"+t("share",{modo:"",clube:c.clube,st,em,pts:sc.total,m:sc.media,z:sc.zebra}).split("\n").slice(1).join("\n");
@@ -807,4 +988,7 @@ function renderLoading(){
   const rest=900-(Date.now()-t0);
   if(rest>0)await new Promise(r=>setTimeout(r,rest));
   render();
+  // adota sessão do link (volta do e-mail) e retoma o envio; senão sessão
+  // anônima no fundo, sem fricção (o muro é o ranking, não a porta).
+  await bootSessao();
 })();
