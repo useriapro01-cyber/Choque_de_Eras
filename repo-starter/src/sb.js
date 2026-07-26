@@ -165,11 +165,13 @@ export function criarSB({ fetchImpl, store, url, anon, now = () => Date.now() })
     return true;
   }
 
-  // seed OFICIAL do dia (leitura pública). null se o desafio ainda não abriu.
-  async function seedDoDia(date) {
-    const r = await req(`/rest/v1/daily_challenges?date=eq.${encodeURIComponent(date)}&select=seed`);
+  // Desafio CORRENTE: o BANCO decide qual é o dia (America/Sao_Paulo) pela view
+  // current_daily — o cliente NUNCA calcula "hoje" pelo relógio do aparelho
+  // (invariante do fuso). Devolve {date, seed} ou null se o dia ainda não abriu.
+  async function desafioAtual() {
+    const r = await req(`/rest/v1/current_daily?select=challenge_date,seed`);
     if (!r.ok || !Array.isArray(r.data) || !r.data.length) return null;
-    return r.data[0].seed;
+    return { date: r.data[0].challenge_date, seed: r.data[0].seed };
   }
   // ranking público (view daily_ranking): [{apelido, score, posicao}]
   async function ranking(date, limite = 50) {
@@ -191,7 +193,7 @@ export function criarSB({ fetchImpl, store, url, anon, now = () => Date.now() })
     garantirSessao, usuario, ehAnonimo, tokenValido,
     vincularEmail, loginLink, adotarTokens,          // fluxo por LINK (ativo)
     confirmarEmailOTP, confirmarLoginOTP,             // fluxo por OTP (dormente)
-    salvarPerfil, seedDoDia, ranking, submeterDia,
+    salvarPerfil, desafioAtual, ranking, submeterDia,
     _limpar: limpar, // testes/logout
   };
 }

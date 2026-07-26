@@ -96,6 +96,21 @@ test('link: adotarTokens busca o usuário e persiste sessão PERMANENTE', async 
   assert.ok((await store.get(SB_STORE_KEY)).includes('u9'), 'persistiu com o usuário');
 });
 
+test('desafio do dia: lê current_daily (o BANCO decide o dia em SP), nunca envia data do cliente', async () => {
+  const store = memStore(); let urlDesafio = null;
+  const fetchImpl = async (url) => {
+    if (url.includes('/auth/v1/signup')) return resp(200, sessao('at1', 'rt1'));
+    if (url.includes('/rest/v1/current_daily')) { urlDesafio = url; return resp(200, [{ challenge_date: '2026-07-26', seed: 'dia-2026-07-26' }]); }
+    return resp(404, {});
+  };
+  const sb = criarSB({ fetchImpl, store, url: 'https://x.supabase.co', anon: 'k', now: () => 1_700_000_000_000 });
+  await sb.garantirSessao();
+  const d = await sb.desafioAtual();
+  assert.deepEqual(d, { date: '2026-07-26', seed: 'dia-2026-07-26' });
+  assert.ok(urlDesafio.includes('/rest/v1/current_daily'), 'usa a view current_daily (dia decidido no banco)');
+  assert.ok(!/date=eq|challenge_date=eq/.test(urlDesafio), 'NUNCA filtra por data do cliente');
+});
+
 test('submissão: envia Bearer do token válido e REPASSA a resposta da Edge Function', async () => {
   const clock = { t: 1_700_000_000_000 }; const store = memStore(); let auth = null;
   const fetchImpl = async (url, opts) => {
