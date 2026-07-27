@@ -6,7 +6,7 @@ pt:{
  hero_eb:"7 jogos · o dado comanda o mercado",
  hero_h:'Monte a lenda.<br>Dome o dado.<br><span style="color:var(--ouro)">Glória Eterna.</span>',
  hero_p:"Seu clube de bairro caiu no torneio dos gigantes da América, contra os times que fizeram história no continente. Contrate quantos craques o caixa aguentar — mas cada contratação <b>embaralha o clube de referência</b> do mercado. Administre base, banco, lesões e vaidades atrás da <b>Campanha Imortal</b>: 7 vitórias, nenhum gol sofrido.",
- b_livre:"⚽ Campanha livre",b_dia:"📅 Desafio do dia",jaPontuado:"· já pontuado ✔",b_duelo:"🤝 Duelo entre amigos",b_rank:"🏅 Ranking do dia",b_ajuda:"📖 Como jogar",
+ b_livre:"⚽ Campanha livre",b_dia:"📅 Desafio do dia",jaPontuado:"· já pontuado ✔",b_duelo:"🤝 Duelo entre amigos",b_rank:"🏅 Ranking do dia",b_ajuda:"📖 Como jogar",em_breve:"· em breve",duelo_em_breve:"O Duelo entre amigos volta quando as salas rodarem no servidor (placar compartilhado de verdade, entre aparelhos). Por ora, jogue a Campanha livre e o Desafio do dia.",rank_so_local:"Somente neste aparelho — sem conexão com o ranking.",
  sem_storage:"⚠️ Sem conexão com o armazenamento: rankings e perfil não vão persistir nesta sessão.",
  footer:"GLÓRIA ETERNA · protótipo",toast_nick:"Digita um apelido aí, professor!",
  daily_replay:"Você já pontuou hoje. Jogar de novo só por diversão (não conta no ranking)?",
@@ -98,7 +98,7 @@ es:{
  hero_eb:"7 partidos · el dado maneja el mercado",
  hero_h:'Armá la leyenda.<br>Domá el dado.<br><span style="color:var(--ouro)">Gloria Eterna.</span>',
  hero_p:"Tu club de barrio cayó en el torneo de los gigantes de América, contra los equipos que hicieron historia en el continente. Fichá todos los cracks que aguante la caja — pero cada fichaje <b>sortea un nuevo club de referencia</b> en el mercado. Administrá cantera, banco, lesiones y egos detrás de la <b>Campaña Inmortal</b>: 7 victorias, ningún gol en contra.",
- b_livre:"⚽ Campaña libre",b_dia:"📅 Desafío del día",jaPontuado:"· ya puntuado ✔",b_duelo:"🤝 Duelo entre amigos",b_rank:"🏅 Ranking del día",b_ajuda:"📖 Cómo jugar",
+ b_livre:"⚽ Campaña libre",b_dia:"📅 Desafío del día",jaPontuado:"· ya puntuado ✔",b_duelo:"🤝 Duelo entre amigos",b_rank:"🏅 Ranking del día",b_ajuda:"📖 Cómo jugar",em_breve:"· pronto",duelo_em_breve:"El Duelo entre amigos vuelve cuando las salas corran en el servidor (marcador compartido de verdad, entre dispositivos). Por ahora, jugá la Campaña libre y el Desafío del día.",rank_so_local:"Solo en este dispositivo — sin conexión con el ranking.",
  sem_storage:"⚠️ Sin conexión con el almacenamiento: rankings y perfil no van a persistir en esta sesión.",
  footer:"GLORIA ETERNA · prototipo",toast_nick:"¡Poné un apodo, profe!",
  daily_replay:"Ya puntuaste hoy. ¿Jugar de nuevo solo por diversión (no cuenta pal ranking)?",
@@ -223,26 +223,32 @@ function noElenco(id){return Engine.noElenco(S.camp,id)}
    resultado, tique-a-tique ou instantâneo). Não logar ok:false (jogada inválida
    nunca acontece no cliente honesto). */
 function logDecisao(d){if(S.camp&&S.camp.mode==="diario"&&S.camp.log)S.camp.log.push(d)}
-/* ---------- storage / estado ---------- */
-async function stGet(k,shared){try{const r=await window.storage.get(k,!!shared);return r?JSON.parse(r.value):null}catch(e){return null}}
-async function stSet(k,v,shared){try{await window.storage.set(k,JSON.stringify(v),!!shared)}catch(e){}}
+/* ---------- storage / estado ----------
+   Persistência LOCAL do jogador vem do módulo Storage (src/storage.js, namespace
+   no bundle). Não há mais o storage global do artifact — dado cross-usuário vai ao
+   Supabase, nunca ao localStorage (ver cabeçalho de storage.js). Use Storage.st*. */
 /* ---------- Supabase (ranking do dia) ----------
    Cliente por fetch cru (namespace SB, bundle). Store em localStorage (síncrono,
    universal) p/ a sessão sobreviver a reloads. Sem anon key (SB_ANON vazia) o
    cliente fica desabilitado e TUDO cai no fallback local — o jogo nunca quebra. */
-const sbStore={get:async k=>{try{return localStorage.getItem(k)}catch(e){return null}},
-  set:async(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},
-  del:async k=>{try{localStorage.removeItem(k)}catch(e){}}};
+const sbStore={get:async k=>{try{return localStorage.getItem(k)}catch(e){console.warn("[sessao] falha ao ler sessão SB do localStorage",e);return null}},
+  set:async(k,v)=>{try{localStorage.setItem(k,v)}catch(e){console.warn("[sessao] falha ao gravar sessão SB no localStorage",e)}},
+  del:async k=>{try{localStorage.removeItem(k)}catch(e){console.warn("[sessao] falha ao apagar sessão SB do localStorage",e)}}};
 let _sb=null;
 function sb(){if(!_sb)_sb=SB.criarSB({fetchImpl:(u,o)=>fetch(u,o),store:sbStore,url:SB_URL,anon:SB_ANON});return _sb}
 const PROFILE_KEY="choque:perfil";
-let S={screen:"home",lang:"pt",profile:null,camp:null,sim:null,sel:null,pend:null,salaCode:null,storageOk:(typeof window!=="undefined"&&!!window.storage)};
+// Duelo (salas) fica TRAVADO até existir backend de salas no Supabase (TDMV-6).
+// Sem backend, "compartilhe o código com a galera" só funcionaria no mesmo
+// aparelho (localStorage) — promessa falsa, pior que não ter. Não exibir sala.
+const DUELO_HABILITADO=false;
+// storageOk é um PROBE REAL (escreve/lê/apaga sentinela), não um typeof.
+let S={screen:"home",lang:"pt",profile:null,camp:null,sim:null,sel:null,pend:null,salaCode:null,storageOk:Storage.storageDisponivel()};
 async function loadProfile(){
-  let p=await stGet(PROFILE_KEY,false);
+  let p=await Storage.stGet(PROFILE_KEY,false);
   if(!p)p={nick:"",lang:"pt",jogos:0,titulos:0,perfeitos:0,recorde:0,legado:0,conq:[],dailyFeito:""};
   S.profile=p;S.lang=p.lang||"pt";
 }
-function saveProfile(){S.profile.lang=S.lang;stSet(PROFILE_KEY,S.profile,false)}
+function saveProfile(){S.profile.lang=S.lang;Storage.stSet(PROFILE_KEY,S.profile,false)}
 function toggleLang(){S.lang=S.lang==="pt"?"es":"pt";saveProfile();render()}
 function toast(msg){const el=document.getElementById("toast");el.textContent=msg;el.classList.add("show");clearTimeout(el._to);el._to=setTimeout(()=>el.classList.remove("show"),2600)}
 function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
@@ -391,11 +397,11 @@ async function finalizarCampanha(){
 }
 async function pushRank(key,sc,c){
   try{
-    const cur=(await stGet(key,true))||{entries:[]};
+    const cur=(await Storage.stGet(key,true))||{entries:[]};
     cur.entries.push({nick:S.profile.nick,pts:sc.total,perf:sc.perfeito,campeao:c.campeao,fase:c.rodada,ts:Date.now()});
     cur.entries.sort((a,b)=>b.pts-a.pts);cur.entries=cur.entries.slice(0,50);
-    await stSet(key,cur,true);
-  }catch(e){}
+    await Storage.stSet(key,cur,true);
+  }catch(e){console.warn(`[storage] falha em pushRank(${key})`,e)}
 }
 // Relógio LOCAL do aparelho — só para o modo 100% local (sem backend/ranking).
 // O Desafio do Dia oficial NUNCA usa isto: o dia sai do servidor via diaAtual().
@@ -407,7 +413,7 @@ function hojeStr(){const d=new Date();return d.getFullYear()+"-"+String(d.getMon
 async function diaAtual(){
   if(!sb().habilitado)return hojeStr();
   if(S.dia&&S.dia.date)return S.dia.date;
-  try{const d=await sb().desafioAtual();if(d){S.dia=d;return d.date}}catch(e){}
+  try{const d=await sb().desafioAtual();if(d){S.dia=d;return d.date}}catch(e){console.warn("[sessao] falha ao buscar o desafio atual (current_daily)",e)}
   return null;
 }
 async function copiarShare(){
@@ -461,7 +467,9 @@ function renderHome(){
     <p>${t("hero_p")}</p>
     <button class="btn gold" onclick="abrirSetup('livre')">${t("b_livre")}</button>
     <button class="btn green" ${p.nick?"":"disabled"} onclick="startDaily()">${t("b_dia")} ${jaFez?t("jaPontuado"):""}</button>
-    <button class="btn green" ${p.nick?"":"disabled"} onclick="go('duelo')">${t("b_duelo")}</button>
+    ${DUELO_HABILITADO
+      ?`<button class="btn green" ${p.nick?"":"disabled"} onclick="go('duelo')">${t("b_duelo")}</button>`
+      :`<button class="btn green" disabled aria-disabled="true">${t("b_duelo")} ${t("em_breve")}</button>`}
     <div class="grid2">
       <button class="btn ghost" onclick="go('rankdia')">${t("b_rank")}</button>
       <button class="btn ghost" onclick="go('ajuda')">${t("b_ajuda")}</button>
@@ -472,8 +480,14 @@ function renderHome(){
 }
 function salvarNick(){const v=document.getElementById("nick").value.trim();if(!v){toast(t("toast_nick"));return}S.profile.nick=v;saveProfile();render()}
 function go(s){S.screen=s;render();if(s==="rankdia")carregarRankDia()}
-/* ---------- DUELO ---------- */
+/* ---------- DUELO (travado até TDMV-6: backend de salas no Supabase) ---------- */
 function renderDuelo(){
+  if(!DUELO_HABILITADO){   // sem backend de salas: nada de tela de código / entrada de sala
+    el().innerHTML=header(`<button class="pill" onclick="irHome()">${t("voltar")}</button>`)+`
+    <div class="panel"><div class="eyebrow">${t("b_duelo")} ${t("em_breve")}</div>
+    <p class="muted">${t("duelo_em_breve")}</p></div>`;
+    return;
+  }
   el().innerHTML=header(`<button class="pill" onclick="irHome()">${t("voltar")}</button>`)+`
   <div class="panel"><div class="eyebrow">${t("duelo_eb")}</div>
     <h2 style="margin-bottom:6px">${t("duelo_h")}</h2>
@@ -705,9 +719,9 @@ async function submeterDiario(){
 // Submissão pendente (persistida): o clique no link de confirmação RECARREGA o
 // app, então guardamos o log + payload p/ retomar no boot já como permanente.
 const PENDENTE_KEY="choque:dia:pendente";
-function guardarPendente(o){try{localStorage.setItem(PENDENTE_KEY,JSON.stringify(o))}catch(e){}}
-function lerPendente(){try{const r=localStorage.getItem(PENDENTE_KEY);return r?JSON.parse(r):null}catch(e){return null}}
-function limparPendente(){try{localStorage.removeItem(PENDENTE_KEY)}catch(e){}}
+function guardarPendente(o){try{localStorage.setItem(PENDENTE_KEY,JSON.stringify(o))}catch(e){console.warn("[storage] falha ao guardar submissão pendente",e)}}
+function lerPendente(){try{const r=localStorage.getItem(PENDENTE_KEY);return r?JSON.parse(r):null}catch(e){console.warn("[storage] falha ao ler submissão pendente",e);return null}}
+function limparPendente(){try{localStorage.removeItem(PENDENTE_KEY)}catch(e){console.warn("[storage] falha ao limpar submissão pendente",e)}}
 
 function irVincular(){S.vinc={passo:"dados",email:"",apelido:S.profile.nick||S.profile.clubeNome||"",conflito:false,msg:""};S.screen="vincular";render()}
 function renderVincular(){
@@ -735,7 +749,7 @@ async function vincEnviarLink(){
   guardarPendente({date:c.dia,decisions:c.log,clientVersion:BUILD_VERSION,apelido,email,pts:c.score&&c.score.total});
   try{await sb().vincularEmail(email);S.vinc.passo="enviado";S.vinc.conflito=false;}
   catch(e){
-    if(e.codigo==="email_em_uso"){try{await sb().loginLink(email);S.vinc.passo="enviado";S.vinc.conflito=true;}catch(_){S.vinc.msg=t("env_erro");}}
+    if(e.codigo==="email_em_uso"){try{await sb().loginLink(email);S.vinc.passo="enviado";S.vinc.conflito=true;}catch(err){console.warn("[sessao] falha ao enviar link de login (conflito de e-mail)",err);S.vinc.msg=t("env_erro");}}
     else S.vinc.msg=t("env_erro");
   }
   render();
@@ -774,9 +788,9 @@ async function bootSessao(){
   if(tok){
     try{history.replaceState(null,"",location.pathname+location.search);}catch(e){}
     if(tok.erro){toast(t("vinc_link_erro"));}
-    else{await sb().adotarTokens(tok).catch(()=>{});await retomarPendente();}
+    else{await sb().adotarTokens(tok).catch(e=>console.warn("[sessao] falha ao adotar tokens do link de e-mail",e));await retomarPendente();}
   }
-  await sb().garantirSessao().catch(()=>{});
+  await sb().garantirSessao().catch(e=>console.warn("[sessao] signup anônimo falhou — jogo segue local, ranking indisponível",e));
 }
 /* ---------- RANKINGS ---------- */
 function rankTable(entries){
@@ -802,8 +816,10 @@ async function carregarRankDia(){
     if(box)box.innerHTML=rankTable(rows.map(r=>({nick:r.apelido,pts:r.score})));
     return;
   }
-  const d=await stGet("choque:dia:"+hojeStr(),true);   // fallback local
-  if(box)box.innerHTML=rankTable(d?d.entries:null);
+  // Fallback SEM backend: isto é só o histórico DESTE aparelho, NUNCA um ranking
+  // global — rotular com honestidade para não parecer competição entre jogadores.
+  const d=await Storage.stGet("choque:dia:"+hojeStr(),true);
+  if(box)box.innerHTML=`<p class="muted">⚠️ ${t("rank_so_local")}</p>`+rankTable(d?d.entries:null);
 }
 function renderSala(){
   el().innerHTML=header(`<button class="pill" onclick="irHome()">${t("voltar")}</button>`)+`
@@ -813,7 +829,7 @@ function renderSala(){
   <button class="btn gold" onclick="startCampaign('duelo','sala-${esc(S.salaCode||"")}','${esc(S.salaCode||"")}')">${t("b_jogar_sala")}</button></div>`;
 }
 async function carregarSala(code){
-  const d=await stGet("choque:sala:"+code,true);
+  const d=await Storage.stGet("choque:sala:"+code,true);
   const box=document.getElementById("rk");
   if(box)box.innerHTML=d?rankTable(d.entries):`<p class="muted">${t("sala_nao")}</p>`;
 }
@@ -935,7 +951,7 @@ async function startDaily(){
 }
 function criarSala(opts){
   const abc="ABCDEFGHJKMNPQRSTUVWXYZ";let code="";for(let i=0;i<5;i++)code+=abc[Math.floor(MR()*abc.length)];
-  stSet("choque:sala:"+code,{criador:S.profile.nick,ts:Date.now(),entries:[],modo:opts&&opts.modo||"cont",cora:opts&&opts.cora||null},true);
+  Storage.stSet("choque:sala:"+code,{criador:S.profile.nick,ts:Date.now(),entries:[],modo:opts&&opts.modo||"cont",cora:opts&&opts.cora||null},true);
   toast(t("toast_sala",{c:code}));
   startCampaign("duelo","sala-"+code,code,opts);
 }
@@ -944,7 +960,7 @@ async function entrarSala(jogar){
   const code=(document.getElementById("codigo").value||"").trim().toUpperCase();
   if(code.length!==5){toast(t("toast_cod5"));return}
   if(jogar){
-    const rec=await stGet("choque:sala:"+code,true);
+    const rec=await Storage.stGet("choque:sala:"+code,true);
     const opts=rec?{modo:rec.modo||"cont",cora:rec.cora||null,nome:S.profile.clubeNome||""}:{modo:"cont",nome:S.profile.clubeNome||""};
     startCampaign("duelo","sala-"+code,code,opts);
   }else{S.salaCode=code;S.screen="sala";render();carregarSala(code)}
