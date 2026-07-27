@@ -10,5 +10,8 @@
     "pretest": "node scripts/build.mjs",
     "test": "node --test tests/",
     "dev": "node scripts/build.mjs && echo 'Pronto: abra dist/choque-de-eras.html no navegador'"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1"
   }
 }

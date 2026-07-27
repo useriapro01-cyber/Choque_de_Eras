@@ -20,7 +20,7 @@ function stubEl() {
   return el;
 }
 
-export function carregarMotor({ dist } = {}) {
+export function carregarMotor({ dist, store: storeExterno, localStorage: lsExterno } = {}) {
   const distPath = dist || path.join(ROOT, 'dist', 'index.html');
   const html = fs.readFileSync(distPath, 'utf8');
   const m = html.match(/<script>\n?"use strict";([\s\S]*?)<\/script>/);
@@ -48,12 +48,17 @@ export function carregarMotor({ dist } = {}) {
     render(){ return render(); },
     ativarRender(){ render = __render_real; },
     desativarRender(){ render = function(){}; },
+    // perfil: expostos p/ testar persistência através de "reload" (cargas separadas)
+    loadProfile: (typeof loadProfile === 'function') ? loadProfile : undefined,
+    saveProfile: (typeof saveProfile === 'function') ? saveProfile : undefined,
+    salvarNick: (typeof salvarNick === 'function') ? salvarNick : undefined,
   };
 })();`;
 
   // 3. sandbox com stubs de DOM/janela/timers.
   //    #app é um elemento que CAPTURA o innerHTML escrito pelo render (sweep).
-  const store = new Map();
+  // store compartilhável entre cargas (para simular "reload" com persistência).
+  const store = storeExterno || new Map();
   let appHTML = '';
   const appEl = Object.assign(stubEl(), {
     set innerHTML(v) { appHTML = String(v); },
@@ -78,13 +83,16 @@ export function carregarMotor({ dist } = {}) {
   sandbox.scrollTo = () => {};
   sandbox.confirm = () => true;
   sandbox.alert = () => {};
-  sandbox.localStorage = {
+  // localStorage headless (Web Storage API o bastante para src/storage.js): pode
+  // ser injetado (ex.: jsdom real, ou um que lança exceção) para testes de borda.
+  // NÃO há mais `window.storage` — era o shim de artifact que mascarava o bug.
+  sandbox.localStorage = lsExterno || {
     getItem: k => (store.has(k) ? store.get(k) : null),
-    setItem: (k, v) => store.set(k, String(v)), removeItem: k => store.delete(k),
-  };
-  sandbox.storage = {
-    get: async k => (store.has(k) ? { value: store.get(k) } : null),
-    set: async (k, v) => { store.set(k, v); },
+    setItem: (k, v) => store.set(k, String(v)),
+    removeItem: k => { store.delete(k); },
+    clear: () => store.clear(),
+    key: i => Array.from(store.keys())[i] ?? null,
+    get length() { return store.size; },
   };
 
   vm.createContext(sandbox);

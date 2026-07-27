@@ -48,7 +48,7 @@ export function criarSB({ fetchImpl, store, url, anon, now = () => Date.now() })
   async function carregar() {
     if (carregada) return sessao;
     try { const raw = await store.get(SB_STORE_KEY); sessao = raw ? JSON.parse(raw) : null; }
-    catch { sessao = null; }
+    catch (e) { console.warn('[sessao] falha ao carregar sessão persistida', e); sessao = null; }
     carregada = true; return sessao;
   }
   async function salvar(s) {
