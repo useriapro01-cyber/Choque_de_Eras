@@ -61,6 +61,9 @@ h1,h2,h3,.disp{font-family:'Archivo Black','Arial Black',sans-serif;font-weight:
 .spread{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .muted{color:var(--gelo2);font-size:.82rem}
 .pane .muted{color:var(--tinta2)}
+/* aviso vivo de limite de caractere: some quando vazio, sem pular o layout */
+.aviso-limite{color:var(--verm);font-size:.78rem;margin:4px 0 0;min-height:.9em}
+.aviso-limite:empty{margin:0;min-height:0}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 /* ---------- carteira / status bar ---------- */

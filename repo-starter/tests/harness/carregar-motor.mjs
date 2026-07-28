@@ -54,6 +54,10 @@ export function carregarMotor({ dist, store: storeExterno, localStorage: lsExter
     salvarNick: (typeof salvarNick === 'function') ? salvarNick : undefined,
     // submissão ao ranking: expostos p/ testar o try/catch/finally do envio.
     submeterDiario: (typeof submeterDiario === 'function') ? submeterDiario : undefined,
+    // validação de campos + i18n: expostos p/ testar limites/mensagens (email/apelido).
+    validarEmail: (typeof validarEmail === 'function') ? validarEmail : undefined,
+    irVincular: (typeof irVincular === 'function') ? irVincular : undefined,
+    t: (typeof t === 'function') ? t : undefined,
     // injeta um SB falso (mesma assinatura de criarSB) reatribuindo o sb() do bundle,
     // p/ dirigir o caminho de rede sem backend (fetch rejeitando, 403, etc.).
     setSbFake(fake){ sb = function(){ return fake; }; },
