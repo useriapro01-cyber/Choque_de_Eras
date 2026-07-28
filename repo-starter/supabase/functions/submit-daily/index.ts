@@ -17,6 +17,7 @@
 import { createClient } from 'npm:@supabase/supabase-js@2';
 import * as Engine from '../../../src/engine.js';
 import { submeterReplay } from '../../../src/replay.js';
+import { corsHeaders } from '../../../src/cors.js';
 import bruto from './_dados.json' with { type: 'json' };
 import versaoDoc from './_versao.json' with { type: 'json' };
 
@@ -35,11 +36,12 @@ const poolsIdioma = (nomes: any, lang: string) => ({
 });
 const DADOS = Engine.montarDados(bruto, poolsIdioma((bruto as any).nomes, 'pt'));
 
-const json = (status: number, body: unknown) =>
-  new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
+// Fábrica de resposta JSON com CORS embutido (recebe o helper json por parâmetro,
+// que já carrega os headers de CORS da origem daquela requisição).
+type Json = (status: number, body: unknown) => Response;
 
 // erro do replay (src/replay.js) → status HTTP + mensagem estável ao cliente.
-function erroParaResposta(r: any): Response {
+function erroParaResposta(r: any, json: Json): Response {
   switch (r.erro) {
     case 'versao_desatualizada':
       return json(409, { ok: false, erro: r.erro, mensagem: 'Nova versão do jogo. Recarregue a página para enviar sua pontuação.' });
@@ -58,18 +60,24 @@ function erroParaResposta(r: any): Response {
 }
 
 Deno.serve(async (req) => {
+  // CORS por requisição: origem EXPLÍCITA (allowlist em src/cors.js). O mesmo
+  // `cors` é espalhado em TODA resposta (200/4xx/5xx) — nunca falta num erro,
+  // senão o navegador esconde o erro do cliente e o envio trava em "Enviando...".
+  const cors = corsHeaders(req.headers.get('Origin'));
+  const json: Json = (status, body) =>
+    new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json', ...cors } });
+
+  // Preflight: o navegador manda OPTIONS SEM Authorization. Responde 204 + CORS
+  // ANTES de qualquer auth (por isso a função precisa de verify_jwt=false; ver
+  // supabase/config.toml — a plataforma deixaria de barrar, então autenticamos
+  // nós mesmos logo abaixo, com getUser()).
+  if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
   if (req.method !== 'POST') return json(405, { ok: false, erro: 'metodo' });
 
-  // 1. corpo — nunca contém score, seed nem profile_id
-  let body: any;
-  try { body = await req.json(); } catch { return json(400, { ok: false, erro: 'json_invalido' }); }
-  // O DIA é decidido pelo banco (America/Sao_Paulo), nunca pelo cliente. `date` é
-  // OPCIONAL e serve só de guarda de virada de dia (o cliente ecoa o dia que jogou).
-  const { date: bodyDate, decisions, clientVersion } = body ?? {};
-  if (bodyDate !== undefined && (typeof bodyDate !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(bodyDate)))
-    return json(400, { ok: false, erro: 'date_invalida' });
-
-  // 2. autenticação — profile_id := uid do JWT verificado (nunca do corpo)
+  // 1. AUTENTICAÇÃO PRIMEIRO — com verify_jwt=false a plataforma NÃO autentica
+  // mais; a responsabilidade é nossa. Valida o token ANTES de qualquer
+  // processamento e barra 401 se não houver usuário válido (endpoint jamais
+  // aberto). profile_id := uid do JWT, NUNCA do corpo.
   const authHeader = req.headers.get('Authorization') ?? '';
   const userClient = createClient(SUPABASE_URL, Deno.env.get('SUPABASE_ANON_KEY')!, {
     global: { headers: { Authorization: authHeader } },
@@ -78,10 +86,19 @@ Deno.serve(async (req) => {
   if (userErr || !userData?.user) return json(401, { ok: false, erro: 'unauthorized' });
   const profileId = userData.user.id;
 
-  // 2a. o muro do ranking: anônimo joga e vê, mas NÃO pontua. O cliente usa este
+  // 1a. o muro do ranking: anônimo joga e vê, mas NÃO pontua. O cliente usa este
   // erro para pedir o vínculo de e-mail (escada freemium). is_anonymous vira false
   // só após o OTP confirmar o e-mail — então isto também exige e-mail confirmado.
   if (userData.user.is_anonymous) return json(403, { ok: false, erro: 'email_necessario' });
+
+  // 2. corpo — nunca contém score, seed nem profile_id
+  let body: any;
+  try { body = await req.json(); } catch { return json(400, { ok: false, erro: 'json_invalido' }); }
+  // O DIA é decidido pelo banco (America/Sao_Paulo), nunca pelo cliente. `date` é
+  // OPCIONAL e serve só de guarda de virada de dia (o cliente ecoa o dia que jogou).
+  const { date: bodyDate, decisions, clientVersion } = body ?? {};
+  if (bodyDate !== undefined && (typeof bodyDate !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(bodyDate)))
+    return json(400, { ok: false, erro: 'date_invalida' });
 
   // cliente privilegiado (service_role): só para leitura de seed, rate limit e gravação
   const admin = createClient(SUPABASE_URL, SERVICE_ROLE, { auth: { persistSession: false } });
@@ -119,7 +136,7 @@ Deno.serve(async (req) => {
   } catch {
     return json(500, { ok: false, erro: 'erro_interno' }); // replay não deve lançar; se lançar, não vaza interno
   }
-  if (!resultado.ok) return erroParaResposta(resultado);
+  if (!resultado.ok) return erroParaResposta(resultado, json);
 
   // 7. gravar via service_role — "vale a melhor pontuação" (upsert best)
   //    NOTA de robustez: read-then-write tem corrida sob submissões simultâneas
