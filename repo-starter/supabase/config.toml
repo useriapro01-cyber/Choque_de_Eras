@@ -1,0 +1,15 @@
+# Config do projeto Supabase (CLI). Fonte de verdade versionada.
+# project_id = ref do projeto (público — já aparece na URL e em config.public.json).
+project_id = "gyyrumqcphdgqovyzlsk"
+
+# ----------------------------------------------------------------------------
+# Edge Function submit-daily — verify_jwt = FALSE (decisão TDMV-5 Fase D-cors)
+# ----------------------------------------------------------------------------
+# Com verify_jwt=true a plataforma barra o preflight CORS (OPTIONS vem SEM
+# Authorization) e nunca deixa a função responder os headers de Allow-*.
+# Desligamos a verificação DA PLATAFORMA e passamos a autenticar DENTRO da
+# função (getUser() logo após o OPTIONS, 401 se não houver usuário) — o
+# endpoint NÃO fica aberto. Deploy: `supabase functions deploy submit-daily`
+# lê este flag; belt-and-suspenders: `--no-verify-jwt` na linha de comando.
+[functions.submit-daily]
+verify_jwt = false

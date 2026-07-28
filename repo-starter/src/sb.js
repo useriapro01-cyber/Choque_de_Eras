@@ -61,11 +61,11 @@ export function criarSB({ fetchImpl, store, url, anon, now = () => Date.now() })
   async function limpar() { await salvar(null); }
 
   // --- HTTP ---
-  async function req(path, { method = 'GET', body, token, prefer } = {}) {
+  async function req(path, { method = 'GET', body, token, prefer, signal } = {}) {
     const headers = { apikey: anon, 'content-type': 'application/json' };
     if (token) headers.Authorization = 'Bearer ' + token;
     if (prefer) headers.Prefer = prefer;
-    const res = await fetchImpl(base + path, { method, headers, body: body ? JSON.stringify(body) : undefined });
+    const res = await fetchImpl(base + path, { method, headers, body: body ? JSON.stringify(body) : undefined, signal });
     let data = null; try { data = await res.json(); } catch { /* 204/sem corpo */ }
     return { ok: res.ok, status: res.status, data };
   }
@@ -182,10 +182,20 @@ export function criarSB({ fetchImpl, store, url, anon, now = () => Date.now() })
 
   // submete o Desafio do Dia à Edge Function (score é recalculado no servidor).
   // Devolve {ok, status, data}: o app mapeia 403 email_necessario / 409 versão / etc.
-  async function submeterDia({ date, decisions, clientVersion }) {
+  // TIMEOUT (AbortController): cold start da função pode demorar; sem teto, um
+  // fetch pendurado deixaria a UI presa em "Enviando...". Ao estourar, aborta e
+  // REJEITA — o app.js trata a rejeição (try/catch) e sai do estado de envio.
+  async function submeterDia({ date, decisions, clientVersion, timeoutMs = 15000 }) {
     const token = await tokenValido();
     if (!token) return { ok: false, status: 401, data: { erro: 'sem_sessao' } };
-    return req('/functions/v1/submit-daily', { method: 'POST', token, body: { date, decisions, clientVersion } });
+    const ac = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+    const timer = ac ? setTimeout(() => ac.abort(), timeoutMs) : null;
+    try {
+      return await req('/functions/v1/submit-daily', {
+        method: 'POST', token, signal: ac ? ac.signal : undefined,
+        body: { date, decisions, clientVersion },
+      });
+    } finally { if (timer) clearTimeout(timer); }
   }
 
   return {

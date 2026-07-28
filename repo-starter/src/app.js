@@ -51,7 +51,7 @@ pt:{
  rank_eb:"Ranking mundial · desafio de {d}",
  rank_p:"Todo mundo joga a mesma seed hoje: mesma base, mesmo mercado, mesmos adversários. Só a primeira campanha finalizada do dia pontua. O ranking é público entre jogadores.",
  rank_vazio:"Ninguém pontuou ainda. Seja o primeiro nome da súmula!",b_jogar_hoje:"Jogar o desafio de hoje",carregando:"Carregando súmula...",
- dia_fechado:"O desafio de hoje ainda não abriu.",b_enviar_rank:"🏅 Enviar ao ranking",env_enviando:"Enviando ao ranking...",env_ok:"✅ Pontuação enviada! Você está no ranking.",env_erro:"Não deu para enviar agora. Tente de novo.",env_versao:"Nova versão do jogo — recarregue a página.",env_dia_virou:"O desafio do dia virou (meia-noite de Brasília). Recarregue para jogar o de hoje.",env_local:"Ranking salvo neste aparelho.",
+ dia_fechado:"O desafio de hoje ainda não abriu.",b_enviar_rank:"🏅 Enviar ao ranking",env_enviando:"Enviando ao ranking...",env_ok:"✅ Pontuação enviada! Você está no ranking.",env_erro:"Não deu para enviar agora. Tente de novo.",env_rede:"Sem conexão com o ranking. Toque em enviar para tentar de novo.",env_versao:"Nova versão do jogo — recarregue a página.",env_dia_virou:"O desafio do dia virou (meia-noite de Brasília). Recarregue para jogar o de hoje.",env_local:"Ranking salvo neste aparelho.",
  vinc_titulo:"Entrar no ranking",vinc_sub:"Grátis. É só para valer no ranking — seu progresso é preservado.",vinc_email_ph:"seu@email.com",vinc_apelido_ph:"seu apelido no ranking",vinc_enviar_link:"Enviar link de confirmação",vinc_link_enviado:"📧 Enviamos um link de confirmação para {e}. Abra o e-mail, clique no link e volte ao jogo — você entra no ranking automaticamente.",vinc_link_erro:"Não deu para confirmar o e-mail. Tente vincular de novo.",vinc_conflito:"Esse e-mail já tem conta. Vamos entrar nela — o progresso desta sessão anônima NÃO será mesclado.",vinc_apelido_uso:"Esse apelido já está em uso. Escolha outro.",vinc_email_inv:"Digite um e-mail válido.",vinc_apelido_inv:"Apelido de 2 a 20 caracteres.",b_entrar_rank:"🏅 Entrar no ranking",
  sala_eb:"Duelo · sala",sala_p:"Compartilhe o código <b>{c}</b> com a galera. Mesma seed, placares públicos na sala.",
  sala_nao:"Sala não encontrada — confere o código ou crie uma nova.",b_jogar_sala:"Jogar nesta sala",buscando:"Buscando placar...",
@@ -143,7 +143,7 @@ es:{
  rank_eb:"Ranking mundial · desafío del {d}",
  rank_p:"Todos juegan la misma seed hoy: misma cantera, mismo mercado, mismos rivales. Solo la primera campaña terminada del día puntúa. El ranking es público entre jugadores.",
  rank_vazio:"Nadie puntuó todavía. ¡Sé el primer nombre de la planilla!",b_jogar_hoje:"Jugar el desafío de hoy",carregando:"Cargando planilla...",
- dia_fechado:"El desafío de hoy aún no abrió.",b_enviar_rank:"🏅 Enviar al ranking",env_enviando:"Enviando al ranking...",env_ok:"✅ ¡Puntuación enviada! Estás en el ranking.",env_erro:"No se pudo enviar ahora. Probá de nuevo.",env_versao:"Nueva versión del juego — recargá la página.",env_dia_virou:"El desafío del día cambió (medianoche de Brasilia). Recargá para jugar el de hoy.",env_local:"Ranking guardado en este dispositivo.",
+ dia_fechado:"El desafío de hoy aún no abrió.",b_enviar_rank:"🏅 Enviar al ranking",env_enviando:"Enviando al ranking...",env_ok:"✅ ¡Puntuación enviada! Estás en el ranking.",env_erro:"No se pudo enviar ahora. Probá de nuevo.",env_rede:"Sin conexión con el ranking. Tocá enviar para probar de nuevo.",env_versao:"Nueva versión del juego — recargá la página.",env_dia_virou:"El desafío del día cambió (medianoche de Brasilia). Recargá para jugar el de hoy.",env_local:"Ranking guardado en este dispositivo.",
  vinc_titulo:"Entrar al ranking",vinc_sub:"Gratis. Es solo para valer en el ranking — tu progreso se preserva.",vinc_email_ph:"tu@email.com",vinc_apelido_ph:"tu apodo en el ranking",vinc_enviar_link:"Enviar enlace de confirmación",vinc_link_enviado:"📧 Enviamos un enlace de confirmación a {e}. Abrí el e-mail, hacé clic en el enlace y volvé al juego — entrás al ranking automáticamente.",vinc_link_erro:"No se pudo confirmar el e-mail. Probá vincular de nuevo.",vinc_conflito:"Ese e-mail ya tiene cuenta. Vamos a entrar en ella — el progreso de esta sesión anónima NO se fusiona.",vinc_apelido_uso:"Ese apodo ya está en uso. Elegí otro.",vinc_email_inv:"Escribí un e-mail válido.",vinc_apelido_inv:"Apodo de 2 a 20 caracteres.",b_entrar_rank:"🏅 Entrar al ranking",
  sala_eb:"Duelo · sala",sala_p:"Compartí el código <b>{c}</b> con la banda. Misma seed, marcadores públicos en la sala.",
  sala_nao:"Sala no encontrada — revisá el código o creá una nueva.",b_jogar_sala:"Jugar en esta sala",buscando:"Buscando marcador...",
@@ -704,16 +704,28 @@ async function submeterDiario(){
     S.profile.dailyFeito=hojeStr();saveProfile();S.envio={fase:"local"};render();return;
   }
   S.envio={fase:"enviando"};render();
-  // date := o dia que o servidor entregou (não o relógio local). Serve de guarda
-  // de virada: se já virou o dia em SP, o servidor responde 409 dia_virou.
-  const r=await sb().submeterDia({date:c.dia,decisions:c.log,clientVersion:BUILD_VERSION});
-  const cod=r.data&&r.data.erro;
-  if(r.ok){S.profile.dailyFeito=c.dia;saveProfile();S.envio={fase:"ok",best:r.data&&r.data.best};render();return}
-  if(r.status===403&&cod==="email_necessario"){irVincular();return}   // muro do ranking
-  if(r.status===409&&cod==="dia_virou"){S.envio={fase:"erro",msg:t("env_dia_virou")};render();return}
-  if(r.status===409){S.envio={fase:"erro",msg:t("env_versao")};render();return}
-  if(r.status===404){toast(t("dia_fechado"));S.envio=null;render();return}
-  S.envio={fase:"erro",msg:t("env_erro")};render();
+  // try/catch/finally: a rejeição do fetch (CORS/rede/timeout) é UM PASSO antes do
+  // res.json() — sem catch, o estado ficava preso em "enviando" para sempre. O
+  // finally garante SAIR de "enviando" em qualquer caminho. NÃO tocamos a
+  // submissão pendente do Local Storage aqui (o botão continua permitindo retentar).
+  try{
+    // date := o dia que o servidor entregou (não o relógio local). Serve de guarda
+    // de virada: se já virou o dia em SP, o servidor responde 409 dia_virou.
+    const r=await sb().submeterDia({date:c.dia,decisions:c.log,clientVersion:BUILD_VERSION});
+    const cod=r.data&&r.data.erro;
+    if(r.ok){S.profile.dailyFeito=c.dia;saveProfile();S.envio={fase:"ok",best:r.data&&r.data.best};render();return}
+    if(r.status===403&&cod==="email_necessario"){S.envio=null;irVincular();return}   // muro do ranking (irVincular renderiza)
+    if(r.status===409&&cod==="dia_virou"){S.envio={fase:"erro",msg:t("env_dia_virou")};render();return}
+    if(r.status===409){S.envio={fase:"erro",msg:t("env_versao")};render();return}
+    if(r.status===404){toast(t("dia_fechado"));S.envio=null;render();return}
+    S.envio={fase:"erro",msg:t("env_erro")};render();return;
+  }catch(e){
+    console.error("[ranking] falha de rede ao enviar ao ranking",e);
+    S.envio={fase:"erro",msg:t("env_rede")};render();
+  }finally{
+    // rede de segurança: qualquer caminho que tenha escapado sem sair de "enviando".
+    if(S.envio&&S.envio.fase==="enviando"){S.envio={fase:"erro",msg:t("env_rede")};render();}
+  }
 }
 // Fluxo de vínculo de e-mail por OTP (anônimo -> permanente).
 // Submissão pendente (persistida): o clique no link de confirmação RECARREGA o
