@@ -52,7 +52,7 @@ pt:{
  rank_p:"Todo mundo joga a mesma seed hoje: mesma base, mesmo mercado, mesmos adversários. Só a primeira campanha finalizada do dia pontua. O ranking é público entre jogadores.",
  rank_vazio:"Ninguém pontuou ainda. Seja o primeiro nome da súmula!",b_jogar_hoje:"Jogar o desafio de hoje",carregando:"Carregando súmula...",
  dia_fechado:"O desafio de hoje ainda não abriu.",b_enviar_rank:"🏅 Enviar ao ranking",env_enviando:"Enviando ao ranking...",env_ok:"✅ Pontuação enviada! Você está no ranking.",env_erro:"Não deu para enviar agora. Tente de novo.",env_rede:"Sem conexão com o ranking. Toque em enviar para tentar de novo.",env_versao:"Nova versão do jogo — recarregue a página.",env_dia_virou:"O desafio do dia virou (meia-noite de Brasília). Recarregue para jogar o de hoje.",env_local:"Ranking salvo neste aparelho.",
- vinc_titulo:"Entrar no ranking",vinc_sub:"Grátis. É só para valer no ranking — seu progresso é preservado.",vinc_email_ph:"seu@email.com",vinc_apelido_ph:"seu apelido no ranking",vinc_enviar_link:"Enviar link de confirmação",vinc_link_enviado:"📧 Enviamos um link de confirmação para {e}. Abra o e-mail, clique no link e volte ao jogo — você entra no ranking automaticamente.",vinc_link_erro:"Não deu para confirmar o e-mail. Tente vincular de novo.",vinc_conflito:"Esse e-mail já tem conta. Vamos entrar nela — o progresso desta sessão anônima NÃO será mesclado.",vinc_apelido_uso:"Esse apelido já está em uso. Escolha outro.",vinc_email_inv:"Digite um e-mail válido.",vinc_apelido_inv:"Apelido de 2 a 20 caracteres.",b_entrar_rank:"🏅 Entrar no ranking",
+ vinc_titulo:"Entrar no ranking",vinc_sub:"Grátis. É só para valer no ranking — seu progresso é preservado.",vinc_email_ph:"seu@email.com",vinc_apelido_ph:"seu apelido no ranking",vinc_enviar_link:"Enviar link de confirmação",vinc_link_enviado:"📧 Enviamos um link de confirmação para {e}. Abra o e-mail, clique no link e volte ao jogo — você entra no ranking automaticamente.",vinc_link_erro:"Não deu para confirmar o e-mail. Tente vincular de novo.",vinc_conflito:"Esse e-mail já tem conta. Vamos entrar nela — o progresso desta sessão anônima NÃO será mesclado.",vinc_apelido_uso:"Esse apelido já está em uso. Escolha outro.",vinc_email_inv:"Digite um e-mail válido.",vinc_email_longo:"E-mail longo demais (máximo 254 caracteres).",vinc_apelido_inv:"Apelido de 2 a 20 caracteres.",vinc_apelido_longo:"Apelido: no máximo 20 caracteres.",b_entrar_rank:"🏅 Entrar no ranking",
  sala_eb:"Duelo · sala",sala_p:"Compartilhe o código <b>{c}</b> com a galera. Mesma seed, placares públicos na sala.",
  sala_nao:"Sala não encontrada — confere o código ou crie uma nova.",b_jogar_sala:"Jogar nesta sala",buscando:"Buscando placar...",
  perfil_eb:"Carteirinha de técnico(a)",sem_nome:"Sem nome",p_camp:"Campanhas",p_tit:"Títulos da América",p_imort:"Campanhas imortais",p_rec:"Recorde de pontos",p_leg:"Legado (pontos acumulados)",trofeus:"Sala de troféus",
@@ -144,7 +144,7 @@ es:{
  rank_p:"Todos juegan la misma seed hoy: misma cantera, mismo mercado, mismos rivales. Solo la primera campaña terminada del día puntúa. El ranking es público entre jugadores.",
  rank_vazio:"Nadie puntuó todavía. ¡Sé el primer nombre de la planilla!",b_jogar_hoje:"Jugar el desafío de hoy",carregando:"Cargando planilla...",
  dia_fechado:"El desafío de hoy aún no abrió.",b_enviar_rank:"🏅 Enviar al ranking",env_enviando:"Enviando al ranking...",env_ok:"✅ ¡Puntuación enviada! Estás en el ranking.",env_erro:"No se pudo enviar ahora. Probá de nuevo.",env_rede:"Sin conexión con el ranking. Tocá enviar para probar de nuevo.",env_versao:"Nueva versión del juego — recargá la página.",env_dia_virou:"El desafío del día cambió (medianoche de Brasilia). Recargá para jugar el de hoy.",env_local:"Ranking guardado en este dispositivo.",
- vinc_titulo:"Entrar al ranking",vinc_sub:"Gratis. Es solo para valer en el ranking — tu progreso se preserva.",vinc_email_ph:"tu@email.com",vinc_apelido_ph:"tu apodo en el ranking",vinc_enviar_link:"Enviar enlace de confirmación",vinc_link_enviado:"📧 Enviamos un enlace de confirmación a {e}. Abrí el e-mail, hacé clic en el enlace y volvé al juego — entrás al ranking automáticamente.",vinc_link_erro:"No se pudo confirmar el e-mail. Probá vincular de nuevo.",vinc_conflito:"Ese e-mail ya tiene cuenta. Vamos a entrar en ella — el progreso de esta sesión anónima NO se fusiona.",vinc_apelido_uso:"Ese apodo ya está en uso. Elegí otro.",vinc_email_inv:"Escribí un e-mail válido.",vinc_apelido_inv:"Apodo de 2 a 20 caracteres.",b_entrar_rank:"🏅 Entrar al ranking",
+ vinc_titulo:"Entrar al ranking",vinc_sub:"Gratis. Es solo para valer en el ranking — tu progreso se preserva.",vinc_email_ph:"tu@email.com",vinc_apelido_ph:"tu apodo en el ranking",vinc_enviar_link:"Enviar enlace de confirmación",vinc_link_enviado:"📧 Enviamos un enlace de confirmación a {e}. Abrí el e-mail, hacé clic en el enlace y volvé al juego — entrás al ranking automáticamente.",vinc_link_erro:"No se pudo confirmar el e-mail. Probá vincular de nuevo.",vinc_conflito:"Ese e-mail ya tiene cuenta. Vamos a entrar en ella — el progreso de esta sesión anónima NO se fusiona.",vinc_apelido_uso:"Ese apodo ya está en uso. Elegí otro.",vinc_email_inv:"Escribí un e-mail válido.",vinc_email_longo:"E-mail demasiado largo (máximo 254 caracteres).",vinc_apelido_inv:"Apodo de 2 a 20 caracteres.",vinc_apelido_longo:"Apodo: máximo 20 caracteres.",b_entrar_rank:"🏅 Entrar al ranking",
  sala_eb:"Duelo · sala",sala_p:"Compartí el código <b>{c}</b> con la banda. Misma seed, marcadores públicos en la sala.",
  sala_nao:"Sala no encontrada — revisá el código o creá una nueva.",b_jogar_sala:"Jugar en esta sala",buscando:"Buscando marcador...",
  perfil_eb:"Carnet de DT",sem_nome:"Sin nombre",p_camp:"Campañas",p_tit:"Títulos de América",p_imort:"Campañas inmortales",p_rec:"Récord de puntos",p_leg:"Legado (puntos acumulados)",trofeus:"Sala de trofeos",
@@ -457,7 +457,8 @@ function renderHome(){
     `<div class="spread" style="margin-bottom:10px"><span class="muted">${t("tec_label")} <b style="color:var(--ouro)">${esc(p.nick)}</b></span><button class="pill" onclick="go('perfil')">${t("card")}</button></div>`:
     `<div class="panel"><div class="eyebrow">${t("antes")}</div>
      <p class="muted" style="margin-bottom:8px">${t("comoChamar")}</p>
-     <input type="text" id="nick" maxlength="16" placeholder="${t("nickPh")}">
+     <input type="text" id="nick" maxlength="20" placeholder="${t("nickPh")}" oninput="avisoLimite(this,'nickAviso',20,'vinc_apelido_longo')">
+     <p id="nickAviso" class="muted aviso-limite"></p>
      <button class="btn gold" onclick="salvarNick()">${t("assinar")}</button></div>`;
   const jaFez=p.dailyFeito===((S.dia&&S.dia.date)||hojeStr());   // rótulo cosmético; o dia oficial vem do servidor
   el().innerHTML=header()+nickBox+`
@@ -478,7 +479,9 @@ function renderHome(){
   ${S.storageOk?"":`<div class="panel"><p class="muted">${t("sem_storage")}</p></div>`}
   <div class="footer">${t("footer")}</div>`;
 }
-function salvarNick(){const v=document.getElementById("nick").value.trim();if(!v){toast(t("toast_nick"));return}S.profile.nick=v;saveProfile();render()}
+// nick == apelido: teto de 20 alinhado com o vínculo e o CHECK do banco (2-20).
+// Exibição de um nick já salvo (label na home) nunca trunca — só a CRIAÇÃO limita.
+function salvarNick(){const v=document.getElementById("nick").value.trim();if(!v){toast(t("toast_nick"));return}if(v.length>APELIDO_MAX){toast(t("vinc_apelido_longo"));return}S.profile.nick=v;saveProfile();render()}
 function go(s){S.screen=s;render();if(s==="rankdia")carregarRankDia()}
 /* ---------- DUELO (travado até TDMV-6: backend de salas no Supabase) ---------- */
 function renderDuelo(){
@@ -735,12 +738,34 @@ function guardarPendente(o){try{localStorage.setItem(PENDENTE_KEY,JSON.stringify
 function lerPendente(){try{const r=localStorage.getItem(PENDENTE_KEY);return r?JSON.parse(r):null}catch(e){console.warn("[storage] falha ao ler submissão pendente",e);return null}}
 function limparPendente(){try{localStorage.removeItem(PENDENTE_KEY)}catch(e){console.warn("[storage] falha ao limpar submissão pendente",e)}}
 
-function irVincular(){S.vinc={passo:"dados",email:"",apelido:S.profile.nick||S.profile.clubeNome||"",conflito:false,msg:""};S.screen="vincular";render()}
+// EMAIL_MAX = 254 (RFC 5321, tamanho máximo de um endereço). É o teto do input,
+// da validação e do banco (migration 005) — o mesmo número na pilha inteira.
+const EMAIL_MAX=254, APELIDO_MAX=20;
+// Prefill do apelido: TRUNCA em APELIDO_MAX. Sem isso, um nome de time longo (até
+// 26 chars) prefilava um campo com maxlength=20 já ACIMA do limite — o usuário
+// não conseguia digitar e nada avisava (limite mudo).
+function irVincular(){S.vinc={passo:"dados",email:"",apelido:(S.profile.nick||S.profile.clubeNome||"").slice(0,APELIDO_MAX),conflito:false,msg:""};S.screen="vincular";render()}
+// Validação pura do e-mail (testável): tamanho ANTES do formato. Devolve a CHAVE
+// de i18n do erro (ou null). Mesmo teto do input e do banco — nada de silêncio.
+function validarEmail(email){
+  const e=(email||"").trim();
+  if(e.length>EMAIL_MAX) return "vinc_email_longo";
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e)) return "vinc_email_inv";
+  return null;
+}
+// Aviso VIVO ao bater o limite de um campo: escreve direto no elemento de aviso
+// (sem re-render, preserva foco/cursor). Converte o maxlength MUDO em mensagem.
+function avisoLimite(inp,avisoId,max,chave){
+  const a=document.getElementById(avisoId); if(!a)return;
+  a.textContent=(inp.value.length>=max)?t(chave):"";
+}
 function renderVincular(){
   const v=S.vinc||{passo:"dados"};
   const form=v.passo==="dados"?
-    `<input id="vEmail" type="email" placeholder="${t("vinc_email_ph")}" value="${esc(v.email||"")}">
-     <input id="vApelido" type="text" maxlength="20" placeholder="${t("vinc_apelido_ph")}" value="${esc(v.apelido||"")}">
+    `<input id="vEmail" type="email" maxlength="254" placeholder="${t("vinc_email_ph")}" value="${esc(v.email||"")}" oninput="avisoLimite(this,'vEmailAviso',254,'vinc_email_longo')">
+     <p id="vEmailAviso" class="muted aviso-limite"></p>
+     <input id="vApelido" type="text" maxlength="20" placeholder="${t("vinc_apelido_ph")}" value="${esc(v.apelido||"")}" oninput="avisoLimite(this,'vApelidoAviso',20,'vinc_apelido_longo')">
+     <p id="vApelidoAviso" class="muted aviso-limite"></p>
      <button class="btn gold" onclick="vincEnviarLink()">${t("vinc_enviar_link")}</button>`:
     `<p class="muted">${t("vinc_link_enviado",{e:esc(v.email)})}</p>
      ${v.conflito?`<p class="muted">⚠️ ${t("vinc_conflito")}</p>`:""}`;
@@ -754,8 +779,10 @@ function renderVincular(){
 async function vincEnviarLink(){
   const email=(document.getElementById("vEmail").value||"").trim();
   const apelido=(document.getElementById("vApelido").value||"").trim();
-  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){S.vinc.msg=t("vinc_email_inv");render();return}
-  if(apelido.length<2||apelido.length>20){S.vinc.msg=t("vinc_apelido_inv");render();return}
+  const eErro=validarEmail(email);                                    // valida ANTES do Supabase
+  if(eErro){S.vinc.msg=t(eErro);render();return}
+  if(apelido.length<2){S.vinc.msg=t("vinc_apelido_inv");render();return}
+  if(apelido.length>APELIDO_MAX){S.vinc.msg=t("vinc_apelido_longo");render();return}
   S.vinc.email=email;S.vinc.apelido=apelido;S.vinc.msg="";
   const c=S.camp;
   guardarPendente({date:c.dia,decisions:c.log,clientVersion:BUILD_VERSION,apelido,email,pts:c.score&&c.score.total});
@@ -888,7 +915,7 @@ Object.assign(I18N.pt,{
  setup_eb:"Nova campanha",setup_modo:"Escolha seu caminho",
  modo_cont:"🌎 Continental",modo_cont_d:"lendas de toda a América no dado",
  modo_cora:"Meu Clube",modo_cora_d:"só as eras do time da sua vida",
- setup_nome:"Nome do seu time",setup_nome_ph:"deixe vazio para sortear um",
+ setup_nome:"Nome do seu time",setup_nome_ph:"deixe vazio para sortear um",setup_nome_longo:"Nome do time: no máximo 26 caracteres.",
  b_comecar:"🎺 Começar campanha",escolha_clube:"Escolha um clube",
  tier_D:"ERA DOURADA",tier_S:"ERA SÓLIDA",tier_R:"SOFRÊNCIA",
  cq_redencao:"Redenção",cqd_redencao:"Seja campeão com gol de um jogador vindo da Sofrência",
@@ -902,7 +929,7 @@ Object.assign(I18N.es,{
  setup_eb:"Nueva campaña",setup_modo:"Elegí tu camino",
  modo_cont:"🌎 Continental",modo_cont_d:"leyendas de toda América en el dado",
  modo_cora:"Mi Club",modo_cora_d:"solo las eras del club de tu vida",
- setup_nome:"Nombre de tu equipo",setup_nome_ph:"vacío = sorteamos uno",
+ setup_nome:"Nombre de tu equipo",setup_nome_ph:"vacío = sorteamos uno",setup_nome_longo:"Nombre del equipo: máximo 26 caracteres.",
  b_comecar:"🎺 Arrancar campaña",escolha_clube:"Elegí un club",
  tier_D:"ERA DORADA",tier_S:"ERA SÓLIDA",tier_R:"AÑOS DE MUFA",
  cq_redencao:"Redención",cqd_redencao:"Salí campeón con gol de un jugador de los Años de Mufa",
@@ -926,7 +953,8 @@ function renderSetup(){
     <div class="eyebrow" style="margin-top:14px">❤️ ${t("modo_cora")} — ${t("escolha_clube")}</div>
     ${CORA_CLUBES.map(([c,cor])=>`<button class="clubchip ${sel.modo==="cora"&&sel.cora===c?"on":""}" onclick="setSetupModo('cora','${c}')"><span class="cor" style="background:${cor}"></span><span>${flagClube(c)} ${c}<small>${t("modo_cora_d")}</small></span></button>`).join("")}
     <div class="eyebrow" style="margin-top:16px">${t("setup_nome")}</div>
-    <input type="text" id="nomeTime" maxlength="26" placeholder="${t("setup_nome_ph")}" value="${esc(S.profile.clubeNome||"")}">
+    <input type="text" id="nomeTime" maxlength="26" placeholder="${t("setup_nome_ph")}" value="${esc(S.profile.clubeNome||"")}" oninput="avisoLimite(this,'nomeTimeAviso',26,'setup_nome_longo')">
+    <p id="nomeTimeAviso" class="muted aviso-limite"></p>
     <button class="btn gold" onclick="confirmarSetup()">${S.setupCtx==="duelo"?t("b_criarsala"):t("b_comecar")}</button>
   </div>`;
 }
