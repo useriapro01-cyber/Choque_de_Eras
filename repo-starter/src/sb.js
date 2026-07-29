@@ -36,6 +36,26 @@ export function parseHashTokens(hash) {
   };
 }
 
+// Classifica o RETORNO de um link de e-mail (puro/testável). Fluxo implícito:
+// tokens vêm no HASH (#access_token). Cobrimos também a QUERY (?error / ?code)
+// só DEFENSIVAMENTE — este cliente é fetch cru, sem PKCE (ver CLAUDE.md); um
+// ?code não tem como ser trocado aqui, então é reportado, nunca engolido.
+// Devolve: {tipo:'tokens',tok} | {tipo:'erro',erro} | {tipo:'code'}
+//        | {tipo:'ilegivel',chaves} | {tipo:'nenhum'}
+export function classificarRetorno(hash, search) {
+  const tok = parseHashTokens(hash);
+  if (tok && tok.access_token) return { tipo: 'tokens', tok };
+  if (tok && tok.erro) return { tipo: 'erro', erro: tok.erro };
+  const q = new URLSearchParams((search || '').replace(/^\?/, ''));
+  if (q.get('error') || q.get('error_description')) return { tipo: 'erro', erro: q.get('error_description') || q.get('error') };
+  if (q.get('code')) return { tipo: 'code' };
+  // hash/query tinham conteúdo mas nada reconhecível? não pode passar mudo.
+  const h = new URLSearchParams((hash || '').replace(/^#/, ''));
+  const chaves = [...new Set([...h.keys(), ...q.keys()])];
+  if (chaves.length) return { tipo: 'ilegivel', chaves };
+  return { tipo: 'nenhum' };
+}
+
 // store: { get(k)->Promise<string|null>, set(k,v)->Promise, del(k)->Promise }
 export function criarSB({ fetchImpl, store, url, anon, now = () => Date.now() }) {
   if (!url || !anon) return { habilitado: false }; // sem config: ranking desligado, jogo segue local
@@ -134,7 +154,10 @@ export function criarSB({ fetchImpl, store, url, anon, now = () => Date.now() })
       expires_at: tok.expires_at || (tok.expires_in ? nowS() + tok.expires_in : nowS() + 3600),
     };
     const r = await req('/auth/v1/user', { token: s.access_token });
-    if (!r.ok || !r.data || !r.data.id) return null;
+    if (!r.ok || !r.data || !r.data.id) {
+      console.warn('[sessao] /auth/v1/user recusou o token do link', { status: r.status });
+      return null; // não vira sessão — o app trata (mensagem visível), nunca em silêncio
+    }
     s.user = r.data;
     return salvar(s);
   }

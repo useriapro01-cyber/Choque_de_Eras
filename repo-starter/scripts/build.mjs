@@ -76,7 +76,11 @@ const cfgPub = fs.existsSync(path.join(ROOT, 'config.public.json'))
   ? lerJson(path.join(ROOT, 'config.public.json')) : {};
 const sbUrl = process.env.SUPABASE_URL || cfgPub.supabaseUrl || '';
 const sbAnon = process.env.SUPABASE_ANON_KEY || cfgPub.supabaseAnonKey || '';
-const configBlock = `const SB_URL=${j(sbUrl)};\nconst SB_ANON=${j(sbAnon)};`;
+// Origem canônica que serve o app (deve casar com o Site URL do Supabase). Vazia
+// => sem aviso de origem. O boot loga warn se location.origin diferir (o link de
+// e-mail perderia o #access_token num redirect 3xx entre origens; ver CLAUDE.md).
+const siteOrigin = process.env.SITE_ORIGIN || cfgPub.siteOrigin || '';
+const configBlock = `const SB_URL=${j(sbUrl)};\nconst SB_ANON=${j(sbAnon)};\nconst SITE_ORIGIN=${j(siteOrigin)};`;
 
 // 2c. VERSÃO do artefato (motor + dados): carimba o bundle do browser (BUILD_VERSION)
 // e o artefato do servidor com o MESMO valor, gerados neste build. O cliente
