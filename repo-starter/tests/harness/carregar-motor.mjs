@@ -20,7 +20,7 @@ function stubEl() {
   return el;
 }
 
-export function carregarMotor({ dist, store: storeExterno, localStorage: lsExterno } = {}) {
+export function carregarMotor({ dist, store: storeExterno, localStorage: lsExterno, location: locExterno } = {}) {
   const distPath = dist || path.join(ROOT, 'dist', 'index.html');
   const html = fs.readFileSync(distPath, 'utf8');
   const m = html.match(/<script>\n?"use strict";([\s\S]*?)<\/script>/);
@@ -54,6 +54,9 @@ export function carregarMotor({ dist, store: storeExterno, localStorage: lsExter
     salvarNick: (typeof salvarNick === 'function') ? salvarNick : undefined,
     // submissão ao ranking: expostos p/ testar o try/catch/finally do envio.
     submeterDiario: (typeof submeterDiario === 'function') ? submeterDiario : undefined,
+    // retorno do link de e-mail: exposto p/ testar que nenhum caminho é mudo.
+    bootSessao: (typeof bootSessao === 'function') ? bootSessao : undefined,
+    vincEnviarLink: (typeof vincEnviarLink === 'function') ? vincEnviarLink : undefined,
     // validação de campos + i18n: expostos p/ testar limites/mensagens (email/apelido).
     validarEmail: (typeof validarEmail === 'function') ? validarEmail : undefined,
     irVincular: (typeof irVincular === 'function') ? irVincular : undefined,
@@ -75,6 +78,7 @@ export function carregarMotor({ dist, store: storeExterno, localStorage: lsExter
   });
   const sandbox = {
     console,
+    URLSearchParams,   // API real do navegador (usada por parseHashTokens/classificarRetorno)
     setTimeout: () => 0, clearTimeout: () => {},
     setInterval: () => 0, clearInterval: () => {},
     requestAnimationFrame: () => 0, cancelAnimationFrame: () => {},
@@ -88,7 +92,13 @@ export function carregarMotor({ dist, store: storeExterno, localStorage: lsExter
   sandbox.globalThis = sandbox;
   sandbox.self = sandbox;
   sandbox.navigator = { language: 'pt-BR', clipboard: { writeText: async () => {} } };
-  sandbox.location = { href: '', reload: () => {} };
+  // location injetável: o retorno do link de e-mail lê hash/search/origin; o boot
+  // usa history.replaceState p/ limpar o hash. Defaults inertes; testes sobrescrevem.
+  sandbox.location = Object.assign(
+    { href: '', origin: '', pathname: '/', hash: '', search: '', reload: () => {} },
+    locExterno || {},
+  );
+  sandbox.history = { replaceState: () => {}, pushState: () => {} };
   sandbox.scrollTo = () => {};
   sandbox.confirm = () => true;
   sandbox.alert = () => {};

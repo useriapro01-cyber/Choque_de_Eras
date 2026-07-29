@@ -52,7 +52,7 @@ pt:{
  rank_p:"Todo mundo joga a mesma seed hoje: mesma base, mesmo mercado, mesmos adversários. Só a primeira campanha finalizada do dia pontua. O ranking é público entre jogadores.",
  rank_vazio:"Ninguém pontuou ainda. Seja o primeiro nome da súmula!",b_jogar_hoje:"Jogar o desafio de hoje",carregando:"Carregando súmula...",
  dia_fechado:"O desafio de hoje ainda não abriu.",b_enviar_rank:"🏅 Enviar ao ranking",env_enviando:"Enviando ao ranking...",env_ok:"✅ Pontuação enviada! Você está no ranking.",env_erro:"Não deu para enviar agora. Tente de novo.",env_rede:"Sem conexão com o ranking. Toque em enviar para tentar de novo.",env_versao:"Nova versão do jogo — recarregue a página.",env_dia_virou:"O desafio do dia virou (meia-noite de Brasília). Recarregue para jogar o de hoje.",env_local:"Ranking salvo neste aparelho.",
- vinc_titulo:"Entrar no ranking",vinc_sub:"Grátis. É só para valer no ranking — seu progresso é preservado.",vinc_email_ph:"Digite aqui o seu e-mail",vinc_email_label:"Seu e-mail",vinc_apelido_ph:"seu apelido no ranking",vinc_apelido_label:"Seu apelido no ranking",vinc_enviar_link:"Enviar link de confirmação",vinc_link_enviado:"📧 Enviamos um link de confirmação para {e}. Abra o e-mail, clique no link e volte ao jogo — você entra no ranking automaticamente.",vinc_link_erro:"Não deu para confirmar o e-mail. Tente vincular de novo.",vinc_conflito:"Esse e-mail já tem conta. Vamos entrar nela — o progresso desta sessão anônima NÃO será mesclado.",vinc_apelido_uso:"Esse apelido já está em uso. Escolha outro.",vinc_email_inv:"Digite um e-mail válido.",vinc_email_longo:"E-mail longo demais (máximo 254 caracteres).",vinc_apelido_inv:"Apelido de 2 a 20 caracteres.",vinc_apelido_longo:"Apelido: no máximo 20 caracteres.",b_entrar_rank:"🏅 Entrar no ranking",
+ vinc_titulo:"Entrar no ranking",vinc_sub:"Grátis. É só para valer no ranking — seu progresso é preservado.",vinc_email_ph:"Digite aqui o seu e-mail",vinc_email_label:"Seu e-mail",vinc_apelido_ph:"seu apelido no ranking",vinc_apelido_label:"Seu apelido no ranking",vinc_enviar_link:"Enviar link de confirmação",vinc_link_enviado:"📧 Enviamos um link de confirmação para {e}. Abra o e-mail, clique no link e volte ao jogo — você entra no ranking automaticamente.",vinc_link_erro:"Não deu para confirmar o e-mail. Tente vincular de novo.",vinc_confirm_falhou:"Não foi possível confirmar seu e-mail. Tente o link de novo.",vinc_sem_pendente:"E-mail confirmado! Não achamos a partida de hoje neste aparelho — jogue o Desafio de novo para entrar no ranking.",vinc_conflito:"Esse e-mail já tem conta. Vamos entrar nela — o progresso desta sessão anônima NÃO será mesclado.",vinc_apelido_uso:"Esse apelido já está em uso. Escolha outro.",vinc_email_inv:"Digite um e-mail válido.",vinc_email_longo:"E-mail longo demais (máximo 254 caracteres).",vinc_apelido_inv:"Apelido de 2 a 20 caracteres.",vinc_apelido_longo:"Apelido: no máximo 20 caracteres.",b_entrar_rank:"🏅 Entrar no ranking",
  sala_eb:"Duelo · sala",sala_p:"Compartilhe o código <b>{c}</b> com a galera. Mesma seed, placares públicos na sala.",
  sala_nao:"Sala não encontrada — confere o código ou crie uma nova.",b_jogar_sala:"Jogar nesta sala",buscando:"Buscando placar...",
  perfil_eb:"Carteirinha de técnico(a)",sem_nome:"Sem nome",p_camp:"Campanhas",p_tit:"Títulos da América",p_imort:"Campanhas imortais",p_rec:"Recorde de pontos",p_leg:"Legado (pontos acumulados)",trofeus:"Sala de troféus",
@@ -144,7 +144,7 @@ es:{
  rank_p:"Todos juegan la misma seed hoy: misma cantera, mismo mercado, mismos rivales. Solo la primera campaña terminada del día puntúa. El ranking es público entre jugadores.",
  rank_vazio:"Nadie puntuó todavía. ¡Sé el primer nombre de la planilla!",b_jogar_hoje:"Jugar el desafío de hoy",carregando:"Cargando planilla...",
  dia_fechado:"El desafío de hoy aún no abrió.",b_enviar_rank:"🏅 Enviar al ranking",env_enviando:"Enviando al ranking...",env_ok:"✅ ¡Puntuación enviada! Estás en el ranking.",env_erro:"No se pudo enviar ahora. Probá de nuevo.",env_rede:"Sin conexión con el ranking. Tocá enviar para probar de nuevo.",env_versao:"Nueva versión del juego — recargá la página.",env_dia_virou:"El desafío del día cambió (medianoche de Brasilia). Recargá para jugar el de hoy.",env_local:"Ranking guardado en este dispositivo.",
- vinc_titulo:"Entrar al ranking",vinc_sub:"Gratis. Es solo para valer en el ranking — tu progreso se preserva.",vinc_email_ph:"Escribí acá tu e-mail",vinc_email_label:"Tu e-mail",vinc_apelido_ph:"tu apodo en el ranking",vinc_apelido_label:"Tu apodo en el ranking",vinc_enviar_link:"Enviar enlace de confirmación",vinc_link_enviado:"📧 Enviamos un enlace de confirmación a {e}. Abrí el e-mail, hacé clic en el enlace y volvé al juego — entrás al ranking automáticamente.",vinc_link_erro:"No se pudo confirmar el e-mail. Probá vincular de nuevo.",vinc_conflito:"Ese e-mail ya tiene cuenta. Vamos a entrar en ella — el progreso de esta sesión anónima NO se fusiona.",vinc_apelido_uso:"Ese apodo ya está en uso. Elegí otro.",vinc_email_inv:"Escribí un e-mail válido.",vinc_email_longo:"E-mail demasiado largo (máximo 254 caracteres).",vinc_apelido_inv:"Apodo de 2 a 20 caracteres.",vinc_apelido_longo:"Apodo: máximo 20 caracteres.",b_entrar_rank:"🏅 Entrar al ranking",
+ vinc_titulo:"Entrar al ranking",vinc_sub:"Gratis. Es solo para valer en el ranking — tu progreso se preserva.",vinc_email_ph:"Escribí acá tu e-mail",vinc_email_label:"Tu e-mail",vinc_apelido_ph:"tu apodo en el ranking",vinc_apelido_label:"Tu apodo en el ranking",vinc_enviar_link:"Enviar enlace de confirmación",vinc_link_enviado:"📧 Enviamos un enlace de confirmación a {e}. Abrí el e-mail, hacé clic en el enlace y volvé al juego — entrás al ranking automáticamente.",vinc_link_erro:"No se pudo confirmar el e-mail. Probá vincular de nuevo.",vinc_confirm_falhou:"No pudimos confirmar tu e-mail. Probá el enlace de nuevo.",vinc_sem_pendente:"¡E-mail confirmado! No encontramos la partida de hoy en este dispositivo — jugá el Desafío de nuevo para entrar al ranking.",vinc_conflito:"Ese e-mail ya tiene cuenta. Vamos a entrar en ella — el progreso de esta sesión anónima NO se fusiona.",vinc_apelido_uso:"Ese apodo ya está en uso. Elegí otro.",vinc_email_inv:"Escribí un e-mail válido.",vinc_email_longo:"E-mail demasiado largo (máximo 254 caracteres).",vinc_apelido_inv:"Apodo de 2 a 20 caracteres.",vinc_apelido_longo:"Apodo: máximo 20 caracteres.",b_entrar_rank:"🏅 Entrar al ranking",
  sala_eb:"Duelo · sala",sala_p:"Compartí el código <b>{c}</b> con la banda. Misma seed, marcadores públicos en la sala.",
  sala_nao:"Sala no encontrada — revisá el código o creá una nueva.",b_jogar_sala:"Jugar en esta sala",buscando:"Buscando marcador...",
  perfil_eb:"Carnet de DT",sem_nome:"Sin nombre",p_camp:"Campañas",p_tit:"Títulos de América",p_imort:"Campañas inmortales",p_rec:"Récord de puntos",p_leg:"Legado (puntos acumulados)",trofeus:"Sala de trofeos",
@@ -745,6 +745,9 @@ const EMAIL_MAX=254, APELIDO_MAX=20;
 // 26 chars) prefilava um campo com maxlength=20 já ACIMA do limite — o usuário
 // não conseguia digitar e nada avisava (limite mudo).
 function irVincular(){S.vinc={passo:"dados",email:"",apelido:(S.profile.nick||S.profile.clubeNome||"").slice(0,APELIDO_MAX),conflito:false,msg:""};S.screen="vincular";render()}
+// Vai à tela de vínculo já com uma mensagem (erro de retorno do link). Nunca
+// volta pra home fingindo que o retorno deu certo.
+function irVincularComMsg(msg){irVincular();S.vinc.msg=msg;render();}
 // Validação pura do e-mail (testável): tamanho ANTES do formato. Devolve a CHAVE
 // de i18n do erro (ou null). Mesmo teto do input e do banco — nada de silêncio.
 function validarEmail(email){
@@ -786,6 +789,9 @@ async function vincEnviarLink(){
   if(apelido.length<2){S.vinc.msg=t("vinc_apelido_inv");render();return}
   if(apelido.length>APELIDO_MAX){S.vinc.msg=t("vinc_apelido_longo");render();return}
   S.vinc.email=email;S.vinc.apelido=apelido;S.vinc.msg="";
+  // Grava o nick JÁ (item 5): se o retorno do link não completar, o usuário não
+  // volta pra home com apelido vazio e Desafio travado. Mesma origem da jogada.
+  S.profile.nick=apelido;saveProfile();
   const c=S.camp;
   guardarPendente({date:c.dia,decisions:c.log,clientVersion:BUILD_VERSION,apelido,email,pts:c.score&&c.score.total});
   try{await sb().vincularEmail(email);S.vinc.passo="enviado";S.vinc.conflito=false;}
@@ -824,12 +830,40 @@ async function retomarPendente(){
 // Boot da sessão: adota a sessão do link (tokens no hash) e retoma o pendente;
 // senão garante uma sessão anônima para jogar sem fricção.
 async function bootSessao(){
+  // Origem canônica: o link de confirmação precisa cair na MESMA origem que serve
+  // o app (SITE_ORIGIN). Se não bater, o navegador descarta o #access_token num
+  // redirect 3xx e a confirmação falha em silêncio (ver CLAUDE.md).
+  if(SITE_ORIGIN&&typeof location!=="undefined"&&location.origin!==SITE_ORIGIN)
+    console.warn("[boot] origem servida difere da canônica — tokens do link de e-mail podem se perder no redirect",{atual:location.origin,esperada:SITE_ORIGIN});
   if(!sb().habilitado)return;
-  const tok=SB.parseHashTokens(typeof location!=="undefined"?location.hash:"");
-  if(tok){
-    try{history.replaceState(null,"",location.pathname+location.search);}catch(e){}
-    if(tok.erro){toast(t("vinc_link_erro"));}
-    else{await sb().adotarTokens(tok).catch(e=>console.warn("[sessao] falha ao adotar tokens do link de e-mail",e));await retomarPendente();}
+  // Classifica o retorno do link (fluxo implícito: tokens no hash; ?code/?error
+  // tratados defensivamente). NENHUM caminho pode passar mudo (nem warn nem msg).
+  const hash=typeof location!=="undefined"?location.hash:"";
+  const search=typeof location!=="undefined"?location.search:"";
+  const ret=SB.classificarRetorno(hash,search);
+  if(ret.tipo!=="nenhum"){try{history.replaceState(null,"",location.pathname);}catch(e){}}
+  if(ret.tipo==="erro"){
+    console.warn("[sessao] link de e-mail voltou com erro",{erro:ret.erro});
+    irVincularComMsg(t("vinc_link_erro"));
+  }else if(ret.tipo==="code"){
+    console.warn("[sessao] link PKCE (?code) não suportado neste cliente (fluxo implícito)");
+    irVincularComMsg(t("vinc_confirm_falhou"));
+  }else if(ret.tipo==="ilegivel"){
+    console.warn("[sessao] retorno de link sem tokens reconhecíveis",{chaves:ret.chaves});
+    irVincularComMsg(t("vinc_confirm_falhou"));
+  }else if(ret.tipo==="tokens"){
+    let sess=null;
+    try{sess=await sb().adotarTokens(ret.tok);}
+    catch(e){console.warn("[sessao] falha ao adotar tokens do link de e-mail",e);}
+    if(!sess){
+      console.warn("[sessao] adoção de tokens não produziu sessão (retorno null)");
+      irVincularComMsg(t("vinc_confirm_falhou"));
+    }else if(lerPendente()){
+      await retomarPendente();                       // caminho feliz: submete e vai ao ranking
+    }else{
+      console.warn("[sessao] e-mail confirmado, mas sem pendência neste aparelho");
+      toast(t("vinc_sem_pendente"));                 // run perdida (outra origem/aparelho): jogue de novo
+    }
   }
   await sb().garantirSessao().catch(e=>console.warn("[sessao] signup anônimo falhou — jogo segue local, ranking indisponível",e));
 }

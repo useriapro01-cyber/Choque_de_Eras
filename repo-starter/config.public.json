@@ -1,5 +1,6 @@
 {
   "_nota": "Valores PÚBLICOS do Supabase (a anon key é pública por design). Injetados no bundle pelo build como SB_URL/SB_ANON. Env SUPABASE_URL/SUPABASE_ANON_KEY, se definidas, têm precedência (ex.: Vercel). Com anon vazia, o ranking fica desligado e o jogo segue 100% local.",
   "supabaseUrl": "https://gyyrumqcphdgqovyzlsk.supabase.co",
-  "supabaseAnonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd5eXJ1bXFjcGhkZ3Fvdnl6bHNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ2ODc3NDIsImV4cCI6MjEwMDI2Mzc0Mn0.ZRWIylIqQGLcDlB1D0Nb3JEvkWpnEhbEsforQKVe3ZI"
+  "supabaseAnonKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd5eXJ1bXFjcGhkZ3Fvdnl6bHNrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ2ODc3NDIsImV4cCI6MjEwMDI2Mzc0Mn0.ZRWIylIqQGLcDlB1D0Nb3JEvkWpnEhbEsforQKVe3ZI",
+  "siteOrigin": "https://www.choquedeeras.com.br"
 }
