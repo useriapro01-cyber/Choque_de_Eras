@@ -140,3 +140,38 @@ test('bundle: nome do time (setup) tem aviso vivo ao bater 26 (não é mais mudo
     assert.ok(api.t('setup_nome_longo') !== 'setup_nome_longo', `mensagem em ${lang}`);
   }
 });
+
+// ---------------------------------------------------------------------------
+// 6) Contraste do placeholder + campos distinguíveis (bug do celular b2a02cc)
+// ---------------------------------------------------------------------------
+test('CSS: input de e-mail é estilizado como o de texto (não cai no default do navegador)', () => {
+  const dist = fs.readFileSync(path.join(ROOT, 'dist', 'index.html'), 'utf8');
+  // a regra base cobre type=email (senão fundo claro + placeholder invisível)
+  assert.match(dist, /input\[type=text\],input\[type=email\]\{[^}]*background:[^}]*color:var\(--gelo\)/,
+    'input[type=email] herda o estilo escuro/legível');
+  // placeholder legível: nada de rgba com alpha baixíssimo (.35)
+  assert.match(dist, /input\[type=text\]::placeholder,input\[type=email\]::placeholder\{color:var\(--gelo2\)/,
+    'placeholder usa --gelo2 (AA), opacity 1');
+  assert.doesNotMatch(dist, /::placeholder\{color:rgba\(237,245,238,\.35\)\}/, 'placeholder quase invisível removido');
+});
+
+test('bundle: e-mail com type/inputmode=email e label visível; apelido com label visível', () => {
+  const dist = fs.readFileSync(path.join(ROOT, 'dist', 'index.html'), 'utf8');
+  const m = dist.match(/<input id="vEmail"[^>]*>/);
+  assert.ok(m, 'input de e-mail presente');
+  assert.match(m[0], /type="email"/, 'type=email (teclado certo no celular)');
+  assert.match(m[0], /inputmode="email"/, 'inputmode=email (teclado certo no celular)');
+  // labels visíveis acima de cada campo (não só placeholder) — campos distinguíveis
+  assert.match(dist, /<label for="vEmail" class="eyebrow">/, 'label do e-mail');
+  assert.match(dist, /<label for="vApelido" class="eyebrow">/, 'label do apelido');
+});
+
+test('placeholder do e-mail é instrucional (PT e ES) e labels existem', () => {
+  const api = carregarMotor();
+  api.S.lang = 'pt';
+  assert.equal(api.t('vinc_email_ph'), 'Digite aqui o seu e-mail');
+  assert.ok(api.t('vinc_email_label') !== 'vinc_email_label' && api.t('vinc_apelido_label') !== 'vinc_apelido_label');
+  api.S.lang = 'es';
+  assert.equal(api.t('vinc_email_ph'), 'Escribí acá tu e-mail');
+  assert.ok(api.t('vinc_email_label') !== 'vinc_email_label' && api.t('vinc_apelido_label') !== 'vinc_apelido_label');
+});

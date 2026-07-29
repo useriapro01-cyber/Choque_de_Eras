@@ -40,6 +40,7 @@ h1,h2,h3,.disp{font-family:'Archivo Black','Arial Black',sans-serif;font-weight:
 .pane{background:linear-gradient(180deg,var(--creme),var(--creme2));color:var(--tinta);border-radius:var(--r);padding:16px;margin-bottom:14px;border:1px solid rgba(0,0,0,.18);box-shadow:0 3px 0 rgba(0,0,0,.25)}
 .pane h3{margin-bottom:6px}
 .eyebrow{font-size:.66rem;letter-spacing:2.4px;font-weight:800;text-transform:uppercase;color:var(--verde);margin-bottom:6px}
+label.eyebrow{display:block;margin-top:4px}
 .pane .eyebrow{color:var(--ouro2)}
 .hero h1{font-size:2.1rem;line-height:1.05;margin:6px 0 10px}
 .hero p{color:var(--gelo2);font-size:.95rem;line-height:1.5}
@@ -135,8 +136,13 @@ tr.eu td{color:var(--ouro);font-weight:800}
 .badge.verde{background:#2e7a4b;color:#eafff0}
 .badge.cinza{background:rgba(255,255,255,.12);color:var(--gelo2)}
 .resline{display:flex;gap:5px;font-size:1.05rem;letter-spacing:2px;margin:8px 0}
-input[type=text]{width:100%;font-family:'Archivo',sans-serif;font-weight:700;font-size:1rem;padding:13px 14px;border-radius:11px;border:1.5px solid var(--linha);background:rgba(0,0,0,.3);color:var(--gelo);text-transform:none}
-input[type=text]::placeholder{color:rgba(237,245,238,.35)}
+/* type=email PRECISA entrar aqui: sem isto o campo caía no estilo padrão do
+   navegador (fundo claro + placeholder quase branco = ilegível) e o usuário
+   digitava no campo de apelido por engano (bug do celular, commit b2a02cc). */
+input[type=text],input[type=email]{width:100%;font-family:'Archivo',sans-serif;font-weight:700;font-size:1rem;padding:13px 14px;border-radius:11px;border:1.5px solid var(--linha);background:rgba(0,0,0,.3);color:var(--gelo);text-transform:none}
+/* placeholder legível (WCAG AA, regra do TDMV-1): --gelo2 sobre o fundo escuro
+   do input tem contraste alto; o antigo rgba(...,.35) era quase invisível. */
+input[type=text]::placeholder,input[type=email]::placeholder{color:var(--gelo2);opacity:1}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--creme);color:var(--tinta);font-weight:800;font-size:.82rem;
   padding:11px 18px;border-radius:99px;box-shadow:0 6px 20px rgba(0,0,0,.5);z-index:50;opacity:0;transition:opacity .25s;pointer-events:none;max-width:90%;text-align:center}
 .toast.show{opacity:1}
