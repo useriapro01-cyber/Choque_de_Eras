@@ -43,16 +43,19 @@ self.addEventListener('fetch', (e) => {
     return;
   }
 
-  // mesma origem: cache-first, com rede como fallback; navegações caem no index offline
+  // mesma origem: stale-while-revalidate. Serve o cache NA HORA (load instantâneo +
+  // offline), e revalida em background — a próxima carga já pega o shell novo do
+  // deploy (TDMV-7). Sem cache, espera a rede; se a rede falhar numa navegação,
+  // cai no index cacheado (offline preservado). Só cacheia resposta ok (não polui
+  // o cache com 404/5xx).
   if (url.origin === self.location.origin) {
     e.respondWith(
-      caches.match(req).then((hit) => hit || fetch(req)
-        .then((r) => {
-          const copy = r.clone();
-          caches.open(CACHE).then((c) => c.put(req, copy));
-          return r;
-        })
-        .catch(() => (req.mode === 'navigate' ? caches.match('./index.html') : undefined)))
+      caches.open(CACHE).then((c) => {
+        const net = fetch(req)
+          .then((r) => { if (r && r.ok) c.put(req, r.clone()); return r; })
+          .catch(() => (req.mode === 'navigate' ? c.match('./index.html') : undefined));
+        return c.match(req).then((hit) => hit || net);
+      })
     );
   }
 });

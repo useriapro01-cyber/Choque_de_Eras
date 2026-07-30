@@ -42,6 +42,19 @@ test('service worker foi carimbado com versão e faz precache do shell', () => {
   assert.match(sw, /addEventListener\('fetch'/, 'handler de fetch presente');
 });
 
+test('service worker serve o shell em stale-while-revalidate, com offline preservado (TDMV-7)', () => {
+  const sw = ler('sw.js');
+  assert.match(sw, /hit \|\| net/, 'SWR: serve cache na hora, revalida em background');
+  assert.match(sw, /if \(r && r\.ok\) c\.put\(req, r\.clone\(\)\)/, 'só cacheia resposta ok');
+  assert.match(sw, /req\.mode === 'navigate'/, 'fallback offline p/ navegação preservado');
+});
+
+test('boot registra o auto-reload na troca de service worker (controllerchange) (TDMV-7)', () => {
+  const html = ler('index.html');
+  assert.match(html, /controllerchange/, 'observa a troca de service worker');
+  assert.match(html, /deveRecarregar/, 'decisão de reload embutida no bundle');
+});
+
 test('ícones são PNGs válidos nas dimensões esperadas', () => {
   const esperado = {
     'icons/icon-192.png': 192, 'icons/icon-512.png': 512,

@@ -435,7 +435,53 @@ function header(extra){
 }
 function fclass(f){return f>=85?"boa":f>=72?"media":"ruim"}
 function irHome(){if(S.camp&&!S.camp.fim&&!confirm(t("confirm_ab")))return;S.camp=null;S.pend=null;S.screen="home";render()}
+/* ---------- ATUALIZAÇÃO DO SERVICE WORKER (TDMV-7) ----------
+   Deploy novo ⇒ sw.js novo (hash) ⇒ instala + skipWaiting + clients.claim ⇒
+   dispara `controllerchange`. Aqui recarregamos para aplicar o shell novo, mas
+   SÓ quando é seguro: nunca no meio do retorno do link de e-mail, no form de
+   vínculo ou com uma run do Desafio em andamento (senão o reload destrói
+   progresso em memória). Enquanto inseguro, adiamos — o próximo render() em tela
+   segura aplica. Sem toast: reload é instantâneo (shell self-contained) e o gate
+   já evita o único caso destrutivo. */
+let swRecarregando=false;         // guarda anti-loop; EM MEMÓRIA (some no reload), nunca em storage
+let swAtualizacaoAguardando=false;// um SW novo assumiu; espera contexto seguro
+let swTinhaControlador=false;     // havia controller no load? (senão é 1º install: não recarrega)
+let retornoLinkEmAndamento=false; // bootSessao processando o retorno do e-mail
+// Decisão PURA de reload (testável sem navegador): só recarrega quando um SW novo
+// assumiu, não estamos já recarregando, HAVIA controller antes (não é o install
+// virgem) e o contexto é seguro. Sem estado global — recebe tudo por parâmetro.
+function deveRecarregar(st){
+  return !!(st&&st.atualizacaoAguardando&&!st.recarregando&&st.tinhaControlador&&st.contextoSeguro);
+}
+// É seguro recarregar AGORA? Não no retorno do e-mail, não no form de vínculo,
+// não com uma run do Desafio em andamento (S.camp viva e não finalizada).
+function contextoSeguro(){
+  if(retornoLinkEmAndamento)return false;
+  if(S.screen==="vincular")return false;
+  if(S.camp&&!S.camp.fim)return false;
+  return true;
+}
+// Aplica o reload se (e só se) deveRecarregar disser sim. Chamado no
+// controllerchange e no topo de cada render() (reavalia ao mudar de tela).
+function talvezRecarregar(){
+  if(!deveRecarregar({atualizacaoAguardando:swAtualizacaoAguardando,recarregando:swRecarregando,tinhaControlador:swTinhaControlador,contextoSeguro:contextoSeguro()}))return;
+  swRecarregando=true;
+  console.info("[sw] nova versão ativa — recarregando para aplicar");
+  try{location.reload();}catch(e){console.warn("[sw] reload falhou",e)}
+}
+// Handler do controllerchange: marca que há update e tenta aplicar já (se seguro).
+function onSWControllerChange(){swAtualizacaoAguardando=true;talvezRecarregar();}
+// Observa a troca de service worker. Guardado: em ambiente sem SW (Node/vm de
+// teste) simplesmente não faz nada — não fabricamos a API que o navegador não tem.
+function wireAtualizacaoSW(){
+  try{
+    if(typeof navigator==="undefined"||!("serviceWorker" in navigator))return;
+    swTinhaControlador=!!navigator.serviceWorker.controller;
+    navigator.serviceWorker.addEventListener("controllerchange",onSWControllerChange);
+  }catch(e){console.warn("[sw] não consegui observar atualização do service worker",e)}
+}
 function render(){
+  talvezRecarregar();   // TDMV-7: ao assentar numa tela segura, aplica update pendente
   const scr=S.screen;
   if(scr==="home")return renderHome();
   if(scr==="setup")return renderSetup();
@@ -866,44 +912,64 @@ async function bootSessao(){
   if(SITE_ORIGIN&&typeof location!=="undefined"&&location.origin!==SITE_ORIGIN)
     console.warn("[boot] origem servida difere da canônica — tokens do link de e-mail podem se perder no redirect",{atual:location.origin,esperada:SITE_ORIGIN});
   if(!sb().habilitado)return;
-  // Classifica o retorno do link (fluxo implícito: tokens no hash; ?code/?error
-  // tratados defensivamente). NENHUM caminho pode passar mudo (nem warn nem msg).
-  const hash=typeof location!=="undefined"?location.hash:"";
-  const search=typeof location!=="undefined"?location.search:"";
-  const ret=SB.classificarRetorno(hash,search);
-  if(ret.tipo!=="nenhum"){try{history.replaceState(null,"",location.pathname);}catch(e){}}
-  if(ret.tipo==="erro"){
-    console.warn("[sessao] link de e-mail voltou com erro",{erro:ret.erro});
-    irVincularComMsg(t("vinc_link_erro"));
-  }else if(ret.tipo==="code"){
-    console.warn("[sessao] link PKCE (?code) não suportado neste cliente (fluxo implícito)");
-    irVincularComMsg(t("vinc_confirm_falhou"));
-  }else if(ret.tipo==="ilegivel"){
-    console.warn("[sessao] retorno de link sem tokens reconhecíveis",{chaves:ret.chaves});
-    irVincularComMsg(t("vinc_confirm_falhou"));
-  }else if(ret.tipo==="tokens"){
-    let sess=null;
-    try{sess=await sb().adotarTokens(ret.tok);}
-    catch(e){console.warn("[sessao] falha ao adotar tokens do link de e-mail",e);}
-    if(!sess){
-      console.warn("[sessao] adoção de tokens não produziu sessão (retorno null)");
+  // TDMV-7: enquanto o retorno do link roda, o auto-reload do SW fica adiado (o
+  // reload podia estourar a janela entre adotar tokens e persistir a sessão). O
+  // finally reabilita e reavalia.
+  retornoLinkEmAndamento=true;
+  try{
+    // Classifica o retorno do link (fluxo implícito: tokens no hash; ?code/?error
+    // tratados defensivamente). NENHUM caminho pode passar mudo (nem warn nem msg).
+    const hash=typeof location!=="undefined"?location.hash:"";
+    const search=typeof location!=="undefined"?location.search:"";
+    const ret=SB.classificarRetorno(hash,search);
+    // Retornos SEM token (erro/code/ilegível): nada a preservar, limpa o hash já.
+    // "tokens": a limpeza vai no finally da adoção abaixo (B) — só DEPOIS de tentar
+    // adotar, para um F5 antes da adoção ainda reprocessar o token válido.
+    if(ret.tipo!=="nenhum"&&ret.tipo!=="tokens"){try{history.replaceState(null,"",location.pathname);}catch(e){}}
+    if(ret.tipo==="erro"){
+      console.warn("[sessao] link de e-mail voltou com erro",{erro:ret.erro});
+      irVincularComMsg(t("vinc_link_erro"));
+    }else if(ret.tipo==="code"){
+      console.warn("[sessao] link PKCE (?code) não suportado neste cliente (fluxo implícito)");
       irVincularComMsg(t("vinc_confirm_falhou"));
-    }else{
-      // (a) GARANTE o perfil na adoção — idempotente e independe de haver pendência
-      // (senão o submit dá 403 profile_invalido pra sempre). is_anonymous já é false.
-      const pend=lerPendente();
-      const gp=await garantirPerfil((S.profile.nick||(pend&&pend.apelido)),(S.profile.email||(pend&&pend.email)));
-      if(gp.ok){S.profile.nick=gp.apelido;saveProfile();}
-      else console.warn("[perfil] não consegui garantir o perfil na adoção",{codigo:gp.codigo});
-      if(pend){
-        await retomarPendente();                     // caminho feliz: submete e vai ao ranking
-      }else{
-        console.warn("[sessao] e-mail confirmado, mas sem pendência neste aparelho");
-        toast(t("vinc_sem_pendente"));               // run perdida (outra origem/aparelho): jogue de novo
+    }else if(ret.tipo==="ilegivel"){
+      console.warn("[sessao] retorno de link sem tokens reconhecíveis",{chaves:ret.chaves});
+      irVincularComMsg(t("vinc_confirm_falhou"));
+    }else if(ret.tipo==="tokens"){
+      try{
+        let sess=null;
+        try{sess=await sb().adotarTokens(ret.tok);}
+        catch(e){console.warn("[sessao] falha ao adotar tokens do link de e-mail",e);}
+        if(!sess){
+          console.warn("[sessao] adoção de tokens não produziu sessão (retorno null)");
+          irVincularComMsg(t("vinc_confirm_falhou"));
+        }else{
+          // (a) GARANTE o perfil na adoção — idempotente e independe de haver pendência
+          // (senão o submit dá 403 profile_invalido pra sempre). is_anonymous já é false.
+          const pend=lerPendente();
+          const gp=await garantirPerfil((S.profile.nick||(pend&&pend.apelido)),(S.profile.email||(pend&&pend.email)));
+          if(gp.ok){S.profile.nick=gp.apelido;saveProfile();}
+          else console.warn("[perfil] não consegui garantir o perfil na adoção",{codigo:gp.codigo});
+          if(pend){
+            await retomarPendente();                     // caminho feliz: submete e vai ao ranking
+          }else{
+            console.warn("[sessao] e-mail confirmado, mas sem pendência neste aparelho");
+            toast(t("vinc_sem_pendente"));               // run perdida (outra origem/aparelho): jogue de novo
+          }
+        }
+      }finally{
+        // (B) Limpa o hash DEPOIS da adoção, em TODOS os caminhos (sucesso ou erro,
+        // já tratado acima). Sem isso, um F5 reprocessaria um token JÁ QUEIMADO e o
+        // usuário veria "link inválido" sem entender. Se o boot cair ANTES daqui, o
+        // token sobrevive no hash para retry.
+        try{history.replaceState(null,"",location.pathname);}catch(e){}
       }
     }
+    await sb().garantirSessao().catch(e=>console.warn("[sessao] signup anônimo falhou — jogo segue local, ranking indisponível",e));
+  }finally{
+    retornoLinkEmAndamento=false;
+    talvezRecarregar();   // retorno terminou: se um update chegou no meio e agora é seguro, aplica
   }
-  await sb().garantirSessao().catch(e=>console.warn("[sessao] signup anônimo falhou — jogo segue local, ranking indisponível",e));
 }
 /* ---------- RANKINGS ---------- */
 function rankTable(entries){
@@ -1112,6 +1178,7 @@ function renderLoading(){
 }
 /* ---------- INIT ---------- */
 (async function init(){
+  wireAtualizacaoSW();   // TDMV-7: observa troca de service worker (deploy novo)
   renderLoading();
   const t0=Date.now();
   await loadProfile();
