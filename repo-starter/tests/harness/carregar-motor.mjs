@@ -68,6 +68,15 @@ export function carregarMotor({ dist, store: storeExterno, localStorage: lsExter
     // injeta um SB falso (mesma assinatura de criarSB) reatribuindo o sb() do bundle,
     // p/ dirigir o caminho de rede sem backend (fetch rejeitando, 403, etc.).
     setSbFake(fake){ sb = function(){ return fake; }; },
+    // TDMV-7: atualização do service worker. deveRecarregar/contextoSeguro são puras;
+    // talvezRecarregar/onSWControllerChange dirigem o reload (location.reload stubado).
+    // setSWTinhaControlador simula "havia controller no load" (o navegador expõe via
+    // navigator.serviceWorker.controller, ausente no vm — por isso o setter).
+    deveRecarregar: (typeof deveRecarregar === 'function') ? deveRecarregar : undefined,
+    contextoSeguro: (typeof contextoSeguro === 'function') ? contextoSeguro : undefined,
+    talvezRecarregar: (typeof talvezRecarregar === 'function') ? () => talvezRecarregar() : undefined,
+    onSWControllerChange: (typeof onSWControllerChange === 'function') ? () => onSWControllerChange() : undefined,
+    setSWTinhaControlador(v){ swTinhaControlador = !!v; },
   };
 })();`;
 
