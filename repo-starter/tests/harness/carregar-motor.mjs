@@ -57,6 +57,10 @@ export function carregarMotor({ dist, store: storeExterno, localStorage: lsExter
     // retorno do link de e-mail: exposto p/ testar que nenhum caminho é mudo.
     bootSessao: (typeof bootSessao === 'function') ? bootSessao : undefined,
     vincEnviarLink: (typeof vincEnviarLink === 'function') ? vincEnviarLink : undefined,
+    // perfil/erros de envio: expostos p/ testar (a)/(b) e o mapeamento específico.
+    retomarPendente: (typeof retomarPendente === 'function') ? retomarPendente : undefined,
+    garantirPerfil: (typeof garantirPerfil === 'function') ? garantirPerfil : undefined,
+    msgEnvio: (typeof msgEnvio === 'function') ? msgEnvio : undefined,
     // validação de campos + i18n: expostos p/ testar limites/mensagens (email/apelido).
     validarEmail: (typeof validarEmail === 'function') ? validarEmail : undefined,
     irVincular: (typeof irVincular === 'function') ? irVincular : undefined,

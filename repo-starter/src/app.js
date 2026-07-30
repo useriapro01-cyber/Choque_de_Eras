@@ -51,7 +51,7 @@ pt:{
  rank_eb:"Ranking mundial · desafio de {d}",
  rank_p:"Todo mundo joga a mesma seed hoje: mesma base, mesmo mercado, mesmos adversários. Só a primeira campanha finalizada do dia pontua. O ranking é público entre jogadores.",
  rank_vazio:"Ninguém pontuou ainda. Seja o primeiro nome da súmula!",b_jogar_hoje:"Jogar o desafio de hoje",carregando:"Carregando súmula...",
- dia_fechado:"O desafio de hoje ainda não abriu.",b_enviar_rank:"🏅 Enviar ao ranking",env_enviando:"Enviando ao ranking...",env_ok:"✅ Pontuação enviada! Você está no ranking.",env_erro:"Não deu para enviar agora. Tente de novo.",env_rede:"Sem conexão com o ranking. Toque em enviar para tentar de novo.",env_versao:"Nova versão do jogo — recarregue a página.",env_dia_virou:"O desafio do dia virou (meia-noite de Brasília). Recarregue para jogar o de hoje.",env_local:"Ranking salvo neste aparelho.",
+ dia_fechado:"O desafio de hoje ainda não abriu.",b_enviar_rank:"🏅 Enviar ao ranking",env_enviando:"Enviando ao ranking...",env_ok:"✅ Pontuação enviada! Você está no ranking.",env_erro:"Não deu para enviar agora. Tente de novo.",env_rede:"Sem conexão com o ranking. Toque em enviar para tentar de novo.",env_versao:"Nova versão do jogo — recarregue a página.",env_dia_virou:"O desafio do dia virou (meia-noite de Brasília). Recarregue para jogar o de hoje.",env_local:"Ranking salvo neste aparelho.",env_perfil:"Não foi possível preparar seu perfil. Tente enviar de novo.",env_rate:"Muitas tentativas. Espere um minuto e tente de novo.",env_invalido:"Não deu para validar esta partida. Jogue de novo.",env_sessao:"Sua sessão expirou. Abra o link do e-mail de novo.",env_erro_cod:"Não deu para enviar (erro: {c}). Tente de novo.",env_pend_vencida:"Essa partida era do desafio de {d} — o de hoje é outro. Jogue de novo para pontuar.",
  vinc_titulo:"Entrar no ranking",vinc_sub:"Grátis. É só para valer no ranking — seu progresso é preservado.",vinc_email_ph:"Digite aqui o seu e-mail",vinc_email_label:"Seu e-mail",vinc_apelido_ph:"seu apelido no ranking",vinc_apelido_label:"Seu apelido no ranking",vinc_enviar_link:"Enviar link de confirmação",vinc_link_enviado:"📧 Enviamos um link de confirmação para {e}. Abra o e-mail, clique no link e volte ao jogo — você entra no ranking automaticamente.",vinc_link_erro:"Não deu para confirmar o e-mail. Tente vincular de novo.",vinc_confirm_falhou:"Não foi possível confirmar seu e-mail. Tente o link de novo.",vinc_sem_pendente:"E-mail confirmado! Não achamos a partida de hoje neste aparelho — jogue o Desafio de novo para entrar no ranking.",vinc_conflito:"Esse e-mail já tem conta. Vamos entrar nela — o progresso desta sessão anônima NÃO será mesclado.",vinc_apelido_uso:"Esse apelido já está em uso. Escolha outro.",vinc_email_inv:"Digite um e-mail válido.",vinc_email_longo:"E-mail longo demais (máximo 254 caracteres).",vinc_apelido_inv:"Apelido de 2 a 20 caracteres.",vinc_apelido_longo:"Apelido: no máximo 20 caracteres.",b_entrar_rank:"🏅 Entrar no ranking",
  sala_eb:"Duelo · sala",sala_p:"Compartilhe o código <b>{c}</b> com a galera. Mesma seed, placares públicos na sala.",
  sala_nao:"Sala não encontrada — confere o código ou crie uma nova.",b_jogar_sala:"Jogar nesta sala",buscando:"Buscando placar...",
@@ -143,7 +143,7 @@ es:{
  rank_eb:"Ranking mundial · desafío del {d}",
  rank_p:"Todos juegan la misma seed hoy: misma cantera, mismo mercado, mismos rivales. Solo la primera campaña terminada del día puntúa. El ranking es público entre jugadores.",
  rank_vazio:"Nadie puntuó todavía. ¡Sé el primer nombre de la planilla!",b_jogar_hoje:"Jugar el desafío de hoy",carregando:"Cargando planilla...",
- dia_fechado:"El desafío de hoy aún no abrió.",b_enviar_rank:"🏅 Enviar al ranking",env_enviando:"Enviando al ranking...",env_ok:"✅ ¡Puntuación enviada! Estás en el ranking.",env_erro:"No se pudo enviar ahora. Probá de nuevo.",env_rede:"Sin conexión con el ranking. Tocá enviar para probar de nuevo.",env_versao:"Nueva versión del juego — recargá la página.",env_dia_virou:"El desafío del día cambió (medianoche de Brasilia). Recargá para jugar el de hoy.",env_local:"Ranking guardado en este dispositivo.",
+ dia_fechado:"El desafío de hoy aún no abrió.",b_enviar_rank:"🏅 Enviar al ranking",env_enviando:"Enviando al ranking...",env_ok:"✅ ¡Puntuación enviada! Estás en el ranking.",env_erro:"No se pudo enviar ahora. Probá de nuevo.",env_rede:"Sin conexión con el ranking. Tocá enviar para probar de nuevo.",env_versao:"Nueva versión del juego — recargá la página.",env_dia_virou:"El desafío del día cambió (medianoche de Brasilia). Recargá para jugar el de hoy.",env_local:"Ranking guardado en este dispositivo.",env_perfil:"No pudimos preparar tu perfil. Probá enviar de nuevo.",env_rate:"Demasiados intentos. Esperá un minuto y probá de nuevo.",env_invalido:"No se pudo validar esta partida. Jugá de nuevo.",env_sessao:"Tu sesión expiró. Abrí el enlace del e-mail de nuevo.",env_erro_cod:"No se pudo enviar (error: {c}). Probá de nuevo.",env_pend_vencida:"Esta partida era del desafío de {d} — el de hoy es otro. Jugá de nuevo para puntuar.",
  vinc_titulo:"Entrar al ranking",vinc_sub:"Gratis. Es solo para valer en el ranking — tu progreso se preserva.",vinc_email_ph:"Escribí acá tu e-mail",vinc_email_label:"Tu e-mail",vinc_apelido_ph:"tu apodo en el ranking",vinc_apelido_label:"Tu apodo en el ranking",vinc_enviar_link:"Enviar enlace de confirmación",vinc_link_enviado:"📧 Enviamos un enlace de confirmación a {e}. Abrí el e-mail, hacé clic en el enlace y volvé al juego — entrás al ranking automáticamente.",vinc_link_erro:"No se pudo confirmar el e-mail. Probá vincular de nuevo.",vinc_confirm_falhou:"No pudimos confirmar tu e-mail. Probá el enlace de nuevo.",vinc_sem_pendente:"¡E-mail confirmado! No encontramos la partida de hoy en este dispositivo — jugá el Desafío de nuevo para entrar al ranking.",vinc_conflito:"Ese e-mail ya tiene cuenta. Vamos a entrar en ella — el progreso de esta sesión anónima NO se fusiona.",vinc_apelido_uso:"Ese apodo ya está en uso. Elegí otro.",vinc_email_inv:"Escribí un e-mail válido.",vinc_email_longo:"E-mail demasiado largo (máximo 254 caracteres).",vinc_apelido_inv:"Apodo de 2 a 20 caracteres.",vinc_apelido_longo:"Apodo: máximo 20 caracteres.",b_entrar_rank:"🏅 Entrar al ranking",
  sala_eb:"Duelo · sala",sala_p:"Compartí el código <b>{c}</b> con la banda. Misma seed, marcadores públicos en la sala.",
  sala_nao:"Sala no encontrada — revisá el código o creá una nueva.",b_jogar_sala:"Jugar en esta sala",buscando:"Buscando marcador...",
@@ -714,14 +714,17 @@ async function submeterDiario(){
   try{
     // date := o dia que o servidor entregou (não o relógio local). Serve de guarda
     // de virada: se já virou o dia em SP, o servidor responde 409 dia_virou.
-    const r=await sb().submeterDia({date:c.dia,decisions:c.log,clientVersion:BUILD_VERSION});
-    const cod=r.data&&r.data.erro;
-    if(r.ok){S.profile.dailyFeito=c.dia;saveProfile();S.envio={fase:"ok",best:r.data&&r.data.best};render();return}
+    let r=await sb().submeterDia({date:c.dia,decisions:c.log,clientVersion:BUILD_VERSION});
+    let cod=r.data&&r.data.erro;
     if(r.status===403&&cod==="email_necessario"){S.envio=null;irVincular();return}   // muro do ranking (irVincular renderiza)
-    if(r.status===409&&cod==="dia_virou"){S.envio={fase:"erro",msg:t("env_dia_virou")};render();return}
-    if(r.status===409){S.envio={fase:"erro",msg:t("env_versao")};render();return}
-    if(r.status===404){toast(t("dia_fechado"));S.envio=null;render();return}
-    S.envio={fase:"erro",msg:t("env_erro")};render();return;
+    if(r.status===403&&cod==="profile_invalido"){                                    // (b) sessão sem perfil: cria e RETENTA 1x (sem loop)
+      console.warn("[ranking] submit 403 profile_invalido — criando perfil e retentando uma vez");
+      const gp=await garantirPerfil(S.profile.nick,S.profile.email);
+      if(gp.ok){S.profile.nick=gp.apelido;saveProfile();r=await sb().submeterDia({date:c.dia,decisions:c.log,clientVersion:BUILD_VERSION});cod=r.data&&r.data.erro;}
+      if(r.status===403&&cod==="email_necessario"){S.envio=null;irVincular();return}
+    }
+    if(r.ok){S.profile.dailyFeito=c.dia;saveProfile();S.envio={fase:"ok",best:r.data&&r.data.best};render();return}
+    S.envio={fase:"erro",msg:msgEnvio(r)};render();return;   // erro ESPECÍFICO, com código no fallback (nunca genérico cego)
   }catch(e){
     console.error("[ranking] falha de rede ao enviar ao ranking",e);
     S.envio={fase:"erro",msg:t("env_rede")};render();
@@ -806,26 +809,53 @@ async function vincEnviarLink(){
 //  confirmarLoginOTP no submit, dispensando a retomada por reload.)
 
 // Retoma no boot a submissão pendente depois que o link confirmou (já permanente).
+// Garante (idempotente, UPSERT via salvarPerfil) o perfil do usuário ATUAL. Só
+// faz sentido p/ permanente (não-anônimo). Retenta em colisão de apelido. Devolve
+// {ok,apelido} ou {ok:false,codigo}. Base do (a) na adoção e do (b) no submit.
+async function garantirPerfil(apelidoBase,email){
+  const base=(apelidoBase||"").trim();
+  if(!base){console.warn("[perfil] sem apelido para garantir o perfil");return{ok:false,codigo:"sem_apelido"}}
+  let apel=base;
+  for(let i=0;i<3;i++){
+    try{await sb().salvarPerfil({apelido:apel,email:email||null,clube_coracao:S.profile.timeCoracao||null});return{ok:true,apelido:apel};}
+    catch(e){
+      if(e.codigo==="apelido_em_uso"){apel=base.slice(0,17)+Math.floor(Math.random()*90+10);continue;} // apelido de UI (não é RNG de campanha)
+      console.warn("[perfil] falha ao garantir perfil",e);return{ok:false,codigo:e.codigo||"perfil_falhou"};
+    }
+  }
+  console.warn("[perfil] apelido em uso após retries");return{ok:false,codigo:"apelido_em_uso"};
+}
+// Traduz a RESPOSTA do servidor numa mensagem ESPECÍFICA (item 3). Desconhecido
+// cai no fallback que SEMPRE mostra o código/status — nunca genérico cego.
+function msgEnvio(r){
+  const cod=(r&&r.data&&r.data.erro)||"";
+  const K={dia_virou:"env_dia_virou",versao_desatualizada:"env_versao",seed_inexistente:"dia_fechado",
+    profile_invalido:"env_perfil",rate_limited:"env_rate",unauthorized:"env_sessao",sem_sessao:"env_sessao",
+    campanha_incompleta:"env_invalido",decisao_rejeitada:"env_invalido",decisao_fora_de_faixa:"env_invalido",
+    decisao_apos_fim:"env_invalido",seed_forma:"env_invalido",decisoes_forma:"env_invalido",decisao_forma:"env_invalido",
+    json_invalido:"env_invalido",date_invalida:"env_invalido"};
+  if(K[cod])return t(K[cod]);
+  if(r&&r.status===429)return t("env_rate");
+  if(r&&r.status===401)return t("env_sessao");
+  return t("env_erro_cod",{c:cod||("HTTP "+((r&&r.status)||"?"))});   // código SEMPRE visível
+}
+// erros em que reter a pendência não adianta (limpa); transitórios mantêm p/ retry.
+function envioPermanente(r){const s=r&&r.status;return s===400||s===403||s===409||s===422;}
+
 async function retomarPendente(){
   const pend=lerPendente();
   if(!pend)return;
   if(!sb().habilitado||await sb().ehAnonimo())return;          // link ainda não confirmou: mantém
   const diaAgora=await diaAtual();                              // dia oficial (America/Sao_Paulo)
-  if(!diaAgora||pend.date!==diaAgora){limparPendente();return} // pendência de outro dia: descarta
-  let apel=pend.apelido,ok=false;
-  for(let i=0;i<3&&!ok;i++){
-    try{await sb().salvarPerfil({apelido:apel,email:pend.email,clube_coracao:S.profile.timeCoracao||null});ok=true;}
-    catch(e){
-      if(e.codigo==="apelido_em_uso"){apel=pend.apelido.slice(0,17)+Math.floor(Math.random()*90+10);}  // apelido de UI (não é RNG de campanha)
-      else{toast(t("env_erro"));return}
-    }
-  }
-  if(!ok){toast(t("vinc_apelido_uso"));return}
-  S.profile.nick=apel;saveProfile();
+  if(!diaAgora){console.warn("[sessao] dia oficial indisponível; mantém pendência p/ retry");return} // transitório: NÃO descarta
+  if(pend.date!==diaAgora){limparPendente();toast(t("env_pend_vencida",{d:pend.date}));return}         // vencida: avisa + descarta
+  const gp=await garantirPerfil(pend.apelido,pend.email);
+  if(!gp.ok){toast(gp.codigo==="apelido_em_uso"?t("vinc_apelido_uso"):t("env_perfil"));return}
+  S.profile.nick=gp.apelido;saveProfile();
   const r=await sb().submeterDia({date:pend.date,decisions:pend.decisions,clientVersion:pend.clientVersion});
   if(r.ok){limparPendente();S.profile.dailyFeito=hojeStr();saveProfile();toast(t("env_ok"));S.screen="rankdia";render();carregarRankDia();return}
-  if(r.status===409){toast(t("env_versao"));return}
-  toast(t("env_erro"));
+  if(envioPermanente(r))limparPendente();   // pendência morta: não fica tentando p/ sempre
+  toast(msgEnvio(r));                        // erro ESPECÍFICO (código no fallback)
 }
 // Boot da sessão: adota a sessão do link (tokens no hash) e retoma o pendente;
 // senão garante uma sessão anônima para jogar sem fricção.
@@ -858,11 +888,19 @@ async function bootSessao(){
     if(!sess){
       console.warn("[sessao] adoção de tokens não produziu sessão (retorno null)");
       irVincularComMsg(t("vinc_confirm_falhou"));
-    }else if(lerPendente()){
-      await retomarPendente();                       // caminho feliz: submete e vai ao ranking
     }else{
-      console.warn("[sessao] e-mail confirmado, mas sem pendência neste aparelho");
-      toast(t("vinc_sem_pendente"));                 // run perdida (outra origem/aparelho): jogue de novo
+      // (a) GARANTE o perfil na adoção — idempotente e independe de haver pendência
+      // (senão o submit dá 403 profile_invalido pra sempre). is_anonymous já é false.
+      const pend=lerPendente();
+      const gp=await garantirPerfil((S.profile.nick||(pend&&pend.apelido)),(S.profile.email||(pend&&pend.email)));
+      if(gp.ok){S.profile.nick=gp.apelido;saveProfile();}
+      else console.warn("[perfil] não consegui garantir o perfil na adoção",{codigo:gp.codigo});
+      if(pend){
+        await retomarPendente();                     // caminho feliz: submete e vai ao ranking
+      }else{
+        console.warn("[sessao] e-mail confirmado, mas sem pendência neste aparelho");
+        toast(t("vinc_sem_pendente"));               // run perdida (outra origem/aparelho): jogue de novo
+      }
     }
   }
   await sb().garantirSessao().catch(e=>console.warn("[sessao] signup anônimo falhou — jogo segue local, ranking indisponível",e));
