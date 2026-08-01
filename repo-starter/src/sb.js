@@ -187,6 +187,43 @@ export function criarSB({ fetchImpl, store, url, anon, now = () => Date.now() })
     if (!r.ok) throw erro('perfil_falhou', r);
     return true;
   }
+  // lê o PRÓPRIO perfil (RLS: id=auth.uid). Devolve {apelido,email} ou null.
+  // Usado por garantirPerfil para NÃO sobrescrever o apelido de uma conta que já
+  // existe (login numa conta existente preserva o apelido dela).
+  async function lerPerfil() {
+    const token = await tokenValido(); const u = await usuario();
+    if (!token || !u) return null;
+    const r = await req(`/rest/v1/profiles?id=eq.${encodeURIComponent(u.id)}&select=apelido,email&limit=1`, { token });
+    if (!r.ok || !Array.isArray(r.data) || !r.data.length) return null;
+    return { apelido: r.data[0].apelido, email: r.data[0].email };
+  }
+
+  // Run pendente NO SERVIDOR (pending_runs): sobrevive a troca de origem/navegador/
+  // webview porque é atrelada ao user_id, não ao localStorage. PK=user_id ⇒ upsert
+  // substitui (só o dia corrente importa). RLS dono-only permite o anônimo gravar
+  // a PRÓPRIA linha (é ele que, ao virar permanente, promove a run). Guardar aqui
+  // NÃO é confiar: submit-daily re-simula do zero (anti-fraude intacto).
+  async function salvarRunPendente({ date, decisions, clientVersion }) {
+    const token = await tokenValido(); const u = await usuario();
+    if (!token || !u) throw erro('sem_sessao');
+    const r = await req('/rest/v1/pending_runs', {
+      method: 'POST', token, prefer: 'resolution=merge-duplicates,return=minimal',
+      body: { user_id: u.id, challenge_date: date, decisions, client_version: clientVersion },
+    });
+    if (!r.ok) throw erro('run_pendente_falhou', r);
+    return true;
+  }
+  // Lê a run pendente do PRÓPRIO usuário para um dia (RLS já restringe ao uid).
+  // Devolve {decisions, clientVersion} ou null. É o que a volta do link consulta
+  // quando o localStorage (mesmo-contexto) não tem a pendência (veio de webview).
+  async function lerRunPendente(date) {
+    const token = await tokenValido(); const u = await usuario();
+    if (!token || !u) return null;
+    const r = await req(`/rest/v1/pending_runs?user_id=eq.${encodeURIComponent(u.id)}` +
+      `&challenge_date=eq.${encodeURIComponent(date)}&select=decisions,client_version&limit=1`, { token });
+    if (!r.ok || !Array.isArray(r.data) || !r.data.length) return null;
+    return { decisions: r.data[0].decisions, clientVersion: r.data[0].client_version };
+  }
 
   // Desafio CORRENTE: o BANCO decide qual é o dia (America/Sao_Paulo) pela view
   // current_daily — o cliente NUNCA calcula "hoje" pelo relógio do aparelho
@@ -226,7 +263,8 @@ export function criarSB({ fetchImpl, store, url, anon, now = () => Date.now() })
     garantirSessao, usuario, ehAnonimo, tokenValido,
     vincularEmail, loginLink, adotarTokens,          // fluxo por LINK (ativo)
     confirmarEmailOTP, confirmarLoginOTP,             // fluxo por OTP (dormente)
-    salvarPerfil, desafioAtual, ranking, submeterDia,
+    salvarPerfil, lerPerfil, desafioAtual, ranking, submeterDia,
+    salvarRunPendente, lerRunPendente,               // run pendente durável (server-side)
     _limpar: limpar, // testes/logout
   };
 }

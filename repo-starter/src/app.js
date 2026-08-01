@@ -797,6 +797,11 @@ async function vincEnviarLink(){
   S.profile.nick=apelido;saveProfile();
   const c=S.camp;
   guardarPendente({date:c.dia,decisions:c.log,clientVersion:BUILD_VERSION,apelido,email,pts:c.score&&c.score.total});
+  // Espelha a run no SERVIDOR (pending_runs), sob o uid anônimo atual. É o que
+  // sobrevive ao webview do app de e-mail (localStorage acima só serve o mesmo
+  // contexto). Não-fatal: se falhar, o localStorage ainda cobre o mesmo navegador.
+  try{await sb().salvarRunPendente({date:c.dia,decisions:c.log,clientVersion:BUILD_VERSION});}
+  catch(e){console.warn("[sessao] falha ao salvar run pendente no servidor (segue com localStorage)",e);}
   try{await sb().vincularEmail(email);S.vinc.passo="enviado";S.vinc.conflito=false;}
   catch(e){
     if(e.codigo==="email_em_uso"){try{await sb().loginLink(email);S.vinc.passo="enviado";S.vinc.conflito=true;}catch(err){console.warn("[sessao] falha ao enviar link de login (conflito de e-mail)",err);S.vinc.msg=t("env_erro");}}
@@ -815,6 +820,13 @@ async function vincEnviarLink(){
 async function garantirPerfil(apelidoBase,email){
   const base=(apelidoBase||"").trim();
   if(!base){console.warn("[perfil] sem apelido para garantir o perfil");return{ok:false,codigo:"sem_apelido"}}
+  // Se o perfil JÁ existe (login numa conta existente), NÃO sobrescreve o apelido
+  // dela — só garante que existe. (Guardado: fakes de teste sem lerPerfil seguem
+  // pelo upsert de sempre.)
+  if(sb().lerPerfil){
+    try{const jaTem=await sb().lerPerfil();if(jaTem&&jaTem.apelido)return{ok:true,apelido:jaTem.apelido};}
+    catch(e){console.warn("[perfil] falha ao checar perfil existente (segue para upsert)",e);}
+  }
   let apel=base;
   for(let i=0;i<3;i++){
     try{await sb().salvarPerfil({apelido:apel,email:email||null,clube_coracao:S.profile.timeCoracao||null});return{ok:true,apelido:apel};}
@@ -843,12 +855,24 @@ function msgEnvio(r){
 function envioPermanente(r){const s=r&&r.status;return s===400||s===403||s===409||s===422;}
 
 async function retomarPendente(){
-  const pend=lerPendente();
-  if(!pend)return;
-  if(!sb().habilitado||await sb().ehAnonimo())return;          // link ainda não confirmou: mantém
+  if(!sb().habilitado||await sb().ehAnonimo())return;          // link ainda não confirmou: nada a promover
   const diaAgora=await diaAtual();                              // dia oficial (America/Sao_Paulo)
   if(!diaAgora){console.warn("[sessao] dia oficial indisponível; mantém pendência p/ retry");return} // transitório: NÃO descarta
-  if(pend.date!==diaAgora){limparPendente();toast(t("env_pend_vencida",{d:pend.date}));return}         // vencida: avisa + descarta
+  // Fonte da run: localStorage (mesmo contexto, mais rico) OU, se vazio, o
+  // SERVIDOR (pending_runs — sobrevive a origem/navegador/webview). É o localStorage
+  // órfão do webview que exigiu a run no servidor.
+  let pend=lerPendente();
+  if(pend&&pend.date!==diaAgora){limparPendente();toast(t("env_pend_vencida",{d:pend.date}));return;} // vencida: avisa + descarta (não cai no servidor)
+  if(!pend&&sb().lerRunPendente){
+    let srv=null;
+    try{srv=await sb().lerRunPendente(diaAgora);}
+    catch(e){console.warn("[sessao] falha ao ler run pendente do servidor",e);}
+    if(srv&&srv.decisions)pend={date:diaAgora,decisions:srv.decisions,clientVersion:srv.clientVersion,apelido:S.profile.nick,email:S.profile.email};
+  }
+  if(!pend){                                 // nada em lugar nenhum: run perdida (outra origem/aparelho)
+    console.warn("[sessao] e-mail confirmado, mas sem pendência (local nem servidor) — jogue de novo");
+    toast(t("vinc_sem_pendente"));return;    // NUNCA mudo (guard-rail PR #6)
+  }
   const gp=await garantirPerfil(pend.apelido,pend.email);
   if(!gp.ok){toast(gp.codigo==="apelido_em_uso"?t("vinc_apelido_uso"):t("env_perfil"));return}
   S.profile.nick=gp.apelido;saveProfile();
@@ -889,18 +913,20 @@ async function bootSessao(){
       console.warn("[sessao] adoção de tokens não produziu sessão (retorno null)");
       irVincularComMsg(t("vinc_confirm_falhou"));
     }else{
+      // Persiste o e-mail da SESSÃO adotada (fonte de verdade). Sem isto,
+      // profiles.email ficava NULL apesar de o usuário estar confirmado, porque
+      // S.profile.email nunca era escrito em lugar nenhum.
+      if(sess.user&&sess.user.email){S.profile.email=sess.user.email;saveProfile();}
       // (a) GARANTE o perfil na adoção — idempotente e independe de haver pendência
       // (senão o submit dá 403 profile_invalido pra sempre). is_anonymous já é false.
       const pend=lerPendente();
       const gp=await garantirPerfil((S.profile.nick||(pend&&pend.apelido)),(S.profile.email||(pend&&pend.email)));
       if(gp.ok){S.profile.nick=gp.apelido;saveProfile();}
       else console.warn("[perfil] não consegui garantir o perfil na adoção",{codigo:gp.codigo});
-      if(pend){
-        await retomarPendente();                     // caminho feliz: submete e vai ao ranking
-      }else{
-        console.warn("[sessao] e-mail confirmado, mas sem pendência neste aparelho");
-        toast(t("vinc_sem_pendente"));               // run perdida (outra origem/aparelho): jogue de novo
-      }
+      // Promove a run: localStorage (mesmo contexto) OU servidor (pending_runs,
+      // sobrevive ao webview). retomarPendente centraliza — e AVISA (nunca mudo)
+      // se não achar a run em lugar nenhum.
+      await retomarPendente();
     }
   }
   await sb().garantirSessao().catch(e=>console.warn("[sessao] signup anônimo falhou — jogo segue local, ranking indisponível",e));

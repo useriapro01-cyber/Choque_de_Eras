@@ -151,5 +151,10 @@ Deno.serve(async (req) => {
     if (upErr) return json(500, { ok: false, erro: 'erro_interno' });
   }
 
+  // Run promovida: apaga a pending_runs deste usuário via SERVICE_ROLE (ignora
+  // RLS; não depende do cliente). Best-effort — o cron diário limpa se falhar.
+  const { error: delErr } = await admin.from('pending_runs').delete().eq('user_id', profileId);
+  if (delErr) console.warn('[submit-daily] falha ao apagar pending_runs (cron limpa depois)', delErr.message);
+
   return json(200, { ok: true, score: resultado.score, best: melhor });
 });
