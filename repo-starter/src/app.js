@@ -1232,7 +1232,10 @@ function renderLoading(){
   // ?diag na URL abre a tela de diagnóstico (caminho principal — funciona em
   // qualquer aparelho, inclusive webview). Não interfere no retorno do link, que
   // usa hash (#access_token); ?diag é query e é só um atalho de tela.
-  const _pedeDiag=typeof location!=="undefined"&&/[?&]diag\b/.test(location.search||"");
+  // Case-INSENSITIVE (flag i): o teclado do iOS auto-capitaliza a 1ª letra da URL,
+  // então "?diag" digitado vira "?Diag" e o atalho morria em silêncio no celular —
+  // exatamente onde ele mais precisa funcionar (webview sem console).
+  const _pedeDiag=typeof location!=="undefined"&&/[?&]diag\b/i.test(location.search||"");
   if(_pedeDiag)irDiag();else render();
   // adota sessão do link (volta do e-mail) e retoma o envio; senão sessão
   // anônima no fundo, sem fricção (o muro é o ranking, não a porta).
