@@ -51,7 +51,7 @@ pt:{
  rank_eb:"Ranking mundial · desafio de {d}",
  rank_p:"Todo mundo joga a mesma seed hoje: mesma base, mesmo mercado, mesmos adversários. Só a primeira campanha finalizada do dia pontua. O ranking é público entre jogadores.",
  rank_vazio:"Ninguém pontuou ainda. Seja o primeiro nome da súmula!",b_jogar_hoje:"Jogar o desafio de hoje",carregando:"Carregando súmula...",
- dia_fechado:"O desafio de hoje ainda não abriu.",b_enviar_rank:"🏅 Enviar ao ranking",env_enviando:"Enviando ao ranking...",env_ok:"✅ Pontuação enviada! Você está no ranking.",env_erro:"Não deu para enviar agora. Tente de novo.",env_rede:"Sem conexão com o ranking. Toque em enviar para tentar de novo.",env_versao:"Nova versão do jogo — recarregue a página.",env_dia_virou:"O desafio do dia virou (meia-noite de Brasília). Recarregue para jogar o de hoje.",env_local:"Ranking salvo neste aparelho.",env_perfil:"Não foi possível preparar seu perfil. Tente enviar de novo.",env_rate:"Muitas tentativas. Espere um minuto e tente de novo.",env_invalido:"Não deu para validar esta partida. Jogue de novo.",env_sessao:"Sua sessão expirou. Abra o link do e-mail de novo.",env_erro_cod:"Não deu para enviar (erro: {c}). Tente de novo.",env_pend_vencida:"Essa partida era do desafio de {d} — o de hoje é outro. Jogue de novo para pontuar.",
+ dia_fechado:"O desafio de hoje ainda não abriu.",b_enviar_rank:"🏅 Enviar ao ranking",env_enviando:"Enviando ao ranking...",env_ok:"✅ Pontuação enviada! Você está no ranking.",env_erro:"Não deu para enviar agora. Tente de novo.",env_rede:"Sem conexão com o ranking. Toque em enviar para tentar de novo.",env_versao:"Nova versão do jogo — recarregue a página.",env_dia_virou:"O desafio do dia virou (meia-noite de Brasília). Recarregue para jogar o de hoje.",env_local:"Ranking salvo neste aparelho.",env_perfil:"Não foi possível preparar seu perfil. Tente enviar de novo.",env_rate:"Muitas tentativas. Espere um minuto e tente de novo.",env_invalido:"Não deu para validar esta partida. Jogue de novo.",env_sessao:"Sua sessão expirou. Abra o link do e-mail de novo.",env_erro_cod:"Não deu para enviar (erro: {c}). Tente de novo.",env_pend_vencida:"Essa partida era do desafio de {d} — o de hoje é outro. Jogue de novo para pontuar.",env_sem_conexao:"Sem conexão com o servidor — sua partida NÃO foi enviada ao ranking. Tente de novo mais tarde.",rank_offline:"Sem conexão com o ranking — nada foi enviado deste aparelho.",diag_titulo:"Diagnóstico",diag_sb_off:"Servidor DESLIGADO neste build — nada é enviado ao ranking (jogo 100% local).",diag_origin:"Origem servida difere da canônica — o link de e-mail pode perder os tokens.",diag_copiar:"📋 Copiar diagnóstico",diag_copiado:"Diagnóstico copiado.",diag_copiar_erro:"Não deu para copiar — selecione o texto e copie à mão.",diag_limpar:"Limpar log",diag_recarregar:"Recarregar",
  vinc_titulo:"Entrar no ranking",vinc_sub:"Grátis. É só para valer no ranking — seu progresso é preservado.",vinc_email_ph:"Digite aqui o seu e-mail",vinc_email_label:"Seu e-mail",vinc_apelido_ph:"seu apelido no ranking",vinc_apelido_label:"Seu apelido no ranking",vinc_enviar_link:"Enviar link de confirmação",vinc_link_enviado:"📧 Enviamos um link de confirmação para {e}. Abra o e-mail, clique no link e volte ao jogo — você entra no ranking automaticamente.",vinc_link_erro:"Não deu para confirmar o e-mail. Tente vincular de novo.",vinc_confirm_falhou:"Não foi possível confirmar seu e-mail. Tente o link de novo.",vinc_sem_pendente:"E-mail confirmado! Não achamos a partida de hoje neste aparelho — jogue o Desafio de novo para entrar no ranking.",vinc_conflito:"Esse e-mail já tem conta. Vamos entrar nela — o progresso desta sessão anônima NÃO será mesclado.",vinc_apelido_uso:"Esse apelido já está em uso. Escolha outro.",vinc_email_inv:"Digite um e-mail válido.",vinc_email_longo:"E-mail longo demais (máximo 254 caracteres).",vinc_apelido_inv:"Apelido de 2 a 20 caracteres.",vinc_apelido_longo:"Apelido: no máximo 20 caracteres.",b_entrar_rank:"🏅 Entrar no ranking",
  sala_eb:"Duelo · sala",sala_p:"Compartilhe o código <b>{c}</b> com a galera. Mesma seed, placares públicos na sala.",
  sala_nao:"Sala não encontrada — confere o código ou crie uma nova.",b_jogar_sala:"Jogar nesta sala",buscando:"Buscando placar...",
@@ -143,7 +143,7 @@ es:{
  rank_eb:"Ranking mundial · desafío del {d}",
  rank_p:"Todos juegan la misma seed hoy: misma cantera, mismo mercado, mismos rivales. Solo la primera campaña terminada del día puntúa. El ranking es público entre jugadores.",
  rank_vazio:"Nadie puntuó todavía. ¡Sé el primer nombre de la planilla!",b_jogar_hoje:"Jugar el desafío de hoy",carregando:"Cargando planilla...",
- dia_fechado:"El desafío de hoy aún no abrió.",b_enviar_rank:"🏅 Enviar al ranking",env_enviando:"Enviando al ranking...",env_ok:"✅ ¡Puntuación enviada! Estás en el ranking.",env_erro:"No se pudo enviar ahora. Probá de nuevo.",env_rede:"Sin conexión con el ranking. Tocá enviar para probar de nuevo.",env_versao:"Nueva versión del juego — recargá la página.",env_dia_virou:"El desafío del día cambió (medianoche de Brasilia). Recargá para jugar el de hoy.",env_local:"Ranking guardado en este dispositivo.",env_perfil:"No pudimos preparar tu perfil. Probá enviar de nuevo.",env_rate:"Demasiados intentos. Esperá un minuto y probá de nuevo.",env_invalido:"No se pudo validar esta partida. Jugá de nuevo.",env_sessao:"Tu sesión expiró. Abrí el enlace del e-mail de nuevo.",env_erro_cod:"No se pudo enviar (error: {c}). Probá de nuevo.",env_pend_vencida:"Esta partida era del desafío de {d} — el de hoy es otro. Jugá de nuevo para puntuar.",
+ dia_fechado:"El desafío de hoy aún no abrió.",b_enviar_rank:"🏅 Enviar al ranking",env_enviando:"Enviando al ranking...",env_ok:"✅ ¡Puntuación enviada! Estás en el ranking.",env_erro:"No se pudo enviar ahora. Probá de nuevo.",env_rede:"Sin conexión con el ranking. Tocá enviar para probar de nuevo.",env_versao:"Nueva versión del juego — recargá la página.",env_dia_virou:"El desafío del día cambió (medianoche de Brasilia). Recargá para jugar el de hoy.",env_local:"Ranking guardado en este dispositivo.",env_perfil:"No pudimos preparar tu perfil. Probá enviar de nuevo.",env_rate:"Demasiados intentos. Esperá un minuto y probá de nuevo.",env_invalido:"No se pudo validar esta partida. Jugá de nuevo.",env_sessao:"Tu sesión expiró. Abrí el enlace del e-mail de nuevo.",env_erro_cod:"No se pudo enviar (error: {c}). Probá de nuevo.",env_pend_vencida:"Esta partida era del desafío de {d} — el de hoy es otro. Jugá de nuevo para puntuar.",env_sem_conexao:"Sin conexión con el servidor — tu partida NO se envió al ranking. Probá de nuevo más tarde.",rank_offline:"Sin conexión con el ranking — no se envió nada desde este dispositivo.",diag_titulo:"Diagnóstico",diag_sb_off:"Servidor APAGADO en este build — no se envía nada al ranking (juego 100% local).",diag_origin:"El origen servido difiere del canónico — el enlace del e-mail puede perder los tokens.",diag_copiar:"📋 Copiar diagnóstico",diag_copiado:"Diagnóstico copiado.",diag_copiar_erro:"No se pudo copiar — seleccioná el texto y copialo a mano.",diag_limpar:"Limpiar log",diag_recarregar:"Recargar",
  vinc_titulo:"Entrar al ranking",vinc_sub:"Gratis. Es solo para valer en el ranking — tu progreso se preserva.",vinc_email_ph:"Escribí acá tu e-mail",vinc_email_label:"Tu e-mail",vinc_apelido_ph:"tu apodo en el ranking",vinc_apelido_label:"Tu apodo en el ranking",vinc_enviar_link:"Enviar enlace de confirmación",vinc_link_enviado:"📧 Enviamos un enlace de confirmación a {e}. Abrí el e-mail, hacé clic en el enlace y volvé al juego — entrás al ranking automáticamente.",vinc_link_erro:"No se pudo confirmar el e-mail. Probá vincular de nuevo.",vinc_confirm_falhou:"No pudimos confirmar tu e-mail. Probá el enlace de nuevo.",vinc_sem_pendente:"¡E-mail confirmado! No encontramos la partida de hoy en este dispositivo — jugá el Desafío de nuevo para entrar al ranking.",vinc_conflito:"Ese e-mail ya tiene cuenta. Vamos a entrar en ella — el progreso de esta sesión anónima NO se fusiona.",vinc_apelido_uso:"Ese apodo ya está en uso. Elegí otro.",vinc_email_inv:"Escribí un e-mail válido.",vinc_email_longo:"E-mail demasiado largo (máximo 254 caracteres).",vinc_apelido_inv:"Apodo de 2 a 20 caracteres.",vinc_apelido_longo:"Apodo: máximo 20 caracteres.",b_entrar_rank:"🏅 Entrar al ranking",
  sala_eb:"Duelo · sala",sala_p:"Compartí el código <b>{c}</b> con la banda. Misma seed, marcadores públicos en la sala.",
  sala_nao:"Sala no encontrada — revisá el código o creá una nueva.",b_jogar_sala:"Jugar en esta sala",buscando:"Buscando marcador...",
@@ -449,6 +449,107 @@ function render(){
   if(scr==="sala")return renderSala();
   if(scr==="perfil")return renderPerfil();
   if(scr==="ajuda")return renderAjuda();
+  if(scr==="diag")return renderDiag();
+}
+
+/* ---------- DIAGNÓSTICO / OBSERVABILIDADE (TDMV-5) ----------
+   Olhos permanentes no cliente: uma tela de estado + um log persistente (caixa
+   preta) em localStorage. Motivo: os logs da Edge Function vêm vazios, o founder
+   testa no celular sem console, e eu não tenho navegador. Acesso por ?diag (funciona
+   em qualquer aparelho, inclusive webview) e toque longo no rodapé. */
+const DIAG_LOG_KEY="choque:diag:log", DIAG_LOG_MAX=60;
+// Ring buffer de eventos relevantes (boot, sessão, vínculo, retorno, submit).
+function logEvento(area,msg,extra){
+  try{
+    const arr=JSON.parse(localStorage.getItem(DIAG_LOG_KEY)||"[]");
+    arr.push({ts:Date.now(),area:String(area),msg:String(msg),extra:extra||null});
+    while(arr.length>DIAG_LOG_MAX)arr.shift();
+    localStorage.setItem(DIAG_LOG_KEY,JSON.stringify(arr));
+  }catch(e){console.warn("[diag] falha ao gravar log",e)}
+}
+function lerLog(){try{return JSON.parse(localStorage.getItem(DIAG_LOG_KEY)||"[]")}catch(e){console.warn("[diag] falha ao ler log",e);return[]}}
+// Registra o resultado de UM submit (status/erro) no snapshot e no log. É o que
+// transforma "não entrou no ranking" (invisível) em HTTP+código lidos na tela.
+function diagSubmit(r,tag){S.diag=S.diag||{};S.diag.lastSubmit={status:r&&r.status,erro:(r&&r.data&&r.data.erro)||null,ts:Date.now()};logEvento("submit",tag||"resp",{status:r&&r.status,erro:(r&&r.data&&r.data.erro)||null,ok:!!(r&&r.ok)})}
+function limparLog(){try{localStorage.removeItem(DIAG_LOG_KEY)}catch(e){console.warn("[diag] falha ao limpar log",e)}S.screen="diag";renderDiag()}
+// Máscara p/ não vazar valor sensível inteiro no texto copiado (a anon key é
+// pública, mas e-mail/uid não precisam ir por extenso além do necessário).
+function diagMasc(s,ini,fim){s=String(s||"");if(s.length<=ini+fim)return s;return s.slice(0,ini)+"…"+s.slice(-fim)}
+// Snapshot SÍNCRONO (o que dá p/ ler sem rede). Os campos assíncronos (uid,
+// is_anonymous, dia oficial) chegam por carregarDiag e preenchem o DOM.
+function diagSnapshot(){
+  const org=(typeof location!=="undefined"&&location.origin)||"";
+  const sbOn=!!(typeof SB_ANON!=="undefined"&&SB_ANON&&typeof SB_URL!=="undefined"&&SB_URL);
+  const pend=lerPendente();
+  return {
+    bundle:(typeof BUNDLE_VERSION!=="undefined"?BUNDLE_VERSION:"?"),
+    build:(typeof BUILD_VERSION!=="undefined"?BUILD_VERSION:"?"),
+    sbOn, sbUrl:(typeof SB_URL!=="undefined"?SB_URL:""),
+    anon:(typeof SB_ANON!=="undefined"&&SB_ANON)?"presente":"VAZIA",
+    origin:org, siteOrigin:(typeof SITE_ORIGIN!=="undefined"?SITE_ORIGIN:""),
+    originOk:(!SITE_ORIGIN||org===SITE_ORIGIN),
+    nick:S.profile&&S.profile.nick||"", email:S.profile&&S.profile.email||"", dailyFeito:S.profile&&S.profile.dailyFeito||"",
+    pendLocal:pend?pend.date:null,
+    lastSubmit:(S.diag&&S.diag.lastSubmit)||null,
+  };
+}
+// Monta o texto do diagnóstico (para exibir E copiar). uid/anon/dia vêm em `ext`.
+function diagTexto(s,ext){
+  const L=[];
+  L.push("== CHOQUE — DIAGNÓSTICO ==");
+  L.push("bundle: "+s.bundle+"  (build/motor: "+s.build+")");
+  L.push("SB habilitado: "+(s.sbOn?"SIM":"NÃO — jogo LOCAL, ranking OFF")+"  anon: "+s.anon);
+  L.push("origin: "+s.origin+(s.originOk?"  (ok)":"  ≠ "+s.siteOrigin+" (!)"));
+  L.push("uid: "+((ext&&ext.uid)||"…")+"  anônimo: "+((ext&&ext.anon!=null)?ext.anon:"…")+"  token: "+((ext&&ext.token)||"…"));
+  L.push("perfil: nick="+(s.nick||"—")+"  email="+(s.email?diagMasc(s.email,2,0)+"…":"—")+"  dailyFeito="+(s.dailyFeito||"—"));
+  L.push("desafio hoje: "+((ext&&ext.dia)||"…"));
+  L.push("pendência local: "+(s.pendLocal||"não"));
+  const ls=s.lastSubmit;
+  L.push("último submit: "+(ls?("HTTP "+ls.status+"  erro="+(ls.erro||"—")+"  "+new Date(ls.ts).toISOString()):"— (nenhum nesta sessão)"));
+  L.push("");
+  L.push("== LOG ("+lerLog().length+") ==");
+  for(const e of lerLog().slice().reverse())
+    L.push(new Date(e.ts).toISOString().slice(11,19)+" ["+e.area+"] "+e.msg+(e.extra?" "+JSON.stringify(e.extra):""));
+  return L.join("\n");
+}
+function irDiag(){S.screen="diag";S.diag=S.diag||{};render();carregarDiag()}
+// Atalho por TOQUE LONGO (700ms) no rodapé — descoberto por quem sabe, invisível
+// ao usuário comum. O caminho principal é ?diag na URL (funciona em webview).
+let _diagTimer=null;
+function diagPress(){try{clearTimeout(_diagTimer)}catch(e){}_diagTimer=setTimeout(irDiag,700)}
+function diagRelease(){try{clearTimeout(_diagTimer)}catch(e){}}
+function renderDiag(){
+  const s=diagSnapshot();
+  const ext=(S.diag&&S.diag.ext)||null;
+  const txt=diagTexto(s,ext);
+  const alerta=!s.sbOn?`<p class="muted">⚠️ ${t("diag_sb_off")}</p>`:(!s.originOk?`<p class="muted">⚠️ ${t("diag_origin")}</p>`:"");
+  el().innerHTML=header(`<button class="pill" onclick="irHome()">${t("voltar")}</button>`)+`
+  <div class="panel"><div class="eyebrow">${t("diag_titulo")}</div>
+  ${alerta}
+  <pre id="diagTxt" style="white-space:pre-wrap;word-break:break-word;font-size:12px;line-height:1.45;background:#0b1626;color:#cfe;padding:10px;border-radius:8px;overflow:auto;max-height:52vh">${esc(txt)}</pre>
+  <button class="btn gold" onclick="copiarDiag()">${t("diag_copiar")}</button>
+  <div class="grid2">
+    <button class="btn ghost" onclick="limparLog()">${t("diag_limpar")}</button>
+    <button class="btn ghost" onclick="irDiag()">${t("diag_recarregar")}</button>
+  </div></div>`;
+}
+// Preenche os campos que dependem de rede/sessão e re-renderiza a tela.
+async function carregarDiag(){
+  const ext={};
+  try{const u=sb().habilitado?await sb().usuario():null;ext.uid=u?diagMasc(u.id,8,0):"(sem sessão)";}
+  catch(e){console.warn("[diag] usuario()",e);ext.uid="(erro)"}
+  try{ext.anon=sb().habilitado?await sb().ehAnonimo():null;}catch(e){console.warn("[diag] ehAnonimo()",e);ext.anon="?"}
+  try{ext.token=sb().habilitado?(await sb().tokenValido()?"válido":"AUSENTE"):"—";}catch(e){console.warn("[diag] token",e);ext.token="?"}
+  try{ext.dia=await diaAtual()||"(indisponível)";}catch(e){console.warn("[diag] diaAtual()",e);ext.dia="(erro)"}
+  S.diag=S.diag||{};S.diag.ext=ext;
+  if(S.screen==="diag")renderDiag();
+}
+async function copiarDiag(){
+  const txt=diagTexto(diagSnapshot(),(S.diag&&S.diag.ext)||null);
+  try{await navigator.clipboard.writeText(txt);toast(t("diag_copiado"));}
+  catch(e){console.warn("[diag] clipboard falhou; seleção manual",e);
+    const el2=document.getElementById("diagTxt");if(el2&&el2.focus){try{el2.focus();}catch(_){}}
+    toast(t("diag_copiar_erro"));}
 }
 /* ---------- HOME ---------- */
 function renderHome(){
@@ -477,7 +578,7 @@ function renderHome(){
     </div>
   </div>
   ${S.storageOk?"":`<div class="panel"><p class="muted">${t("sem_storage")}</p></div>`}
-  <div class="footer">${t("footer")}</div>`;
+  <div class="footer" ontouchstart="diagPress()" ontouchend="diagRelease()" ontouchcancel="diagRelease()" onmousedown="diagPress()" onmouseup="diagRelease()" onmouseleave="diagRelease()">${t("footer")} <span class="muted" style="opacity:.55">· v${esc(typeof BUNDLE_VERSION!=="undefined"?BUNDLE_VERSION:"?")}</span></div>`;
 }
 // nick == apelido: teto de 20 alinhado com o vínculo e o CHECK do banco (2-20).
 // Exibição de um nick já salvo (label na home) nunca trunca — só a CRIAÇÃO limita.
@@ -691,9 +792,10 @@ function painelDia(c){
   const status=!e?"":
     e.fase==="enviando"?`<p class="muted pulse">${t("env_enviando")}</p>`:
     e.fase==="ok"?`<p class="muted">${t("env_ok")}</p>`:
-    e.fase==="local"?`<p class="muted">${t("env_local")}</p>`:
+    e.fase==="sem_conexao"?`<p class="muted">⚠️ ${t("env_sem_conexao")}</p>`:
     e.fase==="erro"?`<p class="muted">${esc(e.msg||t("env_erro"))}</p>`:"";
-  const enviado=e&&(e.fase==="ok"||e.fase==="local");
+  // "sem_conexao" NÃO é enviado — o botão continua permitindo tentar de novo.
+  const enviado=e&&e.fase==="ok";
   const btn=enviado?`<button class="btn green" onclick="go('rankdia')">${t("b_rankdia2")}</button>`:
     `<button class="btn green" onclick="submeterDiario()">${t("b_enviar_rank")}</button>`;
   return status+btn;
@@ -702,9 +804,12 @@ function painelDia(c){
 async function submeterDiario(){
   const c=S.camp; if(!c||c.mode!=="diario")return;
   if(!c.replayOk){toast(t("env_erro"));return}          // auto-verificação falhou: não envia
-  if(!sb().habilitado){                                  // sem backend: ranking local (fallback)
-    if(S.storageOk&&S.profile.nick){await pushRank("choque:dia:"+hojeStr(),c.score,c);}
-    S.profile.dailyFeito=hojeStr();saveProfile();S.envio={fase:"local"};render();return;
+  if(!sb().habilitado){                                  // SB desligado (anon key vazia): NÃO finge sucesso
+    // Antes isto gravava um "ranking local" e marcava dailyFeito — parecia sucesso
+    // sem nada ter sido enviado, e invalidava todo teste. Agora é explícito: não
+    // enviado, sem dailyFeito, botão continua p/ retry. (Ver env_sem_conexao.)
+    logEvento("submit","SB desligado (anon key vazia) — NÃO enviado ao ranking",{});
+    S.envio={fase:"sem_conexao"};render();return;
   }
   S.envio={fase:"enviando"};render();
   // try/catch/finally: a rejeição do fetch (CORS/rede/timeout) é UM PASSO antes do
@@ -715,12 +820,13 @@ async function submeterDiario(){
     // date := o dia que o servidor entregou (não o relógio local). Serve de guarda
     // de virada: se já virou o dia em SP, o servidor responde 409 dia_virou.
     let r=await sb().submeterDia({date:c.dia,decisions:c.log,clientVersion:BUILD_VERSION});
+    diagSubmit(r,"submeterDiario");
     let cod=r.data&&r.data.erro;
     if(r.status===403&&cod==="email_necessario"){S.envio=null;irVincular();return}   // muro do ranking (irVincular renderiza)
     if(r.status===403&&cod==="profile_invalido"){                                    // (b) sessão sem perfil: cria e RETENTA 1x (sem loop)
       console.warn("[ranking] submit 403 profile_invalido — criando perfil e retentando uma vez");
       const gp=await garantirPerfil(S.profile.nick,S.profile.email);
-      if(gp.ok){S.profile.nick=gp.apelido;saveProfile();r=await sb().submeterDia({date:c.dia,decisions:c.log,clientVersion:BUILD_VERSION});cod=r.data&&r.data.erro;}
+      if(gp.ok){S.profile.nick=gp.apelido;saveProfile();r=await sb().submeterDia({date:c.dia,decisions:c.log,clientVersion:BUILD_VERSION});diagSubmit(r,"submeterDiario:retry");cod=r.data&&r.data.erro;}
       if(r.status===403&&cod==="email_necessario"){S.envio=null;irVincular();return}
     }
     if(r.ok){S.profile.dailyFeito=c.dia;saveProfile();S.envio={fase:"ok",best:r.data&&r.data.best};render();return}
@@ -797,10 +903,11 @@ async function vincEnviarLink(){
   S.profile.nick=apelido;saveProfile();
   const c=S.camp;
   guardarPendente({date:c.dia,decisions:c.log,clientVersion:BUILD_VERSION,apelido,email,pts:c.score&&c.score.total});
-  try{await sb().vincularEmail(email);S.vinc.passo="enviado";S.vinc.conflito=false;}
+  logEvento("vinculo","link pedido p/ "+diagMasc(email,2,0)+"…",{dia:c.dia,pendLocal:true});
+  try{await sb().vincularEmail(email);S.vinc.passo="enviado";S.vinc.conflito=false;logEvento("vinculo","vincularEmail OK (link enviado)",{});}
   catch(e){
-    if(e.codigo==="email_em_uso"){try{await sb().loginLink(email);S.vinc.passo="enviado";S.vinc.conflito=true;}catch(err){console.warn("[sessao] falha ao enviar link de login (conflito de e-mail)",err);S.vinc.msg=t("env_erro");}}
-    else S.vinc.msg=t("env_erro");
+    if(e.codigo==="email_em_uso"){logEvento("vinculo","e-mail já em uso → login link",{});try{await sb().loginLink(email);S.vinc.passo="enviado";S.vinc.conflito=true;}catch(err){console.warn("[sessao] falha ao enviar link de login (conflito de e-mail)",err);S.vinc.msg=t("env_erro");logEvento("vinculo","loginLink FALHOU",{erro:String(err&&err.codigo||err)});}}
+    else{S.vinc.msg=t("env_erro");logEvento("vinculo","vincularEmail FALHOU",{erro:String(e&&e.codigo||e&&e.status||e)});}
   }
   render();
 }
@@ -863,14 +970,18 @@ async function bootSessao(){
   // Origem canônica: o link de confirmação precisa cair na MESMA origem que serve
   // o app (SITE_ORIGIN). Se não bater, o navegador descarta o #access_token num
   // redirect 3xx e a confirmação falha em silêncio (ver CLAUDE.md).
+  const _org=(typeof location!=="undefined"&&location.origin)||"?";
+  const _originOk=(!SITE_ORIGIN||typeof location==="undefined"||location.origin===SITE_ORIGIN);
+  logEvento("boot","origem="+_org,{sbOn:sb().habilitado,originOk:_originOk,bundle:(typeof BUNDLE_VERSION!=="undefined"?BUNDLE_VERSION:"?")});
   if(SITE_ORIGIN&&typeof location!=="undefined"&&location.origin!==SITE_ORIGIN)
     console.warn("[boot] origem servida difere da canônica — tokens do link de e-mail podem se perder no redirect",{atual:location.origin,esperada:SITE_ORIGIN});
-  if(!sb().habilitado)return;
+  if(!sb().habilitado){logEvento("boot","SB desligado — jogo local, ranking OFF",{});return}
   // Classifica o retorno do link (fluxo implícito: tokens no hash; ?code/?error
   // tratados defensivamente). NENHUM caminho pode passar mudo (nem warn nem msg).
   const hash=typeof location!=="undefined"?location.hash:"";
   const search=typeof location!=="undefined"?location.search:"";
   const ret=SB.classificarRetorno(hash,search);
+  if(ret.tipo!=="nenhum")logEvento("retorno","tipo="+ret.tipo,ret.tipo==="erro"?{erro:String(ret.erro||"")}:(ret.tipo==="ilegivel"?{chaves:ret.chaves}:null));
   if(ret.tipo!=="nenhum"){try{history.replaceState(null,"",location.pathname);}catch(e){}}
   if(ret.tipo==="erro"){
     console.warn("[sessao] link de e-mail voltou com erro",{erro:ret.erro});
@@ -884,7 +995,8 @@ async function bootSessao(){
   }else if(ret.tipo==="tokens"){
     let sess=null;
     try{sess=await sb().adotarTokens(ret.tok);}
-    catch(e){console.warn("[sessao] falha ao adotar tokens do link de e-mail",e);}
+    catch(e){console.warn("[sessao] falha ao adotar tokens do link de e-mail",e);logEvento("retorno","adotarTokens EXCEÇÃO",{erro:String(e&&e.codigo||e&&e.message||e)});}
+    logEvento("retorno",sess?"tokens adotados (sessão permanente)":"adoção NÃO produziu sessão",{});
     if(!sess){
       console.warn("[sessao] adoção de tokens não produziu sessão (retorno null)");
       irVincularComMsg(t("vinc_confirm_falhou"));
@@ -903,7 +1015,8 @@ async function bootSessao(){
       }
     }
   }
-  await sb().garantirSessao().catch(e=>console.warn("[sessao] signup anônimo falhou — jogo segue local, ranking indisponível",e));
+  const _s=await sb().garantirSessao().catch(e=>{console.warn("[sessao] signup anônimo falhou — jogo segue local, ranking indisponível",e);logEvento("sessao","garantirSessao FALHOU",{erro:String(e&&e.codigo||e&&e.message||e)});return null});
+  if(_s&&_s.user)logEvento("sessao","sessão ok",{uid:diagMasc(_s.user.id,8,0),anon:_s.user.is_anonymous===true});
 }
 /* ---------- RANKINGS ---------- */
 function rankTable(entries){
@@ -929,10 +1042,9 @@ async function carregarRankDia(){
     if(box)box.innerHTML=rankTable(rows.map(r=>({nick:r.apelido,pts:r.score})));
     return;
   }
-  // Fallback SEM backend: isto é só o histórico DESTE aparelho, NUNCA um ranking
-  // global — rotular com honestidade para não parecer competição entre jogadores.
-  const d=await Storage.stGet("choque:dia:"+hojeStr(),true);
-  if(box)box.innerHTML=`<p class="muted">⚠️ ${t("rank_so_local")}</p>`+rankTable(d?d.entries:null);
+  // SEM backend: NÃO mostramos tabela nenhuma (uma tabela "local" parecia ranking e
+  // enganava — matou testes). Estado explícito: offline, nada foi enviado.
+  if(box)box.innerHTML=`<p class="muted">⚠️ ${t("rank_offline")}</p>`;
 }
 function renderSala(){
   el().innerHTML=header(`<button class="pill" onclick="irHome()">${t("voltar")}</button>`)+`
@@ -1117,7 +1229,11 @@ function renderLoading(){
   await loadProfile();
   const rest=900-(Date.now()-t0);
   if(rest>0)await new Promise(r=>setTimeout(r,rest));
-  render();
+  // ?diag na URL abre a tela de diagnóstico (caminho principal — funciona em
+  // qualquer aparelho, inclusive webview). Não interfere no retorno do link, que
+  // usa hash (#access_token); ?diag é query e é só um atalho de tela.
+  const _pedeDiag=typeof location!=="undefined"&&/[?&]diag\b/.test(location.search||"");
+  if(_pedeDiag)irDiag();else render();
   // adota sessão do link (volta do e-mail) e retoma o envio; senão sessão
   // anônima no fundo, sem fricção (o muro é o ranking, não a porta).
   await bootSessao();

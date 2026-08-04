@@ -68,6 +68,15 @@ export function carregarMotor({ dist, store: storeExterno, localStorage: lsExter
     // injeta um SB falso (mesma assinatura de criarSB) reatribuindo o sb() do bundle,
     // p/ dirigir o caminho de rede sem backend (fetch rejeitando, 403, etc.).
     setSbFake(fake){ sb = function(){ return fake; }; },
+    // TDMV-5 diagnóstico/observabilidade: log persistente + tela de estado.
+    logEvento: (typeof logEvento === 'function') ? logEvento : undefined,
+    lerLog: (typeof lerLog === 'function') ? lerLog : undefined,
+    diagSnapshot: (typeof diagSnapshot === 'function') ? diagSnapshot : undefined,
+    diagTexto: (typeof diagTexto === 'function') ? diagTexto : undefined,
+    diagSubmit: (typeof diagSubmit === 'function') ? diagSubmit : undefined,
+    renderDiag: (typeof renderDiag === 'function') ? () => renderDiag() : undefined,
+    irDiag: (typeof irDiag === 'function') ? () => irDiag() : undefined,
+    BUNDLE_VERSION: (typeof BUNDLE_VERSION !== 'undefined') ? BUNDLE_VERSION : undefined,
   };
 })();`;
 
