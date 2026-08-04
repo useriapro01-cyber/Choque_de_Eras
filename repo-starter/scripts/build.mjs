@@ -87,7 +87,11 @@ const configBlock = `const SB_URL=${j(sbUrl)};\nconst SB_ANON=${j(sbAnon)};\ncon
 // envia BUILD_VERSION em cada submissão do Desafio do Dia; o servidor rejeita
 // versão divergente com mensagem clara em vez de reprovar por dados fora de sync.
 const versaoBuild = calcularVersao(engineSrc, bruto);
-const versaoBlock = `const BUILD_VERSION=${j(versaoBuild)};`;
+// BUILD_VERSION = hash do MOTOR+DADOS (usado no replay anti-fraude; NÃO muda quando
+// só app.js/css mudam). BUNDLE_VERSION = hash do bundle inteiro (muda com QUALQUER
+// alteração do app) — é o que a tela de diagnóstico usa p/ detectar bundle velho em
+// cache (SW). Carimbado após o hash do output, como o SW.
+const versaoBlock = `const BUILD_VERSION=${j(versaoBuild)};\nconst BUNDLE_VERSION="/*@BUNDLE_VERSION@*/";`;
 
 // 3. injetar em src/index.html (ordem: motor → dados → app)
 const css = fs.readFileSync(path.join(srcDir, 'styles.css'), 'utf8');
@@ -100,13 +104,19 @@ let out = fs.readFileSync(path.join(srcDir, 'index.html'), 'utf8')
 for (const m of ['/*@STYLES@*/', '/*@DATA@*/', '/*@APP@*/'])
   if (out.includes(m)) { console.error('✗ marcador não substituído: ' + m); process.exit(1); }
 
-// 4. emitir HTML: index.html (entrada PWA/raiz) + choque-de-eras.html (compat. links antigos)
+// 4. VERSÃO do conteúdo (hash do bundle) — carimba o SW E o BUNDLE_VERSION do app
+//    (calculada ANTES da escrita para injetar no próprio HTML; o placeholder é
+//    trocado depois do hash, então o hash reflete o app sem o carimbo — estável).
+const versao = crypto.createHash('sha256').update(out).digest('hex').slice(0, 10);
+out = out.replace('/*@BUNDLE_VERSION@*/', versao);
+if (out.includes('/*@BUNDLE_VERSION@*/')) { console.error('✗ BUNDLE_VERSION não carimbado'); process.exit(1); }
+
+// 5. emitir HTML: index.html (entrada PWA/raiz) + choque-de-eras.html (compat. links antigos)
 fs.mkdirSync(distDir, { recursive: true });
 fs.writeFileSync(path.join(distDir, 'index.html'), out);
 fs.writeFileSync(path.join(distDir, 'choque-de-eras.html'), out);
 
-// 5. ativos PWA: manifest + ícones (cópia) e sw.js (carimbado com a versão do conteúdo)
-const versao = crypto.createHash('sha256').update(out).digest('hex').slice(0, 10);
+// 6. ativos PWA: manifest + ícones (cópia) e sw.js (carimbado com a MESMA versão)
 fs.copyFileSync(path.join(pwaDir, 'manifest.webmanifest'), path.join(distDir, 'manifest.webmanifest'));
 
 const iconsOut = path.join(distDir, 'icons');
