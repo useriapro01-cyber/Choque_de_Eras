@@ -96,7 +96,13 @@ create trigger daily_submissions_touch
 --   consentimento. Só linhas CONFIRMADAS (ranked_score not null). O cliente
 --   filtra por challenge_date (dia corrente ou histórico).
 -- ============================================================================
-create view public.daily_ranking_v2 as
+create view public.daily_ranking_v2
+  -- DEFINER (explícito): o anon lê via o DONO da view (postgres), ignorando o RLS
+  -- da tabela base — é o que deixa o ranking POPULADO. Se fosse security_invoker=
+  -- true, o anon herdaria o `revoke all`+RLS da daily_submissions e o ranking
+  -- voltaria VAZIO em silêncio. Explícito p/ blindar contra mudança de default.
+  with (security_invoker = false)
+  as
   select
     challenge_date,
     apelido,

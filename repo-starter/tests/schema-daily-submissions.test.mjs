@@ -48,6 +48,12 @@ test('INVARIANTE DE PRIVACIDADE: a view pública não expõe e-mail/decisions/to
   assert.ok(/grant select on public\.daily_ranking_v2 to anon/.test(lower), 'anon lê a view');
 });
 
+test('INVARIANTE DE VISIBILIDADE: a view é DEFINER (não invoker), senão o ranking volta vazio em silêncio', () => {
+  // security_invoker=true faria o anon herdar o RLS+revoke da tabela base => 0 linhas.
+  assert.ok(/with\s*\(\s*security_invoker\s*=\s*false\s*\)/.test(lower), 'view deve declarar security_invoker = false');
+  assert.ok(!/security_invoker\s*=\s*true/.test(lower), 'view NUNCA pode ser security_invoker = true');
+});
+
 test('GC de pendências existe e é agendado', () => {
   assert.ok(lower.includes('function public.gc_daily_submissions'), 'função de GC');
   assert.ok(/cron\.schedule\(\s*'gc-daily-submissions'/.test(lower), 'GC agendado no pg_cron');
