@@ -7,3 +7,7 @@ package-lock.json
 supabase/functions/submit-daily/_dados.json
 supabase/functions/submit-daily/_versao.json
 supabase/.temp/
+
+# Segredos locais do smoke/ops (NUNCA commitar — service_role ignora RLS)
+.env
+.env.*
