@@ -119,6 +119,10 @@ fs.writeFileSync(path.join(distDir, 'choque-de-eras.html'), out);
 // 6. ativos PWA: manifest + ícones (cópia) e sw.js (carimbado com a MESMA versão)
 fs.copyFileSync(path.join(pwaDir, 'manifest.webmanifest'), path.join(distDir, 'manifest.webmanifest'));
 
+// Política de privacidade (LGPD): página ESTÁTICA e autossuficiente (sem JS, sem
+// dependência do bundle). Emitida cedo (PR1) para o PR4 só ter que linká-la.
+fs.copyFileSync(path.join(pwaDir, 'privacidade.html'), path.join(distDir, 'privacidade.html'));
+
 const iconsOut = path.join(distDir, 'icons');
 fs.mkdirSync(iconsOut, { recursive: true });
 const iconsEnviados = ['icon.svg', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'apple-touch-icon-180.png'];

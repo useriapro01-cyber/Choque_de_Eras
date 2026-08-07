@@ -1,0 +1,19 @@
+-- ============================================================================
+-- 006 — PLACEHOLDER de alinhamento de tracking (NÃO é o pending_runs real)
+-- ============================================================================
+-- A migration 006 (pending_runs, PR #10) foi aplicada ao banco FORA deste repo e
+-- não tinha arquivo local. O `supabase db push` se recusa a prosseguir quando o
+-- remoto tem uma versão sem correspondente local (LegacyDbPushMissingLocalError),
+-- travando a aplicação da 007.
+--
+-- Este arquivo é um PLACEHOLDER só para ALINHAR o histórico local↔remoto e
+-- destravar a 007. É intencionalmente VAZIO (só comentário):
+--   • a 006 já consta em supabase_migrations.schema_migrations (remoto) =>
+--     o push NÃO a re-executa (evita "already exists"/duplicação de objeto);
+--   • se por algum motivo rodasse, é no-op (zero DDL).
+--
+-- O DDL real do pending_runs vive na branch do PR #10. A reconciliação de verdade
+-- (migration repair + drop dos objetos) acontece no PR4, onde pending_runs morre.
+-- Ver "Dívida de tracking conhecida" no CLAUDE.md (TDMV-8).
+-- ============================================================================
+-- (sem DDL — placeholder de tracking)
