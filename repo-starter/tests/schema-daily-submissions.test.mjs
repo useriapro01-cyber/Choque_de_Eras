@@ -61,6 +61,8 @@ test('COFRE ESCREVÍVEL: o service_role tem GRANT explícito em daily_submission
   const g = fs.readFileSync(path.join(ROOT, 'supabase', 'migrations', '008_grant_service_role_daily_submissions.sql'), 'utf8').toLowerCase();
   assert.ok(/grant\s+select,\s*insert,\s*update,\s*delete\s+on\s+public\.daily_submissions\s+to\s+service_role/.test(g),
     '008 deve dar select/insert/update/delete no daily_submissions ao service_role');
+  assert.ok(/grant\s+select\s+on\s+public\.daily_challenges\s+to\s+service_role/.test(g),
+    '008 deve dar select no daily_challenges ao service_role (landmine latente do PR2)');
 });
 
 test('GC de pendências existe e é agendado', () => {
