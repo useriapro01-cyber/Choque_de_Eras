@@ -1,0 +1,25 @@
+-- ============================================================================
+-- 008 — GRANT explícito ao service_role em daily_submissions
+-- ============================================================================
+-- BUG achado pelo smoke do PR1 (evidência): o service_role recebia
+--   42501 "permission denied for table daily_submissions"  (INSERT e SELECT).
+-- Causa: o "cofre" da 007 fez só `revoke ... from anon, authenticated` e CONFIOU
+-- no default-privilege do Supabase para dar acesso ao service_role. Mas o
+-- ALTER DEFAULT PRIVILEGES do Supabase só cobre objetos criados pelo role
+-- `postgres`, e o `supabase db push` aplica por um LOGIN ROLE de migration —
+-- então a tabela nasceu SEM grant para o service_role. BYPASSRLS não ajuda:
+-- 42501 é falta de GRANT de tabela, não bloqueio de RLS.
+--
+-- Sem este grant, o "cofre" é inescrevível: o replay server-side (PR2) não
+-- consegue gravar o score, e o ranking fica 0 para sempre — provável camada
+-- extra do daily_entries=0 antigo (o submit-daily também escrevia via
+-- service_role sem grant explícito).
+--
+-- LIÇÃO (ver CLAUDE.md, "Lição de migrações"): toda tabela-cofre precisa de
+-- GRANT EXPLÍCITO ao service_role — nunca confiar no default. Confere o objeto
+-- (privilégio), não só o tracking.
+--
+-- Migration própria porque a 007 já está aplicada (não se reescreve migration
+-- aplicada). Idempotente: reexecutar um grant é no-op.
+-- ============================================================================
+grant select, insert, update, delete on public.daily_submissions to service_role;

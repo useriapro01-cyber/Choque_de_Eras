@@ -54,6 +54,15 @@ test('INVARIANTE DE VISIBILIDADE: a view é DEFINER (não invoker), senão o ran
   assert.ok(!/security_invoker\s*=\s*true/.test(lower), 'view NUNCA pode ser security_invoker = true');
 });
 
+test('COFRE ESCREVÍVEL: o service_role tem GRANT explícito em daily_submissions (008)', () => {
+  // 42501 no smoke provou que confiar no default-privilege do Supabase falha
+  // (migration aplicada por login role != postgres). O cofre precisa do grant
+  // explícito, senão o replay server-side não grava e o ranking fica 0.
+  const g = fs.readFileSync(path.join(ROOT, 'supabase', 'migrations', '008_grant_service_role_daily_submissions.sql'), 'utf8').toLowerCase();
+  assert.ok(/grant\s+select,\s*insert,\s*update,\s*delete\s+on\s+public\.daily_submissions\s+to\s+service_role/.test(g),
+    '008 deve dar select/insert/update/delete no daily_submissions ao service_role');
+});
+
 test('GC de pendências existe e é agendado', () => {
   assert.ok(lower.includes('function public.gc_daily_submissions'), 'função de GC');
   assert.ok(/cron\.schedule\(\s*'gc-daily-submissions'/.test(lower), 'GC agendado no pg_cron');
