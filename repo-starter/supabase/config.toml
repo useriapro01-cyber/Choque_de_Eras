@@ -3,13 +3,14 @@
 project_id = "gyyrumqcphdgqovyzlsk"
 
 # ----------------------------------------------------------------------------
-# Edge Function submit-daily — verify_jwt = FALSE (decisão TDMV-5 Fase D-cors)
+# Edge Function submit-daily — verify_jwt = FALSE
 # ----------------------------------------------------------------------------
-# Com verify_jwt=true a plataforma barra o preflight CORS (OPTIONS vem SEM
-# Authorization) e nunca deixa a função responder os headers de Allow-*.
-# Desligamos a verificação DA PLATAFORMA e passamos a autenticar DENTRO da
-# função (getUser() logo após o OPTIONS, 401 se não houver usuário) — o
-# endpoint NÃO fica aberto. Deploy: `supabase functions deploy submit-daily`
-# lê este flag; belt-and-suspenders: `--no-verify-jwt` na linha de comando.
+# Dois motivos: (1) o preflight CORS (OPTIONS vem SEM Authorization) precisa
+# responder os headers de Allow-*; com verify_jwt=true a plataforma o barra.
+# (2) TDMV-8: o ranking é por E-MAIL, sem conta/sessão/JWT — a função é chamada
+# com a anon key e faz a própria validação. O endpoint é ABERTO de propósito; a
+# proteção é rate-limit (por e-mail E por IP) + duplo opt-in (nada entra no
+# ranking sem o clique no link) + replay (ninguém forja score). Deploy:
+# `supabase functions deploy submit-daily` lê este flag.
 [functions.submit-daily]
 verify_jwt = false

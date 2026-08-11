@@ -1,23 +1,34 @@
 // ============================================================================
-// Edge Function: submit-daily — TDMV-5 Fase C (replay anti-fraude)
+// Edge Function: submit-daily v3 — RANKING SEM AUTH (TDMV-8, PR2)
 // ============================================================================
-// WRAPPER FINO de I/O. Toda a lógica de anti-fraude vive em src/replay.js
-// (puro, testado no Node por tests/replay-antifraude.test.mjs). Aqui só há a
-// fronteira: autenticar, buscar a seed OFICIAL, re-simular, gravar privilegiado.
+// Identidade = E-MAIL (sem JWT, sem getUser, sem profiles). Recebe
+// {email, apelido, decisions, consentimentos}, RE-SIMULA com a seed OFICIAL do
+// dia (replay INTACTO), grava a submissão como PENDENTE e manda o e-mail (Resend)
+// com o token. O ranked só muda na confirmação (confirm-daily, PR3).
 //
-// Fronteira de confiança:
-//   • profile_id vem SEMPRE do JWT verificado (auth.getUser), NUNCA do corpo.
-//   • seed vem SEMPRE do banco (daily_challenges), NUNCA do cliente.
-//   • score é SEMPRE recalculado aqui; o cliente não envia score.
-//   • service_role (Deno.env, injetada pelo runtime) só grava DEPOIS do replay.
+// Fronteira de confiança (inalterada): a seed vem do BANCO, o score é
+// recalculado AQUI, o cliente nunca envia score. src/engine.js e src/replay.js
+// NÃO se tocam — o anti-fraude é o mesmo.
 //
-// Segredos: SUPABASE_SERVICE_ROLE_KEY é injetada automaticamente pelo runtime
-// do Supabase. NUNCA hardcoded, NUNCA commitada, NUNCA enviada ao cliente.
+// Endpoint ABERTO (anon key, verify_jwt=false): a proteção é rate-limit
+// (por e-mail E por IP) + duplo opt-in (nada entra no ranking sem o clique no
+// link). Ninguém forja score (replay) nem publica sem confirmar (token).
+//
+// SEGREDOS/CONFIG só por env (nunca no repo/cliente):
+//   SUPABASE_SERVICE_ROLE_KEY (runtime) · RESEND_API_KEY
+//   MAIL_FROM (inicial 'onboarding@resend.dev' — sandbox) · MAIL_REPLY_TO
+//   CONFIRM_URL · RATE_EMAIL_PER_HOUR (5) · RATE_IP_PER_HOUR (60)
+// Trocar o remetente p/ noreply@choquedeeras.com.br = mudar env, sem redeploy —
+// tira o DNS do caminho crítico deste PR.
 // ============================================================================
 import { createClient } from 'npm:@supabase/supabase-js@2';
 import * as Engine from '../../../src/engine.js';
 import { submeterReplay } from '../../../src/replay.js';
 import { corsHeaders } from '../../../src/cors.js';
+import {
+  validarEmail, validarApelido, decidirGravacao, ipValido,
+  gerarToken, hashToken, TOKEN_TTL_MS,
+} from '../../../src/submit-logica.js';
 import bruto from './_dados.json' with { type: 'json' };
 import versaoDoc from './_versao.json' with { type: 'json' };
 
@@ -25,131 +36,162 @@ const SUPABASE_URL = Deno.env.get('SUPABASE_URL')!;
 const SERVICE_ROLE = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!; // injetada pelo runtime
 const SERVER_VERSION = versaoDoc.version;
 
-const LIMITE_POR_HORA = 30; // teto de submissões por perfil/hora (barreira de borda)
+const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') ?? '';
+const MAIL_FROM = Deno.env.get('MAIL_FROM') ?? 'Choque de Eras <onboarding@resend.dev>';
+const MAIL_REPLY_TO = Deno.env.get('MAIL_REPLY_TO') ?? '';
+const CONFIRM_URL = Deno.env.get('CONFIRM_URL') ?? `${SUPABASE_URL}/functions/v1/confirm-daily`;
+const RL_EMAIL = parseInt(Deno.env.get('RATE_EMAIL_PER_HOUR') ?? '5', 10);
+const RL_IP = parseInt(Deno.env.get('RATE_IP_PER_HOUR') ?? '60', 10);
 
 // O nome do jogador é COSMÉTICO e sai de um RNG isolado (invariante #3): o idioma
-// NÃO afeta o score. Logo o servidor re-simula com um pool fixo ('pt') e o placar
-// é idêntico ao de qualquer idioma — ranking único e justo para BR e AR.
+// NÃO afeta o score. O servidor re-simula com um pool fixo ('pt') e o placar é
+// idêntico ao de qualquer idioma — ranking único e justo para BR e AR.
 const poolsIdioma = (nomes: any, lang: string) => ({
   base: nomes.base[lang], sobrenomes: nomes.sobrenomes[lang],
   clubeA: nomes.clube[lang].a, clubeB: nomes.clube[lang].b,
 });
 const DADOS = Engine.montarDados(bruto, poolsIdioma((bruto as any).nomes, 'pt'));
 
-// Fábrica de resposta JSON com CORS embutido (recebe o helper json por parâmetro,
-// que já carrega os headers de CORS da origem daquela requisição).
 type Json = (status: number, body: unknown) => Response;
 
-// erro do replay (src/replay.js) → status HTTP + mensagem estável ao cliente.
+// erro do replay (src/replay.js) → status HTTP estável.
 function erroParaResposta(r: any, json: Json): Response {
   switch (r.erro) {
     case 'versao_desatualizada':
-      return json(409, { ok: false, erro: r.erro, mensagem: 'Nova versão do jogo. Recarregue a página para enviar sua pontuação.' });
-    case 'seed_forma':
-    case 'decisoes_forma':
-    case 'decisao_forma':
+      return json(409, { ok: false, erro: r.erro });
+    case 'seed_forma': case 'decisoes_forma': case 'decisao_forma':
       return json(400, { ok: false, erro: r.erro, indice: r.indice });
-    case 'decisao_fora_de_faixa':
-    case 'decisao_apos_fim':
-    case 'decisao_rejeitada':
-    case 'campanha_incompleta':
-      return json(422, { ok: false, erro: r.erro, indice: r.indice, tipo: r.tipo });
     default:
-      return json(422, { ok: false, erro: r.erro ?? 'replay_invalido' });
+      return json(422, { ok: false, erro: r.erro ?? 'replay_invalido', indice: r.indice, tipo: r.tipo });
   }
 }
 
+// e-mail de confirmação (TRANSACIONAL — não é marketing). Bilíngue por `lang`.
+function emailConfirmacao(lang: string, link: string) {
+  const esc = (s: string) => s.replace(/[<>&"]/g, (c) => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c]!));
+  const href = esc(link);
+  if (lang === 'es') return {
+    subject: 'Confirmá para entrar al ranking — Choque de Eras',
+    html: `<p>Jugaste el Desafío del Día. Para <b>entrar al ranking</b>, confirmá tu e-mail:</p>
+      <p><a href="${href}">Confirmar y entrar al ranking</a></p>
+      <p>Si no fuiste vos, ignorá este e-mail — no se publicará nada.</p>`,
+  };
+  return {
+    subject: 'Confirme para entrar no ranking — Choque de Eras',
+    html: `<p>Você jogou o Desafio do Dia. Para <b>entrar no ranking</b>, confirme seu e-mail:</p>
+      <p><a href="${href}">Confirmar e entrar no ranking</a></p>
+      <p>Se não foi você, ignore este e-mail — nada será publicado.</p>`,
+  };
+}
+
+// envia via API HTTP do Resend. Erro é reportado (nunca silencioso).
+async function enviarEmail(to: string, lang: string, link: string): Promise<{ ok: boolean; erro?: string }> {
+  if (!RESEND_API_KEY) { console.error('[resend] RESEND_API_KEY ausente'); return { ok: false, erro: 'sem_api_key' }; }
+  const { subject, html } = emailConfirmacao(lang, link);
+  const payload: Record<string, unknown> = { from: MAIL_FROM, to, subject, html };
+  if (MAIL_REPLY_TO) payload.reply_to = MAIL_REPLY_TO;
+  try {
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${RESEND_API_KEY}`, 'content-type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!r.ok) { console.error('[resend] falha', r.status, await r.text().catch(() => '')); return { ok: false, erro: `resend_${r.status}` }; }
+    return { ok: true };
+  } catch (e) {
+    console.error('[resend] exceção de rede', e);
+    return { ok: false, erro: 'resend_rede' };
+  }
+}
+
+// IP do cliente (edge do Supabase põe x-forwarded-for). Validado p/ inet.
+function clientIp(req: Request): string | null {
+  const xff = (req.headers.get('x-forwarded-for') ?? '').split(',')[0]?.trim();
+  return ipValido(xff || req.headers.get('cf-connecting-ip') || '');
+}
+
 Deno.serve(async (req) => {
-  // CORS por requisição: origem EXPLÍCITA (allowlist em src/cors.js). O mesmo
-  // `cors` é espalhado em TODA resposta (200/4xx/5xx) — nunca falta num erro,
-  // senão o navegador esconde o erro do cliente e o envio trava em "Enviando...".
   const cors = corsHeaders(req.headers.get('Origin'));
   const json: Json = (status, body) =>
     new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json', ...cors } });
 
-  // Preflight: o navegador manda OPTIONS SEM Authorization. Responde 204 + CORS
-  // ANTES de qualquer auth (por isso a função precisa de verify_jwt=false; ver
-  // supabase/config.toml — a plataforma deixaria de barrar, então autenticamos
-  // nós mesmos logo abaixo, com getUser()).
   if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
   if (req.method !== 'POST') return json(405, { ok: false, erro: 'metodo' });
 
-  // 1. AUTENTICAÇÃO PRIMEIRO — com verify_jwt=false a plataforma NÃO autentica
-  // mais; a responsabilidade é nossa. Valida o token ANTES de qualquer
-  // processamento e barra 401 se não houver usuário válido (endpoint jamais
-  // aberto). profile_id := uid do JWT, NUNCA do corpo.
-  const authHeader = req.headers.get('Authorization') ?? '';
-  const userClient = createClient(SUPABASE_URL, Deno.env.get('SUPABASE_ANON_KEY')!, {
-    global: { headers: { Authorization: authHeader } },
-  });
-  const { data: userData, error: userErr } = await userClient.auth.getUser();
-  if (userErr || !userData?.user) return json(401, { ok: false, erro: 'unauthorized' });
-  const profileId = userData.user.id;
-
-  // 1a. o muro do ranking: anônimo joga e vê, mas NÃO pontua. O cliente usa este
-  // erro para pedir o vínculo de e-mail (escada freemium). is_anonymous vira false
-  // só após o OTP confirmar o e-mail — então isto também exige e-mail confirmado.
-  if (userData.user.is_anonymous) return json(403, { ok: false, erro: 'email_necessario' });
-
-  // 2. corpo — nunca contém score, seed nem profile_id
+  // 1. corpo
   let body: any;
   try { body = await req.json(); } catch { return json(400, { ok: false, erro: 'json_invalido' }); }
-  // O DIA é decidido pelo banco (America/Sao_Paulo), nunca pelo cliente. `date` é
-  // OPCIONAL e serve só de guarda de virada de dia (o cliente ecoa o dia que jogou).
-  const { date: bodyDate, decisions, clientVersion } = body ?? {};
+  const { email, apelido, decisions, clientVersion, date: bodyDate,
+          consent_ranking, consent_marketing, policy_version, confirm_overwrite, lang } = body ?? {};
+
+  // 2. consentimento e campos (server-side; nunca confia no cliente)
+  if (consent_ranking !== true) return json(400, { ok: false, erro: 'consent_necessario' });
+  if (!policy_version || typeof policy_version !== 'string') return json(400, { ok: false, erro: 'policy_version_necessaria' });
+  const eErro = validarEmail(email); if (eErro) return json(400, { ok: false, erro: eErro });
+  const aErro = validarApelido(apelido); if (aErro) return json(400, { ok: false, erro: aErro });
   if (bodyDate !== undefined && (typeof bodyDate !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(bodyDate)))
     return json(400, { ok: false, erro: 'date_invalida' });
 
-  // cliente privilegiado (service_role): só para leitura de seed, rate limit e gravação
+  const emailNorm = String(email).trim().toLowerCase();
+  const ip = clientIp(req);
   const admin = createClient(SUPABASE_URL, SERVICE_ROLE, { auth: { persistSession: false } });
 
-  // 3. perfil precisa existir
-  const { data: perfil } = await admin.from('profiles').select('id').eq('id', profileId).maybeSingle();
-  if (!perfil) return json(403, { ok: false, erro: 'profile_invalido' });
-
-  // 4. rate limit (barreira de borda; reaproveita check_rate_limit do schema)
-  const rl = await admin.rpc('check_rate_limit', {
-    p_bucket: `daily_entry:${profileId}`, p_limit: LIMITE_POR_HORA, p_window: '1 hour',
-  });
-  if (rl.error) {
-    if (String(rl.error.message).includes('rate_limit_exceeded') || rl.error.code === '54000')
-      return json(429, { ok: false, erro: 'rate_limited' });
-    return json(500, { ok: false, erro: 'erro_interno' });
+  // 3. rate-limit por E-MAIL e por IP (lidos de env), incrementando em TENTATIVA
+  //    (a RPC incrementa antes de decidir). Estouro → 429 explícito, nunca mudo.
+  const baldes: [string, number][] = [[`submit:email:${emailNorm}`, RL_EMAIL]];
+  if (ip) baldes.push([`submit:ip:${ip}`, RL_IP]);
+  for (const [bucket, limite] of baldes) {
+    const rl = await admin.rpc('check_rate_limit', { p_bucket: bucket, p_limit: limite, p_window: '1 hour' });
+    if (rl.error) {
+      if (String(rl.error.message).includes('rate_limit_exceeded') || rl.error.code === '54000')
+        return json(429, { ok: false, erro: 'rate_limited' });
+      console.error('[rate_limit] erro', rl.error); return json(500, { ok: false, erro: 'erro_interno' });
+    }
   }
 
-  // 5. desafio CORRENTE — o BANCO decide o dia (America/Sao_Paulo) e a seed pela
-  //    view current_daily. NUNCA o cliente, NUNCA o relógio do servidor (UTC).
+  // 4. desafio CORRENTE — o BANCO decide dia/seed (America/Sao_Paulo), nunca o cliente
   const { data: desafio } = await admin.from('current_daily').select('challenge_date, seed').maybeSingle();
   if (!desafio) return json(404, { ok: false, erro: 'seed_inexistente' });
   const date = desafio.challenge_date as string;
-  // guarda de virada de dia: o cliente jogou um dia que já virou em SP → não pontua no dia errado
-  if (bodyDate && bodyDate !== date)
-    return json(409, { ok: false, erro: 'dia_virou', mensagem: 'O desafio do dia virou. Recarregue para jogar o de hoje.' });
+  if (bodyDate && bodyDate !== date) return json(409, { ok: false, erro: 'dia_virou' });
 
-  // 6. re-simular + validar legalidade + versão (tudo em src/replay.js, puro)
+  // 5. re-simular + validar (src/replay.js, puro, intacto)
   let resultado: any;
   try {
-    resultado = submeterReplay({
-      Engine, dados: DADOS, seed: desafio.seed, decisions,
-      clientVersion, serverVersion: SERVER_VERSION,
-    });
-  } catch {
-    return json(500, { ok: false, erro: 'erro_interno' }); // replay não deve lançar; se lançar, não vaza interno
-  }
+    resultado = submeterReplay({ Engine, dados: DADOS, seed: desafio.seed, decisions, clientVersion, serverVersion: SERVER_VERSION });
+  } catch { return json(500, { ok: false, erro: 'erro_interno' }); }
   if (!resultado.ok) return erroParaResposta(resultado, json);
 
-  // 7. gravar via service_role — "vale a melhor pontuação" (upsert best)
-  //    NOTA de robustez: read-then-write tem corrida sob submissões simultâneas
-  //    do MESMO perfil; endurecer depois com um SECURITY DEFINER upsert_daily_best.
-  const { data: atual } = await admin.from('daily_entries')
-    .select('server_score').eq('challenge_date', date).eq('profile_id', profileId).maybeSingle();
-  const melhor = atual ? Math.max(atual.server_score, resultado.score) : resultado.score;
-  if (!atual || resultado.score > atual.server_score) {
-    const { error: upErr } = await admin.from('daily_entries').upsert({
-      challenge_date: date, profile_id: profileId, decisions, server_score: resultado.score,
-    }, { onConflict: 'challenge_date,profile_id' });
-    if (upErr) return json(500, { ok: false, erro: 'erro_interno' });
-  }
+  // 6. worse_than_ranked: lê o RANKED confirmado do e-mail nesse dia. NUNCA
+  //    devolve o número (seria sonda de privacidade) — só o código.
+  const { data: linha } = await admin.from('daily_submissions')
+    .select('ranked_score').eq('email', emailNorm).eq('challenge_date', date).maybeSingle();
+  const acao = decidirGravacao({
+    novoScore: resultado.score, rankedScore: linha?.ranked_score ?? null,
+    confirmOverwrite: confirm_overwrite === true,
+  });
+  if (acao === 'worse_than_ranked') return json(409, { ok: false, erro: 'worse_than_ranked' });
 
-  return json(200, { ok: true, score: resultado.score, best: melhor });
+  // 7. grava PENDENTE via service_role. Um novo pending gera token novo, o que
+  //    INVALIDA o token anterior (o hash muda). ranked_* NÃO é tocado.
+  const token = gerarToken();
+  const token_hash = await hashToken(token);
+  const token_expires_at = new Date(Date.now() + TOKEN_TTL_MS).toISOString();
+  const { error: upErr } = await admin.from('daily_submissions').upsert({
+    email: emailNorm, apelido: String(apelido).trim(), challenge_date: date,
+    pending_score: resultado.score, pending_decisions: decisions,
+    token_hash, token_expires_at,
+    consent_ranking: true, consent_marketing: consent_marketing === true,
+    consent_ip: ip, consent_at: new Date().toISOString(), policy_version,
+  }, { onConflict: 'email,challenge_date' });
+  if (upErr) { console.error('[submit] upsert', upErr); return json(500, { ok: false, erro: 'erro_interno' }); }
+
+  // 8. e-mail transacional (duplo opt-in). Falha NÃO é silenciosa: 502 com código;
+  //    o pending fica e um novo submit regenera token+e-mail.
+  const link = `${CONFIRM_URL}?token=${token}`;
+  const env = await enviarEmail(emailNorm, lang === 'es' ? 'es' : 'pt', link);
+  if (!env.ok) return json(502, { ok: false, erro: 'email_falhou', detalhe: env.erro });
+
+  // devolve o PRÓPRIO score que o jogador acabou de fazer (não é sonda) + pending.
+  return json(200, { ok: true, pending: true, score: resultado.score });
 });
