@@ -40,3 +40,20 @@ test('política não tem lixo de template', () => {
     assert.ok(!html.includes(ruim), `não pode conter "${ruim}"`);
   }
 });
+
+test('GATE do PR2: nenhum placeholder de dado legal sobrou (não pode ir ao ar com colchetes)', () => {
+  for (const ph of ['[CONTROLADOR', '[RESPONSABLE', '[E-MAIL DE CONTATO', '[E-MAIL DE CONTACTO', 'class="todo"']) {
+    assert.ok(!html.includes(ph), `placeholder/aviso "${ph}" não pode existir ao coletar e-mail`);
+  }
+  // controlador e contato preenchidos (PT e ES compartilham o mesmo nome/e-mail)
+  assert.ok(html.includes('Guilherme Cassiano Nogueira'), 'controlador nomeado');
+  assert.ok(html.includes('mailto:guicnogueira@hotmail.com'), 'contato de privacidade clicável');
+});
+
+test('política não carrega recurso de terceiro (token não vaza por Referer)', () => {
+  // a página que exibe/recebe URLs sensíveis não pode puxar analytics/fonte/CDN
+  // externa — o Referer levaria a URL inteira a terceiros.
+  for (const externo of ['http://', 'https://cdn', 'fonts.googleapis', 'googletagmanager', 'analytics', '<script']) {
+    assert.ok(!html.toLowerCase().includes(externo.toLowerCase()), `sem recurso externo "${externo}"`);
+  }
+});
